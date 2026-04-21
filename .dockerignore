@@ -1,0 +1,10 @@
+**/bin
+**/obj
+**/.vs
+.git
+.gitignore
+.github
+docs
+*.md
+.env
+.env.*
