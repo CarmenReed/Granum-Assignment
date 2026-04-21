@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Granum Text Enhancer</title>
+  <style>
+    :root {
+      --brand: #E8401C;
+      --brand-dark: #c5340f;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --border: #e4e4e4;
+      --bg: #ffffff;
+      --surface: #fafafa;
+      --success: #1a7f37;
+      --failure: #b42318;
+      --warn: #b54708;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem 0 2rem;
+    }
+
+    header h1 {
+      margin: 0 0 0.25rem 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    header h1 .accent { color: var(--brand); }
+
+    header .subtitle {
+      margin: 0 0 1rem 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tab {
+      background: none;
+      border: none;
+      padding: 0.5rem 0.25rem;
+      margin-right: 1rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--brand);
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 160px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .char-count {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      text-align: right;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    button.primary {
+      background: var(--brand);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button.primary:hover:not(:disabled) { background: var(--brand-dark); }
+
+    button.secondary {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1.25rem;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button.secondary:hover:not(:disabled) { border-color: var(--brand); color: var(--brand); }
+
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: #fdf1ef;
+      border-left: 3px solid var(--failure);
+      color: var(--failure);
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .output {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .output h3 {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: inherit;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .meta {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .hidden { display: none; }
+
+    .history-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .history-controls #history-status {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface);
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    td.truncate {
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .outcome-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .outcome-success { background: #e7f4ec; color: var(--success); }
+    .outcome-failure { background: #fdeceb; color: var(--failure); }
+    .outcome-pii { background: #fbefdf; color: var(--warn); }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .streaming-cursor {
+      display: inline-block;
+      width: 0.5ch;
+      background: var(--brand);
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    @media (max-width: 600px) {
+      main { padding: 1rem; }
+      header { padding: 1rem; }
+      .button-row { flex-direction: column; }
+      .meta { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Granum <span class="accent">Text Enhancer</span></h1>
+    <p class="subtitle">Rewrite informal field notes into professional reports.</p>
+    <nav class="tabs">
+      <button class="tab active" data-tab="enhance">Enhance</button>
+      <button class="tab" data-tab="history">History</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="panel-enhance" class="panel active">
+      <label for="raw-note">Raw technician note</label>
+      <textarea id="raw-note" maxlength="2000" placeholder="Example: mowd front and back, trimd around fence. sprinklers zone 3 not running, told homeowner"></textarea>
+      <div class="char-count"><span id="char-count">0</span> / 2000</div>
+
+      <div class="button-row">
+        <button id="submit-btn" class="primary">Submit</button>
+        <button id="stream-btn" class="secondary">Stream</button>
+      </div>
+
+      <div id="enhance-error" class="error hidden"></div>
+
+      <div id="enhance-output" class="output hidden">
+        <h3>Enhanced text</h3>
+        <pre id="enhanced-text"></pre>
+        <div class="meta">
+          <span>Model: <strong id="meta-model">--</strong></span>
+          <span>Tokens: <strong id="meta-tokens">--</strong></span>
+          <span>Latency: <strong id="meta-latency">--</strong> ms</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-history" class="panel">
+      <div class="history-controls">
+        <span id="history-status">Loading...</span>
+        <button id="refresh-history" class="secondary">Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Outcome</th>
+              <th>Latency</th>
+              <th>Tokens</th>
+              <th>Raw note</th>
+              <th>Enhanced text</th>
+            </tr>
+          </thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <button id="prev-page" class="secondary">Previous</button>
+        <span>Page <strong id="current-page">1</strong> of <strong id="total-pages">1</strong></span>
+        <button id="next-page" class="secondary">Next</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE_URL = "http://localhost:5000";
+    const PAGE_SIZE = 10;
+
+    // Tab switching
+    document.querySelectorAll(".tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === btn));
+        document.querySelectorAll(".panel").forEach(p => {
+          p.classList.toggle("active", p.id === `panel-${target}`);
+        });
+        if (target === "history") loadHistory(currentPage);
+      });
+    });
+
+    // Char count
+    const rawNote = document.getElementById("raw-note");
+    const charCount = document.getElementById("char-count");
+    rawNote.addEventListener("input", () => { charCount.textContent = rawNote.value.length; });
+
+    // Enhance: non-streaming
+    document.getElementById("submit-btn").addEventListener("click", async () => {
+      const note = rawNote.value;
+      if (!note.trim()) { showError("Please enter a note."); return; }
+      disableButtons(true);
+      clearOutput();
+      try {
+        const res = await fetch(`${API_BASE_URL}/enhance`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ rawNote: note })
+        });
+        const body = await res.json();
+        if (!res.ok) { showError(body.error || `Error ${res.status}`); return; }
+        showOutput(body.enhancedText, body.model, body.totalTokens, body.latencyMs);
+      } catch (err) {
+        showError(`Network error: ${err.message}`);
+      } finally {
+        disableButtons(false);
+      }
+    });
+
+    // Enhance: streaming via fetch + ReadableStream
+    document.getElementById("stream-btn").addEventListener("click", async () => {
+      const note = rawNote.value;
+      if (!note.trim()) { showError("Please enter a note."); return; }
+      disableButtons(true);
+      clearOutput();
+      try {
+        const url = `${API_BASE_URL}/enhance/stream?note=${encodeURIComponent(note)}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({ error: `Error ${res.status}` }));
+          showError(body.error || `Error ${res.status}`);
+          return;
+        }
+        const out = document.getElementById("enhance-output");
+        const pre = document.getElementById("enhanced-text");
+        out.classList.remove("hidden");
+        pre.innerHTML = "";
+        const cursor = document.createElement("span");
+        cursor.className = "streaming-cursor";
+        cursor.textContent = "\u00a0";
+        pre.appendChild(cursor);
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = "";
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          let idx;
+          while ((idx = buffer.indexOf("\n\n")) !== -1) {
+            const raw = buffer.substring(0, idx);
+            buffer = buffer.substring(idx + 2);
+            if (!raw.startsWith("data: ")) continue;
+            const payload = JSON.parse(raw.substring(6));
+            if (payload.chunk) {
+              cursor.insertAdjacentText("beforebegin", payload.chunk);
+            } else if (payload.done) {
+              cursor.remove();
+              document.getElementById("meta-model").textContent = payload.model || "--";
+              document.getElementById("meta-tokens").textContent = "streaming (not reported)";
+              document.getElementById("meta-latency").textContent = payload.latencyMs;
+            }
+          }
+        }
+      } catch (err) {
+        showError(`Stream error: ${err.message}`);
+      } finally {
+        disableButtons(false);
+      }
+    });
+
+    function showError(msg) {
+      const el = document.getElementById("enhance-error");
+      el.textContent = msg;
+      el.classList.remove("hidden");
+      document.getElementById("enhance-output").classList.add("hidden");
+    }
+
+    function clearOutput() {
+      document.getElementById("enhance-error").classList.add("hidden");
+      document.getElementById("enhance-output").classList.add("hidden");
+      document.getElementById("enhanced-text").textContent = "";
+    }
+
+    function showOutput(text, model, tokens, latency) {
+      document.getElementById("enhanced-text").textContent = text;
+      document.getElementById("meta-model").textContent = model;
+      document.getElementById("meta-tokens").textContent = tokens;
+      document.getElementById("meta-latency").textContent = latency;
+      document.getElementById("enhance-output").classList.remove("hidden");
+    }
+
+    function disableButtons(state) {
+      document.getElementById("submit-btn").disabled = state;
+      document.getElementById("stream-btn").disabled = state;
+    }
+
+    // History
+    let currentPage = 1;
+
+    async function loadHistory(page) {
+      const status = document.getElementById("history-status");
+      status.textContent = "Loading...";
+      try {
+        const res = await fetch(`${API_BASE_URL}/history?page=${page}&pageSize=${PAGE_SIZE}`);
+        if (!res.ok) { status.textContent = `Error ${res.status}`; return; }
+        const body = await res.json();
+        currentPage = body.page;
+        renderHistory(body);
+        status.textContent = `${body.totalCount} total interactions`;
+      } catch (err) {
+        status.textContent = `Network error: ${err.message}`;
+      }
+    }
+
+    function renderHistory(body) {
+      const tbody = document.getElementById("history-body");
+      tbody.innerHTML = "";
+      if (body.items.length === 0) {
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.colSpan = 6;
+        td.style.textAlign = "center";
+        td.style.color = "var(--muted)";
+        td.style.padding = "2rem";
+        td.textContent = "No interactions yet.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      } else {
+        body.items.forEach(item => tbody.appendChild(historyRow(item)));
+      }
+      document.getElementById("current-page").textContent = body.page;
+      document.getElementById("total-pages").textContent = Math.max(body.totalPages, 1);
+      document.getElementById("prev-page").disabled = body.page <= 1;
+      document.getElementById("next-page").disabled = body.page >= body.totalPages;
+    }
+
+    function historyRow(item) {
+      const tr = document.createElement("tr");
+      tr.appendChild(cell(formatTimestamp(item.timestamp)));
+      tr.appendChild(outcomeCell(item.outcome));
+      tr.appendChild(cell(`${item.latencyMs} ms`));
+      tr.appendChild(cell(item.totalTokens != null ? item.totalTokens : "--"));
+      tr.appendChild(cell(truncate(item.rawNote, 80), true));
+      tr.appendChild(cell(truncate(item.enhancedText || item.errorDetail || "--", 80), true));
+      return tr;
+    }
+
+    function cell(text, truncate) {
+      const td = document.createElement("td");
+      td.textContent = text;
+      if (truncate) td.classList.add("truncate");
+      return td;
+    }
+
+    function outcomeCell(outcome) {
+      const td = document.createElement("td");
+      const badge = document.createElement("span");
+      badge.textContent = outcome.replace("_", " ");
+      badge.classList.add("outcome-badge");
+      if (outcome === "success") badge.classList.add("outcome-success");
+      else if (outcome === "pii_rejected") badge.classList.add("outcome-pii");
+      else badge.classList.add("outcome-failure");
+      td.appendChild(badge);
+      return td;
+    }
+
+    function truncate(s, n) {
+      if (!s) return "--";
+      return s.length > n ? s.substring(0, n) + "..." : s;
+    }
+
+    function formatTimestamp(iso) {
+      try { return new Date(iso).toLocaleString(); } catch { return iso; }
+    }
+
+    document.getElementById("refresh-history").addEventListener("click", () => loadHistory(currentPage));
+    document.getElementById("prev-page").addEventListener("click", () => {
+      if (currentPage > 1) loadHistory(currentPage - 1);
+    });
+    document.getElementById("next-page").addEventListener("click", () => loadHistory(currentPage + 1));
+  </script>
+</body>
+</html>
