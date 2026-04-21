@@ -22,6 +22,18 @@ builder.Services.AddHttpClient<ILlmService, AnthropicLlmService>(client =>
 builder.Services.AddSingleton<PiiGuardService>();
 builder.Services.AddScoped<EnhancementService>();
 
+const string CorsPolicy = "GranumCorsPolicy";
+var allowedOrigins = (Environment.GetEnvironmentVariable("ALLOWED_ORIGINS") ?? "http://localhost:5000,http://localhost:3000")
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(CorsPolicy, policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -31,6 +43,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseCors(CorsPolicy);
 
 app.MapGet("/", () => "Granum Assignment API");
 
