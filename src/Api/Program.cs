@@ -1,4 +1,5 @@
 using Api.Data;
+using Api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 var dbPath = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "interactions.db";
 builder.Services.AddDbContext<AppDbContext>(opts => opts.UseSqlite($"Data Source={dbPath}"));
 builder.Services.AddScoped<InteractionRepository>();
+
+builder.Services.AddHttpClient<ILlmService, AnthropicLlmService>(client =>
+{
+    client.BaseAddress = new Uri("https://api.anthropic.com");
+    client.Timeout = Timeout.InfiniteTimeSpan;
+});
 
 var app = builder.Build();
 
