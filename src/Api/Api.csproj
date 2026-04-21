@@ -10,4 +10,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Prompts\system_prompt.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
