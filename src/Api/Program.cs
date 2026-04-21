@@ -126,3 +126,5 @@ app.MapPost("/enhance", async (EnhanceRequest request, EnhancementService servic
 });
 
 app.Run();
+
+public partial class Program { }
