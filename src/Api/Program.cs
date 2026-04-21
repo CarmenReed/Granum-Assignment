@@ -31,6 +31,24 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapGet("/", () => "Granum Assignment API");
 
+app.MapGet("/history", async (InteractionRepository repo, int? page, int? pageSize, CancellationToken ct) =>
+{
+    var p = page is null or < 1 ? 1 : page.Value;
+    var size = pageSize switch
+    {
+        null or < 1 => 10,
+        > 50 => 50,
+        _ => pageSize.Value
+    };
+
+    var (items, total) = await repo.GetPagedAsync(p, size, ct);
+    var mapped = items.Select(x => new HistoryItem(
+        x.Id, x.RawNote, x.EnhancedText, x.Model, x.PromptTokens, x.CompletionTokens,
+        x.TotalTokens, x.LatencyMs, x.Outcome, x.ErrorDetail, x.Timestamp)).ToList();
+    var totalPages = total == 0 ? 0 : (int)Math.Ceiling(total / (double)size);
+    return Results.Ok(new HistoryResponse(mapped, p, size, total, totalPages));
+});
+
 app.MapPost("/enhance", async (EnhanceRequest request, EnhancementService service, CancellationToken ct) =>
 {
     var result = await service.EnhanceAsync(request?.RawNote, ct);
