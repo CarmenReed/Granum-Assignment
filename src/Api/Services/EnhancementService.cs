@@ -38,29 +38,10 @@ public class EnhancementService
 
     public async Task<EnhancementResult> EnhanceAsync(string? rawNote, CancellationToken ct = default)
     {
-        var safeInput = rawNote ?? string.Empty;
+        var preflight = await PreflightAsync(rawNote, ct);
+        if (preflight is not null) return preflight;
 
-        if (string.IsNullOrWhiteSpace(safeInput))
-        {
-            const string msg = "rawNote is required.";
-            await LogFailureAsync(safeInput, InteractionOutcome.ValidationFailure, msg, 0, ct);
-            return new EnhancementResult.ValidationError(msg);
-        }
-
-        if (safeInput.Length > MaxNoteLength)
-        {
-            var msg = $"rawNote exceeds {MaxNoteLength} characters.";
-            await LogFailureAsync(safeInput, InteractionOutcome.ValidationFailure, msg, 0, ct);
-            return new EnhancementResult.ValidationError(msg);
-        }
-
-        var pii = _pii.Check(safeInput);
-        if (pii.IsFlagged)
-        {
-            await LogFailureAsync(safeInput, InteractionOutcome.PiiRejected, pii.Reason, 0, ct);
-            return new EnhancementResult.PiiError(pii.Reason!);
-        }
-
+        var safeInput = rawNote!;
         LlmResult llmResult;
         var sw = Stopwatch.StartNew();
         try
@@ -74,13 +55,13 @@ public class EnhancementService
         catch (OperationCanceledException)
         {
             sw.Stop();
-            await LogFailureAsync(safeInput, InteractionOutcome.LlmFailure, "LLM call timed out.", sw.ElapsedMilliseconds, ct);
+            await LogAsync(safeInput, null, InteractionOutcome.LlmFailure, "LLM call timed out.", sw.ElapsedMilliseconds, ct);
             return new EnhancementResult.LlmError("Enhancement temporarily unavailable.");
         }
         catch (Exception ex)
         {
             sw.Stop();
-            await LogFailureAsync(safeInput, InteractionOutcome.LlmFailure, ex.Message, sw.ElapsedMilliseconds, ct);
+            await LogAsync(safeInput, null, InteractionOutcome.LlmFailure, ex.Message, sw.ElapsedMilliseconds, ct);
             return new EnhancementResult.LlmError("Enhancement temporarily unavailable.");
         }
 
@@ -113,17 +94,67 @@ public class EnhancementService
             timestamp);
     }
 
-    private Task LogFailureAsync(string rawNote, string outcome, string? errorDetail, long latencyMs, CancellationToken ct)
+    public async Task<EnhancementResult?> PreflightAsync(string? rawNote, CancellationToken ct = default)
+    {
+        var safeInput = rawNote ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(safeInput))
+        {
+            const string msg = "rawNote is required.";
+            await LogAsync(safeInput, null, InteractionOutcome.ValidationFailure, msg, 0, ct);
+            return new EnhancementResult.ValidationError(msg);
+        }
+
+        if (safeInput.Length > MaxNoteLength)
+        {
+            var msg = $"rawNote exceeds {MaxNoteLength} characters.";
+            await LogAsync(safeInput, null, InteractionOutcome.ValidationFailure, msg, 0, ct);
+            return new EnhancementResult.ValidationError(msg);
+        }
+
+        var pii = _pii.Check(safeInput);
+        if (pii.IsFlagged)
+        {
+            await LogAsync(safeInput, null, InteractionOutcome.PiiRejected, pii.Reason, 0, ct);
+            return new EnhancementResult.PiiError(pii.Reason!);
+        }
+
+        return null;
+    }
+
+    public Task LogStreamSuccessAsync(string rawNote, string enhancedText, string model, long latencyMs, CancellationToken ct = default)
     {
         var log = new InteractionLog
         {
             Id = Guid.NewGuid().ToString(),
             RawNote = rawNote,
-            EnhancedText = null,
-            Model = null,
+            EnhancedText = enhancedText,
+            Model = model,
             PromptTokens = null,
             CompletionTokens = null,
             TotalTokens = null,
+            LatencyMs = latencyMs,
+            Outcome = InteractionOutcome.Success,
+            ErrorDetail = null,
+            Timestamp = DateTime.UtcNow
+        };
+        return _repo.AddAsync(log, ct);
+    }
+
+    public Task LogStreamLlmFailureAsync(string rawNote, string errorDetail, long latencyMs, CancellationToken ct = default)
+        => LogAsync(rawNote, null, InteractionOutcome.LlmFailure, errorDetail, latencyMs, ct);
+
+    private Task LogAsync(string rawNote, LlmResult? result, string outcome, string? errorDetail, long latencyMs, CancellationToken ct)
+    {
+        var log = new InteractionLog
+        {
+            Id = Guid.NewGuid().ToString(),
+            RawNote = rawNote,
+            EnhancedText = result?.EnhancedText,
+            Model = result?.Model,
+            PromptTokens = result?.PromptTokens,
+            CompletionTokens = result?.CompletionTokens,
+            TotalTokens = result?.TotalTokens,
             LatencyMs = latencyMs,
             Outcome = outcome,
             ErrorDetail = errorDetail,
