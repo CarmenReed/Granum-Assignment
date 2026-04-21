@@ -6,6 +6,10 @@
 # dotenv files
 .env
 
+# SQLite runtime artifacts (the seeded interactions.db is committed)
+*.db-wal
+*.db-shm
+
 # User-specific files
 *.rsuser
 *.suo
