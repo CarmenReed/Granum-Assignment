@@ -34,6 +34,8 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.MapGet("/", () => "Granum Assignment API");
 
+app.MapGet("/health", () => Results.Ok(new { status = "ok" }));
+
 app.MapGet("/history", async (InteractionRepository repo, int? page, int? pageSize, CancellationToken ct) =>
 {
     var p = page is null or < 1 ? 1 : page.Value;
