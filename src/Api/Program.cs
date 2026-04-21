@@ -14,6 +14,8 @@ builder.Services.AddHttpClient<ILlmService, AnthropicLlmService>(client =>
     client.Timeout = Timeout.InfiniteTimeSpan;
 });
 
+builder.Services.AddSingleton<PiiGuardService>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
