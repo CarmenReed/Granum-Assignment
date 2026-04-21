@@ -90,9 +90,9 @@ A bad input never reaches the network. A network failure never corrupts the log.
 
 ## Demo
 
-- API: `https://<railway-subdomain>.up.railway.app` (fill in after Railway deploy)
-- Frontend: https://CarmenReed.github.io/granum-assignment
-- Repo: https://github.com/CarmenReed/granum-assignment
+- API: https://granum-assignment-production.up.railway.app
+- Frontend: https://CarmenReed.github.io/Granum-Assignment
+- Repo: https://github.com/CarmenReed/Granum-Assignment
 
 ## Pre-populated Database
 
