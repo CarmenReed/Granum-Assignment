@@ -10,6 +10,9 @@
 *.db-wal
 *.db-shm
 
+# Nixpacks build cache (Railway)
+.nixpacks/
+
 # User-specific files
 *.rsuser
 *.suo
