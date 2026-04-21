@@ -15,6 +15,7 @@ builder.Services.AddHttpClient<ILlmService, AnthropicLlmService>(client =>
 });
 
 builder.Services.AddSingleton<PiiGuardService>();
+builder.Services.AddScoped<EnhancementService>();
 
 var app = builder.Build();
 
