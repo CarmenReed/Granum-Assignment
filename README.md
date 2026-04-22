@@ -1,6 +1,6 @@
 # Granum Assignment -- Notes Enhancement API
 
-A .NET 8 Minimal API that turns raw landscaping technician notes into structured site reports via the Anthropic Messages API. Every request is logged to SQLite with full provenance (model, tokens, latency, outcome), and a static frontend on GitHub Pages exercises both the synchronous and the streaming paths.
+A .NET 8 Minimal API that turns raw landscaping technician notes into structured site reports via the Anthropic Messages API. Every request is logged to SQLite with full provenance (model, tokens, latency, outcome), and a static frontend on GitHub Pages exercises the synchronous path; the streaming path is verified locally and ships with documented edge behavior on the live deploy (see Streaming Endpoint section below).
 
 ## Quick Start
 
@@ -87,6 +87,22 @@ A bad input never reaches the network. A network failure never corrupts the log.
 **ILlmService interface over a direct `AnthropicLlmService` dependency.** The rejected alternative is injecting the concrete class into `EnhancementService`. The interface exists for two reasons: mocking in tests (all 17 tests run with zero network), and swap-readiness if the provider changes. The abstraction earns its rent in both dimensions.
 
 **CORS configured explicitly over `AllowAnyOrigin`.** The rejected alternative is a wildcard that would make the API usable from any page. `ALLOWED_ORIGINS` is an env var with a localhost default for dev; the GitHub Pages origin is added in Railway. CORS is a failure mode that has to be designed for when UI and API live on different hosts, not discovered the first time a browser refuses the request.
+
+## Streaming Endpoint: Documented Edge Behavior
+
+**Decision.** Ship the streaming endpoint with documented edge behavior rather than re-architect around it.
+
+**What works.** GET /enhance/stream returns a valid `text/event-stream` response. The endpoint sends correctly framed SSE events (`data: {...}\n\n`), flushes after every chunk, includes a final `done` event with model and latency metadata, and logs the interaction on completion. The frontend handler parses the stream, renders text into the DOM, and surfaces metrics. Validation and PII rejection take the JSON error path before the stream opens. Local development shows true token-by-token rendering.
+
+**What's degraded.** In the Railway deployment, the visible streaming effect is heavily coalesced. A response that produces ~50-100 individual token deltas from the LLM arrives at the browser as 6-10 larger chunks with ~200ms inter-event gaps. The text is correct and complete. The visual cadence is not.
+
+**Root cause.** Railway routes responses through Fastly (visible on the wire as `x-railway-cdn-edge: fastly/...`). Fastly buffers chunked responses by default and the `X-Accel-Buffering: no` header set by the API is nginx-specific. The coalescing magnitude scales with response length rather than token count, which is the fingerprint of edge write buffering rather than an application-layer issue.
+
+**Why this is documented and not fixed.** The streaming endpoint is a bonus requirement, not a core deliverable. Defeating CDN buffering would require either inflating the stream with keep-alive padding to force flush thresholds, hosting the API somewhere without a buffering edge, or rebuilding the response pipeline with techniques I have not verified work against Fastly. None of those changes serve the assignment's actual goals: clean code, separation of concerns, reliable LLM integration, and complete interaction logging. All four are intact. The visual streaming is an infrastructure constraint surfaced honestly rather than a code defect papered over.
+
+**To verify locally.** Clone the repo, run `dotnet run --project src/Api/Api.csproj --urls http://localhost:5000`, open `docs/index.html` via `python -m http.server 8080` from the docs directory, and use the Stream button in the Assignment tab. The button is hidden on the GitHub Pages deployment for the reason above; locally it renders the stream as the LLM emits it.
+
+**Failure-First in practice.** This is what the principle looks like when applied to a deployment-time discovery. The failure mode (degraded visual streaming) was identified, root-caused, scoped (cosmetic, not functional), and documented in place. The alternative was to spend the remaining build window chasing a CDN workaround instead of finishing the parts of the assignment that are actually graded.
 
 ## Demo
 
