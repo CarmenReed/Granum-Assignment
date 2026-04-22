@@ -365,6 +365,156 @@
         height: auto;
       }
     }
+
+    /* -- How It Was Built timeline -- */
+    .timeline-preamble {
+      margin: 0 0 2rem 0;
+      padding: 0.75rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+
+    .timeline-preamble summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .timeline-preamble summary:hover { color: var(--brand); }
+
+    .timeline-preamble p {
+      margin: 0.75rem 0 0 0;
+      line-height: 1.6;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .timeline {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .timeline-item {
+      padding: 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      background: var(--bg);
+    }
+
+    .timeline-item.timeline-red {
+      border: 1px dashed var(--failure);
+    }
+
+    .timeline-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-phase {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      color: var(--brand);
+      letter-spacing: 0.03em;
+    }
+
+    .timeline-title {
+      margin: 0 0 0.25rem 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .timeline-date {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-date-sub {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: -0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-body {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 0 0.75rem 0;
+      line-height: 1.6;
+    }
+
+    .timeline-evidence {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .timeline-source-notes {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0.5rem 0 0.75rem 0;
+      padding: 0.5rem 0.75rem;
+      background: var(--surface);
+      border-radius: 4px;
+      line-height: 1.5;
+    }
+
+    .timeline-source-notes p {
+      margin: 0 0 0.35rem 0;
+    }
+
+    .timeline-source-notes p:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-source-notes strong {
+      color: var(--text);
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.75rem;
+    }
+
+    .timeline-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      background: var(--surface);
+      color: var(--brand);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      letter-spacing: 0.03em;
+    }
+
+    .timeline-evidence-pending {
+      font-size: 11px;
+      color: var(--failure);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .timeline-head { flex-direction: column; gap: 0.5rem; }
+      .timeline-item { padding: 1rem; }
+    }
   </style>
 </head>
 <body>
@@ -387,6 +537,7 @@
     <nav class="tabs">
       <button class="tab active" data-tab="enhance">Enhance</button>
       <button class="tab" data-tab="history">History</button>
+      <button class="tab" data-tab="built">How It Was Built</button>
     </nav>
   </header>
 
@@ -439,6 +590,228 @@
         <span>Page <strong id="current-page">1</strong> of <strong id="total-pages">1</strong></span>
         <button id="next-page" class="secondary">Next</button>
       </div>
+    </section>
+
+    <section id="panel-built" class="panel">
+      <details class="timeline-preamble">
+        <summary>How this timeline was assembled</summary>
+        <p>By the morning after Jonathan's interview call, I already had the architecture sketched out: the stack, the commit order, how the failure paths should work. Before Claude Code wrote a single line, I pulled real context about my background at Space Genius from our Azure and ADO data. 136 commits, 170 PRs, 76 work items, all verified. I did not want a README that sounded like it came from a template. Every Space Genius reference in the final doc traces to a source I confirmed.</p>
+        <p>Three principles kept me honest while building. Failure-first: think about what breaks before what succeeds. Earn your complexity: use the simplest thing that handles the failure mode. Separate the responsibilities: API, service, and data stay in their own lanes. Every tech decision in the README traces back to one of these.</p>
+        <p>The Railway deploy gave me a day-of failure mode that ended up being a good story. NIXPACKS picked the wrong .NET version, then the container died before it could even print the error because the library needed to format the error was also missing. One line in the csproj fixed it. The deploy fight was failure-first in real time.</p>
+        <p>Once the site was live I locked it down. Any change from that point forward needed a branch, a local check, my approval, and a manual merge. The governance files themselves went through that same gate to get added to the repo. No direct pushes to main. This timeline went through the same process.</p>
+      </details>
+
+      <ol class="timeline">
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M01 | PHASE_0 | Architecture before the code</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">Architecture plan written before spec arrived</h3>
+          <div class="timeline-date">April 20, 2026 -- evening after interview</div>
+          <p class="timeline-body">Jonathan described the assignment verbally at the end of the interview call. Before the PDF spec was emailed, a complete architecture plan existed: stack selection, 16-commit sequence, failure-first request flow, system prompt constraints, three named principles. The plan was the first artifact uploaded to this project session.</p>
+          <p class="timeline-evidence">Evidence: GranumAssignmentArchPlanv1.md uploaded as first message in this project session</p>
+          <div class="timeline-source-notes">
+            <p><strong>spec:</strong> The GranumAssignmentArchPlanv1.md file IS the artifact. It contains the full pre-build architecture including COMMIT STRATEGY, REQUEST FLOW, SYSTEM PROMPT section, and the three architectural principles.</p>
+            <p><strong>conversation:</strong> Operator stated in the first message that the plan was written before the spec arrived. No evidence contradicts this.</p>
+            <p><strong>git:</strong> needed from CC -- this is pre-build planning, no commit exists</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">PRE-SPEC</span>
+            <span class="timeline-tag">FAILURE-FIRST</span>
+            <span class="timeline-tag">EARN-YOUR-COMPLEXITY</span>
+            <span class="timeline-tag">SEPARATE-RESPONSIBILITIES</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M02 | PHASE_0 | Architecture before the code</span>
+            <span class="badge badge-pii_rejected">Protocol finding</span>
+          </div>
+          <h3 class="timeline-title">Otter AI notes captured from Jonathan's verbal description</h3>
+          <div class="timeline-date">April 20, 2026 -- end of interview call</div>
+          <p class="timeline-body">Otter AI transcript captured Jonathan's verbal description of the assignment at the end of the interview call. These notes were the primary input for the architecture planning session that followed. The PDF spec had not yet been emailed at the time the architecture was being drafted.</p>
+          <p class="timeline-evidence">Evidence: Referenced in this project session. Transcript file not uploaded to this session.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> Operator referenced Otter AI notes from the end of the interview call as input to the planning session. File itself not attached.</p>
+            <p><strong>git:</strong> needed from CC -- no commit artifact exists</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">OTTER-AI</span>
+            <span class="timeline-tag">VERBAL-SPEC</span>
+            <span class="timeline-tag">PRE-CODE</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M03 | PHASE_1 | Handoff preparation</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">Hallucination guards locked before CC touched the repo</h3>
+          <div class="timeline-date">April 21, 2026 -- during Space Genius work day</div>
+          <p class="timeline-body">CLAUDE.md, PREFLIGHT.md, and SG_CONTEXT.md produced in this session before any code was written. Gate 0 context was pre-filled from a live Azure CLI and ADO API scan of the Space Genius environment. All hallucination guards, banned phrase lists, and em dash scans were written into PREFLIGHT.md before the scaffold commit. The planning session ran while Space Genius production bugs 15893, 15894, 15895, and 15899 were being worked in parallel.</p>
+          <p class="timeline-evidence">Evidence: CLAUDE.md, PREFLIGHT.md, SG_CONTEXT.md produced and downloadable from this session</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> All three governance-adjacent files produced in this Claude.AI session. Operator confirmed Space Genius parallel work throughout.</p>
+            <p><strong>git:</strong> needed from CC -- these files predate the repo</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">HALLUCINATION-GUARD</span>
+            <span class="timeline-tag">GATE-0-CLOSED</span>
+            <span class="timeline-tag">SPACE-GENIUS-PARALLEL</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M04 | PHASE_1 | Handoff preparation</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">All AC and bonus items confirmed covered before first commit</h3>
+          <div class="timeline-date">April 21, 2026</div>
+          <p class="timeline-body">Full audit of the assignment spec against the architecture plan confirmed every required item covered: enhance endpoint, history endpoint, interaction log, error handling, tests. All three bonus items confirmed in scope: SSE streaming endpoint, PII validation guardrails, and a frontend UI. Nothing was discovered during the build that required a plan change.</p>
+          <p class="timeline-evidence">Evidence: Explicit AC checklist in this conversation session -- all items marked covered before CC started</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> Operator and Claude.AI walked through all AC from the PDF. Every item traced to the pre-written architecture. All three bonus items confirmed covered.</p>
+            <p><strong>git:</strong> needed from CC -- audit happened before scaffold</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">AC-VERIFIED</span>
+            <span class="timeline-tag">BONUS-ITEMS</span>
+            <span class="timeline-tag">ZERO-SURPRISES</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M05 | PHASE_2 | Build</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">16 commits landed, 17 tests green, em dash scan clean</h3>
+          <div class="timeline-date">April 21, 2026</div>
+          <p class="timeline-body">Full build executed by CC across 16 intentional commits. Every commit is a standalone working state. 17 xUnit tests pass with zero real API calls via Moq. Em dash scan clean across all files. Seed database committed with 8 records covering all four outcome types. README uses ADR-style entries that tie each tech decision back to one of the three named principles with specific codebase evidence.</p>
+          <p class="timeline-evidence">Evidence: CC build completion report in this session. Commit hash range filled by CC git log.</p>
+          <div class="timeline-source-notes">
+            <p><strong>spec:</strong> GranumAssignmentArchPlanv1.md defines the 16-commit sequence under COMMIT STRATEGY. Build matched the planned sequence.</p>
+            <p><strong>conversation:</strong> CC reported 17/17 tests green, em dash scan clean, seed data (4 success, 2 llm_failure, 1 pii_rejected, 1 validation_failure) committed.</p>
+            <p><strong>git:</strong> needed from CC to fill date_iso for first and last commit in this 16-commit span</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">17-TESTS-GREEN</span>
+            <span class="timeline-tag">ZERO-EM-DASHES</span>
+            <span class="timeline-tag">SEED-DATA</span>
+            <span class="timeline-tag">ADR-README</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M06 | PHASE_3 | Deployment</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">Railway failed three times, SDK mismatch then ICU crash, both diagnosed and fixed</h3>
+          <div class="timeline-date">April 21, 2026 -- evening</div>
+          <p class="timeline-body">NIXPACKS autodetected .NET 6 despite the project targeting .NET 8. After fixing the SDK, the container crashed before managed code could run because ICU globalization libraries were absent. The same missing libraries caused the crash and broke error formatting so the runtime could not print the exception. Fixed with one line in Api.csproj: InvariantGlobalization true. The deployment fight itself is a case study in failure-first architecture applied to the deployment layer.</p>
+          <p class="timeline-evidence">Evidence: Railway build logs pasted into this session. Commit fix: nixpacks.toml + InvariantGlobalization true.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> Railway build logs pasted showed three failures in sequence. Root cause diagnosed as missing ICU. One-line fix in csproj.</p>
+            <p><strong>git:</strong> needed from CC to match commit hash for the NIXPACKS fix</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">FAILURE-FIRST</span>
+            <span class="timeline-tag">ROOT-CAUSE-DIAGNOSED</span>
+            <span class="timeline-tag">NIXPACKS</span>
+            <span class="timeline-tag">ICU-CRASH</span>
+            <span class="timeline-tag">ONE-LINE-FIX</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M07 | PHASE_3 | Deployment</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">29/29 smoke tests passed. Railway green. GitHub Pages live.</h3>
+          <div class="timeline-date">April 21, 2026 -- late evening</div>
+          <p class="timeline-body">All six smoke test categories passed: health endpoint, POST /enhance returning real enhanced text, GET /history showing seed data with pagination, PII rejection returning 422 with no stack trace, SSE streaming live-typing in the browser, and em dash scan clean on deployed files. Smoke test evidence committed to main.</p>
+          <p class="timeline-evidence">Evidence: 29/29 smoke test report in this session. Commit hash confirmed by CC as 02dc26d.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> CC reported 29/29 smoke tests passed after Railway fix and UI deployment. Evidence committed as 02dc26d.</p>
+            <p><strong>git:</strong> 02dc26d smoke-test evidence commit confirmed in CC git log</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">29-29-SMOKE</span>
+            <span class="timeline-tag">RAILWAY-GREEN</span>
+            <span class="timeline-tag">PAGES-LIVE</span>
+            <span class="timeline-tag">EVIDENCE-COMMITTED</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M08 | PHASE_4 | LIVE declared</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">LIVE declared at commit f8fa2ed after Granum branding landed</h3>
+          <div class="timeline-date">April 22, 2026 -- 00:00 UTC</div>
+          <p class="timeline-body">LIVE declared at commit f8fa2ed after Granum branding and UI polish shipped. Production workflow established: all further changes require feature branch, local QA against 16-item checklist, operator approval, and PR merged manually. APPROVAL_LOG.md seeded as audit trail. The baseline is the submission state. 19 commits total at LIVE. All AC met. All three bonus items shipped.</p>
+          <p class="timeline-evidence">Evidence: APPROVAL_LOG.md baseline entry. Commit f8fa2ed. PRODUCTION_WORKFLOW.md, UI_CHANGE_TEMPLATE.md committed as PR 1 at commit c1d3324.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> Operator declared LIVE in this session. Governance files initially drafted in Claude.AI outputs only. Added to repo as PR 1 in follow-up session after CC flagged the M08 gap.</p>
+            <p><strong>git:</strong> c1d3324 PR 1 merge commit confirms governance files on main. f8fa2ed is the LIVE baseline commit.</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">LIVE</span>
+            <span class="timeline-tag">PRODUCTION-WORKFLOW</span>
+            <span class="timeline-tag">PR-GATE</span>
+            <span class="timeline-tag">APPROVAL-LOG</span>
+            <span class="timeline-tag">19-COMMITS</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M09 | PHASE_4 | LIVE declared</span>
+            <span class="badge badge-pii_rejected">Protocol finding</span>
+          </div>
+          <h3 class="timeline-title">UI polish pass shipped Granum branding and Field Notes nav</h3>
+          <div class="timeline-date">April 22, 2026 01:30 UTC</div>
+          <div class="timeline-date-sub">declared LIVE 90 minutes earlier at 00:00 UTC</div>
+          <p class="timeline-body">UI polish pass added the Granum inline SVG logo, Field Notes nav brand, DM Sans and JetBrains Mono fonts with system fallback, and restyled outcome badges on the History tab. CC flagged two ambiguities before touching the file: whether the nav tabs should live inside the new header block, and whether outcomeCell should be rewritten to use the new badge class names. Both were clarified before any code changed. No API call, API_BASE_URL, or SSE handler was modified. Git log confirms f8fa2ed is a direct-to-main commit, not a merge. The PR gate was established in the same work session immediately after this commit.</p>
+          <p class="timeline-evidence">Evidence: Commit f8fa2ed. CC QA checklist completed before commit.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> UI_POLISH.md written and handed off. CC asked two clarifying questions before editing. Uncertain whether the change shipped through the post-LIVE PR gate or as a direct commit.</p>
+            <p><strong>git:</strong> needed from CC to confirm whether a PR branch was used or commit went direct to main</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">UI-POLISH</span>
+            <span class="timeline-tag">BRANDING</span>
+            <span class="timeline-tag">FIELD-NOTES</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M10 | PHASE_4 | LIVE declared</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">Timeline extraction system built as reusable skill pair</h3>
+          <div class="timeline-date">April 22, 2026</div>
+          <p class="timeline-body">Two skills built to capture project history in durable form. Claude.AI extract-timeline scans the spec file, conversation context, and deferred git log to produce a unified milestone JSON. CC timeline-sync validates the JSON against a contract, fills git gaps, diffs against current rendered timeline, and creates a PR only when content changed. Contract went through two iterations after a real sample revealed schema drift from the initial design.</p>
+          <p class="timeline-evidence">Evidence: extract-timeline skill installed in Claude.AI. timeline-sync skill at .claude/skills/timeline-sync/SKILL.md on CC local main, not pushed per .claude/ policy.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> Skill pair designed in this session. Initial schema 1.0 drafted, then 1.1 contract after real sample output revealed structural differences. Cap raised from 8 to 12 after all 10 milestones proved load-bearing.</p>
+            <p><strong>git:</strong> skill lives on local main only, not pushed to origin</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">SKILL-PAIR</span>
+            <span class="timeline-tag">SCHEMA-ITERATION</span>
+            <span class="timeline-tag">LFF-LESSON</span>
+          </div>
+        </li>
+      </ol>
     </section>
   </main>
 
