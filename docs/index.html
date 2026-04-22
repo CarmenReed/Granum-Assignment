@@ -660,6 +660,126 @@
       padding-bottom: 8px;
       border-bottom: 1px solid rgba(238,138,111,0.2);
     }
+
+    /* ========================================
+       TAB ALIGNMENT: Assignment + History
+       Brings bare-bones tabs into visual alignment with AI Initiatives.
+       Scoped with page- prefix to prevent collision.
+       ======================================== */
+
+    /* Hero intro callout (same pattern as .ai-init-intro) */
+    .page-intro {
+      background: #fef5f3;
+      border: 1px solid rgba(238, 138, 111, 0.2);
+      border-left: 4px solid #EE8A6F;
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .page-intro strong { font-weight: 600; color: var(--text); }
+
+    /* Cream card wrapper for forms and tables */
+    .page-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 26px;
+      box-shadow: 0 20px 40px rgba(24, 30, 42, 0.08);
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    /* Mono uppercase coral label (field labels, section headers) */
+    .page-label {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #EE8A6F;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Mono meta text (char counter, token counts, latency) */
+    .page-meta-line {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Row helper: meta text left, action button right */
+    .page-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    /* Status pills (match AI Initiatives pill style) */
+    .page-pill {
+      display: inline-block;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 10px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .page-pill--success {
+      background: #E4F1E8;
+      border: 1px solid rgba(47, 110, 69, 0.3);
+      color: #2F6E45;
+    }
+    .page-pill--failure {
+      background: #fde8e3;
+      border: 1px solid rgba(180, 35, 24, 0.3);
+      color: #b42318;
+    }
+    .page-pill--pii {
+      background: #fef8dc;
+      border: 1px solid rgba(245, 198, 78, 0.45);
+      color: #b88a08;
+    }
+    .page-pill--validation {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* Table styling inside page-card */
+    .page-card table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .page-card table th {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #EE8A6F;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+    }
+    .page-card table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      vertical-align: top;
+      color: var(--text);
+    }
+    .page-card table tr:last-child td {
+      border-bottom: none;
+    }
   </style>
 </head>
 <body>
@@ -689,13 +809,20 @@
 
   <main>
     <section id="panel-enhance" class="panel active">
-      <label for="raw-note">Raw technician note</label>
-      <textarea id="raw-note" maxlength="2000" placeholder="Example: mowd front and back, trimd around fence. sprinklers zone 3 not running, told homeowner"></textarea>
-      <div class="char-count"><span id="char-count">0</span> / 2000</div>
+      <div class="page-intro">
+        <strong>Raw crew note in. Professional record out.</strong>
+        Submit raw field notes below. Claude returns a polished, structured version ready for the job file. Use Stream to watch the enhancement render token by token.
+      </div>
 
-      <div class="button-row">
-        <button id="submit-btn" class="primary">Submit</button>
-        <button id="stream-btn" class="secondary">Stream</button>
+      <div class="page-card">
+        <label for="raw-note" class="page-label">RAW TECHNICIAN NOTE</label>
+        <textarea id="raw-note" maxlength="2000" placeholder="Example: mowd front and back, trimd around fence. sprinklers zone 3 not running, told homeowner"></textarea>
+        <div class="page-meta-line"><span id="char-count">0</span> / 2000</div>
+
+        <div class="button-row">
+          <button id="submit-btn" class="primary">Submit</button>
+          <button id="stream-btn" class="secondary">Stream</button>
+        </div>
       </div>
 
       <div id="enhance-error" class="error hidden"></div>
@@ -712,11 +839,16 @@
     </section>
 
     <section id="panel-history" class="panel">
-      <div class="history-controls">
-        <span id="history-status">Loading...</span>
+      <div class="page-intro">
+        <strong>Every interaction, logged.</strong>
+        Successes, failures, and PII rejections are all persisted with latency and token metrics. Pagination supported.
+      </div>
+
+      <div class="page-meta-row">
+        <span id="history-status" class="page-meta-line">Loading...</span>
         <button id="refresh-history" class="secondary">Refresh</button>
       </div>
-      <div class="table-wrap">
+      <div class="page-card">
         <table>
           <thead>
             <tr>
@@ -1356,7 +1488,14 @@
     function outcomeCell(outcome) {
       const td = document.createElement("td");
       const badge = document.createElement("span");
-      badge.classList.add("badge", `badge-${outcome}`);
+      const variantMap = {
+        success: "success",
+        llm_failure: "failure",
+        pii_rejected: "pii",
+        validation_failure: "validation",
+      };
+      const variant = variantMap[outcome] || "validation";
+      badge.classList.add("page-pill", `page-pill--${variant}`);
       badge.textContent = outcome.replace(/_/g, " ");
       td.appendChild(badge);
       return td;
