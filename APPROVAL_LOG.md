@@ -5,3 +5,4 @@
 # Never edit retroactively. Append only.
 
 April 22, 2026 00:00 UTC | baseline | -- | LIVE declared at commit f8fa2ed. All further edits require PR approval.
+April 22, 2026 16:44 UTC | docs/governance-baseline | PR #1 | approved
