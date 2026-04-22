@@ -811,7 +811,7 @@
     <section id="panel-enhance" class="panel active">
       <div class="page-intro">
         <strong>Raw crew note in. Professional record out.</strong>
-        Submit raw field notes below. Claude returns a polished, structured version ready for the job file. Use Stream to watch the enhancement render token by token.
+        Submit raw field notes below. Claude returns a polished, structured version ready for the job file. Streaming token-by-token render is available when running locally; see the README for details.
       </div>
 
       <div class="page-card">
@@ -1013,7 +1013,7 @@
           </div>
           <h3 class="timeline-title">29/29 smoke tests passed. Railway green. GitHub Pages live.</h3>
           <div class="timeline-date">April 21, 2026 -- late evening</div>
-          <p class="timeline-body">All six smoke test categories passed: health endpoint, POST /enhance returning real enhanced text, GET /history showing seed data with pagination, PII rejection returning 422 with no stack trace, SSE streaming live-typing in the browser, and em dash scan clean on deployed files. Smoke test evidence committed to main.</p>
+          <p class="timeline-body">All six smoke test categories passed: health endpoint, POST /enhance returning real enhanced text, GET /history showing seed data with pagination, PII rejection returning 422 with no stack trace, SSE streaming endpoint validated structurally (live-typing works on localhost; live deploy degraded by Fastly buffering, see README), and em dash scan clean on deployed files. Smoke test evidence committed to main.</p>
           <p class="timeline-evidence">Evidence: 29/29 smoke test report in this session. Commit hash confirmed by CC as 02dc26d.</p>
           <div class="timeline-source-notes">
             <p><strong>conversation:</strong> CC reported 29/29 smoke tests passed after Railway fix and UI deployment. Evidence committed as 02dc26d.</p>
@@ -1515,6 +1515,19 @@
       if (currentPage > 1) loadHistory(currentPage - 1);
     });
     document.getElementById("next-page").addEventListener("click", () => loadHistory(currentPage + 1));
+
+    // Streaming endpoint works as designed on localhost. On the live deploy
+    // (GitHub Pages -> Railway -> Fastly), edge buffering coalesces the
+    // visual stream. See README "Streaming Endpoint: Documented Edge Behavior"
+    // for the full decision. Hide the button anywhere except local development
+    // so we do not promise a UX the live deploy cannot deliver.
+    (function gateStreamButton() {
+      var localHosts = ['localhost', '127.0.0.1', ''];
+      var isLocal = localHosts.indexOf(window.location.hostname) !== -1;
+      if (isLocal) return;
+      var btn = document.getElementById('stream-btn');
+      if (btn) btn.style.display = 'none';
+    })();
   </script>
 </body>
 </html>
