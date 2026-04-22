@@ -275,12 +275,115 @@
       .button-row { flex-direction: column; }
       .meta { flex-direction: column; gap: 0.5rem; }
     }
+
+    /* -- Site header -- */
+    .site-header {
+      padding: 24px 32px 20px;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 24px;
+      background: #ffffff;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tagline {
+      margin: 0;
+      color: #6b7280;
+      font-size: 0.875rem;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    /* -- Active tab indicator -- */
+    .tab-active,
+    [aria-selected="true"],
+    .tab.active {
+      border-bottom: 2px solid #E8401C;
+      color: #E8401C;
+      font-weight: 600;
+    }
+
+    /* -- Outcome badges -- */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .badge-success {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .badge-llm_failure {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .badge-pii_rejected {
+      background: #ffedd5;
+      color: #ea580c;
+    }
+
+    .badge-validation_failure {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    /* -- Output area -- */
+    .output-area {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 16px;
+      min-height: 80px;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: #1a1a1a;
+    }
+
+    /* -- Button hover accent -- */
+    button:hover {
+      border-color: #E8401C;
+      color: #E8401C;
+    }
+
+    /* -- Mobile -- */
+    @media (max-width: 600px) {
+      .site-header {
+        padding: 16px;
+      }
+      .brand svg {
+        width: 140px;
+        height: auto;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Granum <span class="accent">Text Enhancer</span></h1>
-    <p class="subtitle">Rewrite informal field notes into professional reports.</p>
+  <header class="site-header">
+    <div class="brand">
+      <svg xmlns="http://www.w3.org/2000/svg" width="181" height="32" viewBox="0 0 181 32" fill="none" aria-label="Granum">
+        <path d="M21.6366 0H10.8183V4.02237H21.6366V0Z" fill="#FF856D"/>
+        <path d="M20.313 15.8383C19.5765 17.1733 18.5586 18.3398 17.3392 19.2551C17.4851 19.8022 17.5719 20.3733 17.5719 20.9652C17.5719 24.6538 14.5425 27.6542 10.8183 27.6542C7.63604 27.6542 4.96447 25.4589 4.25575 22.517H0.114639C0.875465 27.692 5.38483 31.6766 10.8183 31.6766C16.7833 31.6766 21.6366 26.8697 21.6366 20.9617C21.6366 19.1071 21.1572 17.3591 20.3165 15.8383H20.313Z" fill="#FF856D"/>
+        <path d="M10.8183 10.2503C8.36908 10.2503 6.11093 11.0624 4.29398 12.4249C3.07457 13.3402 2.05667 14.5032 1.32016 15.8417C2.05667 17.1768 3.07457 18.3432 4.29398 19.2585C4.65528 17.9062 5.43001 16.7191 6.48265 15.8417C7.6569 14.868 9.16812 14.2761 10.8148 14.2761C12.4616 14.2761 13.9728 14.8645 15.147 15.8417C16.1997 14.9677 16.9744 13.7806 17.3357 12.4249C15.5222 11.0624 13.2606 10.2503 10.8114 10.2503H10.8183Z" fill="#FF856D"/>
+        <path d="M10.8183 0C4.8533 0 0 4.80688 0 10.7148C0 12.5695 0.479424 14.3174 1.32015 15.8383C2.05666 14.5032 3.07457 13.3368 4.29397 12.4215C4.14806 11.8744 4.06121 11.3032 4.06121 10.7114C4.06121 7.0228 7.09061 4.02237 10.8148 4.02237C14.5391 4.02237 17.5685 7.0228 17.5685 10.7114C17.5685 11.3032 17.4816 11.8744 17.3357 12.4215C16.9744 13.7738 16.1997 14.9609 15.147 15.8383C13.9728 16.812 12.4616 17.4039 10.8148 17.4039C9.16812 17.4039 7.65689 16.8155 6.48265 15.8383C5.43 16.7123 4.65528 17.8994 4.29397 19.2551C6.10745 20.6176 8.36908 21.4297 10.8183 21.4297C13.2675 21.4297 15.5257 20.6176 17.3426 19.2551C18.5621 18.3398 19.58 17.1768 20.3165 15.8383C21.1572 14.314 21.6366 12.5695 21.6366 10.7148C21.6331 4.80688 16.7833 0 10.8183 0Z" fill="#F95A4B"/>
+        <path d="M55.568 13.9183H43.1586V17.6654H50.8572C49.8393 20.7209 47.0704 22.8335 43.4122 22.8335C38.8299 22.8335 35.6789 19.4305 35.6789 14.923C35.6789 10.4155 38.7986 7.04344 43.2524 7.04344C46.4347 7.04344 48.9777 8.87054 49.9991 11.3617H55.2484C53.6886 5.97333 48.8526 2.63226 43.1586 2.63226C35.9047 2.63226 30.6866 7.92774 30.6866 14.892C30.6866 21.8563 35.9672 27.1828 43.3184 27.1828C46.393 27.1828 49.1792 26.1333 51.3227 24.3647V26.708H55.6306V13.9183H55.568Z" fill="#181E2A"/>
+        <path d="M78.6395 10.794C78.6395 6.25549 75.5545 3.07269 70.1453 3.07269H59.9975V26.708H64.9272V18.326H69.923L73.3901 26.708H78.5769L74.5991 17.4108C77.2081 16.1824 78.6395 13.7875 78.6395 10.794ZM69.2837 14.7338H64.9238V7.07441H69.3463C72.4 7.07441 73.5464 8.90151 73.5464 10.8869C73.5464 12.8723 72.3687 14.7303 69.2837 14.7303V14.7338Z" fill="#181E2A"/>
+        <path d="M86.6577 3.07269L80.9324 26.708H85.9906L87.2969 20.6589H94.8357L96.1384 26.708H101.228L95.5027 3.07269H86.6577ZM88.1202 16.843L90.1561 7.42194H91.9695L94.0053 16.843H88.1202Z" fill="#181E2A"/>
+        <path d="M121.246 19.4925H119.971L112.018 3.07269H105.209V26.708H109.823V10.2882H111.094L118.922 26.708H125.856V3.07269H121.246V19.4925Z" fill="#181E2A"/>
+        <path d="M144.661 17.8822C144.661 20.7828 143.039 22.7682 140.176 22.7682C137.313 22.7682 135.66 20.7828 135.66 17.8822V3.07269H130.761V17.6C130.761 23.5252 134.451 27.1794 140.179 27.1794C145.908 27.1794 149.598 23.5252 149.598 17.6V3.07269H144.665V17.8822H144.661Z" fill="#181E2A"/>
+        <path d="M171.995 3.07269L168.146 15.6456H167.128L163.279 3.07269H154.496V26.708H159.426V8.55742H160.701L164.679 21.8219H167.715H170.564L174.542 8.55742H175.844V26.708H180.778V3.07269H171.995Z" fill="#181E2A"/>
+      </svg>
+      <p class="tagline">Field note enhancement powered by Claude</p>
+    </div>
     <nav class="tabs">
       <button class="tab active" data-tab="enhance">Enhance</button>
       <button class="tab" data-tab="history">History</button>
@@ -522,11 +625,8 @@
     function outcomeCell(outcome) {
       const td = document.createElement("td");
       const badge = document.createElement("span");
-      badge.textContent = outcome.replace("_", " ");
-      badge.classList.add("outcome-badge");
-      if (outcome === "success") badge.classList.add("outcome-success");
-      else if (outcome === "pii_rejected") badge.classList.add("outcome-pii");
-      else badge.classList.add("outcome-failure");
+      badge.classList.add("badge", `badge-${outcome}`);
+      badge.textContent = outcome.replace(/_/g, " ");
       td.appendChild(badge);
       return td;
     }
