@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+# Claude workspace assets (skills, settings, hooks) stay local, never pushed
+.claude/
+
 # SQLite runtime artifacts (the seeded interactions.db is committed)
 *.db-wal
 *.db-shm
