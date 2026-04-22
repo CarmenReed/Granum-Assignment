@@ -515,6 +515,127 @@
       .timeline-head { flex-direction: column; gap: 0.5rem; }
       .timeline-item { padding: 1rem; }
     }
+
+    /* ========================================
+       AI INITIATIVES TAB
+       Additive styles, prefixed ai-init- to avoid collision
+       Palette: template's softer coral / gold / green
+       ======================================== */
+
+    /* Card grid */
+    .ai-init-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    /* Section intro callout */
+    .ai-init-intro {
+      background: #fef5f3;
+      border: 1px solid rgba(238,138,111,0.2);
+      border-left: 4px solid #EE8A6F;
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #3A3F4A;
+      line-height: 1.7;
+    }
+    .ai-init-intro strong { color: #181E2A; }
+
+    /* Card base - cream card from portfolio template */
+    .ai-init-card {
+      background: #ffffff;
+      border: 1px solid #E6E1DA;
+      border-radius: 8px;
+      padding: 22px 24px;
+      box-shadow: 0 20px 40px rgba(24,30,42,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-top: 3px solid #2F6E45; /* defaults to production */
+    }
+    .ai-init-card.ai-state-design { border-top-color: #EE8A6F; }
+    .ai-init-card.ai-state-build { border-top-color: #F5C64E; }
+    .ai-init-card.ai-state-production { border-top-color: #2F6E45; }
+
+    /* Card header row */
+    .ai-init-card-meta {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 10px;
+      color: #EE8A6F;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .ai-init-card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #181E2A;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      line-height: 1.25;
+    }
+
+    /* Card body text */
+    .ai-init-card-body {
+      font-size: 12.5px;
+      color: #3A3F4A;
+      line-height: 1.65;
+    }
+    .ai-init-card-body strong { color: #181E2A; }
+
+    /* State tag - prominent, colored by state */
+    .ai-init-state {
+      display: inline-block;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 10px;
+      padding: 4px 11px;
+      border-radius: 100px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      align-self: flex-start;
+      margin-bottom: 2px;
+    }
+    .ai-init-state.ai-state-design {
+      background: #fde8e3;
+      border: 1px solid rgba(238,138,111,0.3);
+      color: #D9694C;
+    }
+    .ai-init-state.ai-state-build {
+      background: #fef8dc;
+      border: 1px solid rgba(245,198,78,0.45);
+      color: #b88a08;
+    }
+    .ai-init-state.ai-state-production {
+      background: #E4F1E8;
+      border: 1px solid rgba(47,110,69,0.3);
+      color: #2F6E45;
+    }
+
+    /* Pattern tags - secondary pills */
+    .ai-init-patterns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .ai-init-pattern {
+      background: #fde8e3;
+      border: 1px solid rgba(238,138,111,0.3);
+      color: #D9694C;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 10px;
+      padding: 2px 9px;
+      border-radius: 100px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    @media (max-width: 600px) {
+      .ai-init-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -535,9 +656,10 @@
       <p class="tagline">Field note enhancement powered by Claude</p>
     </div>
     <nav class="tabs">
-      <button class="tab active" data-tab="enhance">Enhance</button>
+      <button class="tab active" data-tab="enhance">Assignment</button>
       <button class="tab" data-tab="history">History</button>
       <button class="tab" data-tab="built">How It Was Built</button>
+      <button class="tab" data-tab="ai-initiatives">AI Initiatives</button>
     </nav>
   </header>
 
@@ -812,6 +934,80 @@
           </div>
         </li>
       </ol>
+    </section>
+
+    <section id="panel-ai-initiatives" class="panel">
+      <div class="ai-init-intro">
+        <strong>AI Initiatives I am running right now.</strong>
+        Every governance pattern in this take-home (human gate, inference flagging, Jaccard scoring, archive not delete) was validated in one of the skills below before it showed up in this repo. State tags show where each one currently lives: <strong>design</strong>, <strong>build</strong>, or <strong>production</strong>.
+      </div>
+
+      <div class="ai-init-grid">
+
+        <!-- Card 1: brain-dump -->
+        <div class="ai-init-card ai-state-production">
+          <span class="ai-init-state ai-state-production">Production</span>
+          <div class="ai-init-card-meta">Skill &middot; brain-dump.md &middot; April 18 2026</div>
+          <div class="ai-init-card-title">/brain-dump</div>
+          <div class="ai-init-card-body">
+            Takes stream-of-consciousness voice or text input and reflects it back as a structured, tiered brief before any execution fires. T1, T2, T3 classification where T1 means production logic and zero assumptions are allowed. Multi-form input resolution handles attachment, file path, or raw text. Hallucination gate markers flag every inferred item. Human confirmation required before any downstream action. Same <strong>reflect before execute</strong> discipline that governs every inference flag in this repo.
+          </div>
+          <div class="ai-init-patterns">
+            <span class="ai-init-pattern">Reflect Before Execute</span>
+            <span class="ai-init-pattern">Hallucination Gate</span>
+            <span class="ai-init-pattern">Git-Timestamped</span>
+          </div>
+        </div>
+
+        <!-- Card 2: sg-ticket-prep -->
+        <div class="ai-init-card ai-state-production">
+          <span class="ai-init-state ai-state-production">Production</span>
+          <div class="ai-init-card-meta">Skill &middot; sg-ticket-prep &middot; SpaceGenius Production</div>
+          <div class="ai-init-card-title">/sg-ticket-prep</div>
+          <div class="ai-init-card-body">
+            Takes messy, incomplete human-written bug tickets (vague repro steps, ad hoc acceptance criteria, missing test data) and transforms them into well-formatted Gherkin syntax ready to feed the sg-bug-fix agentic pipeline for autonomous bug fixing in Azure DevOps. A CC-readiness checklist catches every gap before anything is written. Hard stop on any unresolved gap, same architecture as the inference gate. Original content preserved in a comment before the ticket body updates. The audience for every output line is not a human developer. It is an AI agent that will act on it autonomously.
+          </div>
+          <div class="ai-init-patterns">
+            <span class="ai-init-pattern">Messy Input to Gherkin</span>
+            <span class="ai-init-pattern">Agentic Pipeline Feed</span>
+            <span class="ai-init-pattern">Hard Stop on Gaps</span>
+            <span class="ai-init-pattern">Preserve Before Update</span>
+          </div>
+        </div>
+
+        <!-- Card 3: lff -->
+        <div class="ai-init-card ai-state-production">
+          <span class="ai-init-state ai-state-production">Production</span>
+          <div class="ai-init-card-meta">Skill &middot; lff v2.1 &middot; Learn From Failure</div>
+          <div class="ai-init-card-title">/lff</div>
+          <div class="ai-init-card-body">
+            Postmortem tool that turns a failed Claude session into one durable preventive rule in the right CLAUDE.md file. Scale telemetry with yellow and red hard gates. 25-word rule cap enforced. Backup before write, atomic write, never auto-apply. Self-improvement proposals staged, never committed. Closed category taxonomy with a custom:X escape hatch. Courtroom metaphor: Plaintiff, Defendant, Judge, Jury. 9 safety rails. Team conventions including merge conflict resolution strategy.
+          </div>
+          <div class="ai-init-patterns">
+            <span class="ai-init-pattern">Scale Telemetry</span>
+            <span class="ai-init-pattern">25-Word Cap</span>
+            <span class="ai-init-pattern">Self-Improves</span>
+            <span class="ai-init-pattern">9 Safety Rails</span>
+          </div>
+        </div>
+
+        <!-- Card 4: lff-prune -->
+        <div class="ai-init-card ai-state-production">
+          <span class="ai-init-state ai-state-production">Production</span>
+          <div class="ai-init-card-meta">Skill &middot; lff-prune v2.1 &middot; Maintenance Companion</div>
+          <div class="ai-init-card-title">/lff-prune</div>
+          <div class="ai-init-card-body">
+            <strong>Jaccard threshold 0.3, already in production.</strong> Maintenance pass on Learned Rules sentinel sections. Surfaces cluster merges, age-decay, and skill-promotion candidates. Per-proposal approval, batch approve explicitly blocked. Archive never delete, with a Reason line on every archived rule. Migration signal tracking: if prune fails 3 or more consecutive runs, the tool self-documents the signal to migrate to a vector store. It knows its own scaling ceiling. Post-prune scale recheck confirms the tool actually helped. 10-backup retention with rotation. Mode flags: --clusters-only, --age-only, --skills-only.
+          </div>
+          <div class="ai-init-patterns">
+            <span class="ai-init-pattern">Jaccard 0.3 in Prod</span>
+            <span class="ai-init-pattern">Archive Never Delete</span>
+            <span class="ai-init-pattern">Migration Signal</span>
+            <span class="ai-init-pattern">Self-Checks After Write</span>
+          </div>
+        </div>
+
+      </div>
     </section>
   </main>
 
