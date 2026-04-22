@@ -636,6 +636,30 @@
     @media (max-width: 600px) {
       .ai-init-grid { grid-template-columns: 1fr; }
     }
+
+    /* ========================================
+       AI INITIATIVES — Subsection styling
+       Added in expansion from 4 to 12 cards
+       ======================================== */
+
+    .ai-init-subsection {
+      margin-top: 28px;
+    }
+    .ai-init-subsection:first-of-type {
+      margin-top: 8px;
+    }
+
+    .ai-init-subsection-label {
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #EE8A6F;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(238,138,111,0.2);
+    }
   </style>
 </head>
 <body>
@@ -942,71 +966,209 @@
         Every governance pattern in this take-home (human gate, inference flagging, Jaccard scoring, archive not delete) was validated in one of the skills below before it showed up in this repo. State tags show where each one currently lives: <strong>design</strong>, <strong>build</strong>, or <strong>production</strong>.
       </div>
 
-      <div class="ai-init-grid">
+      <div class="ai-init-subsection">
+        <div class="ai-init-subsection-label">Governance Skills</div>
+        <div class="ai-init-grid">
 
-        <!-- Card 1: brain-dump -->
-        <div class="ai-init-card ai-state-production">
-          <span class="ai-init-state ai-state-production">Production</span>
-          <div class="ai-init-card-meta">Skill &middot; brain-dump.md &middot; April 18 2026</div>
-          <div class="ai-init-card-title">/brain-dump</div>
-          <div class="ai-init-card-body">
-            Takes stream-of-consciousness voice or text input and reflects it back as a structured, tiered brief before any execution fires. T1, T2, T3 classification where T1 means production logic and zero assumptions are allowed. Multi-form input resolution handles attachment, file path, or raw text. Hallucination gate markers flag every inferred item. Human confirmation required before any downstream action. Same <strong>reflect before execute</strong> discipline that governs every inference flag in this repo.
+          <!-- Card 1: brain-dump -->
+          <div class="ai-init-card ai-state-production">
+            <span class="ai-init-state ai-state-production">Production</span>
+            <div class="ai-init-card-meta">Skill &middot; brain-dump.md &middot; April 18 2026</div>
+            <div class="ai-init-card-title">/brain-dump</div>
+            <div class="ai-init-card-body">
+              Takes stream-of-consciousness voice or text input and reflects it back as a structured, tiered brief before any execution fires. T1, T2, T3 classification where T1 means production logic and zero assumptions are allowed. Multi-form input resolution handles attachment, file path, or raw text. Hallucination gate markers flag every inferred item. Human confirmation required before any downstream action. Same <strong>reflect before execute</strong> discipline that governs every inference flag in this repo.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Reflect Before Execute</span>
+              <span class="ai-init-pattern">Hallucination Gate</span>
+              <span class="ai-init-pattern">Git-Timestamped</span>
+            </div>
           </div>
-          <div class="ai-init-patterns">
-            <span class="ai-init-pattern">Reflect Before Execute</span>
-            <span class="ai-init-pattern">Hallucination Gate</span>
-            <span class="ai-init-pattern">Git-Timestamped</span>
+
+          <!-- Card 2: sg-ticket-prep -->
+          <div class="ai-init-card ai-state-production">
+            <span class="ai-init-state ai-state-production">Production</span>
+            <div class="ai-init-card-meta">Skill &middot; sg-ticket-prep &middot; SpaceGenius Production</div>
+            <div class="ai-init-card-title">/sg-ticket-prep</div>
+            <div class="ai-init-card-body">
+              Takes messy, incomplete human-written bug tickets (vague repro steps, ad hoc acceptance criteria, missing test data) and transforms them into well-formatted Gherkin syntax ready to feed the sg-bug-fix agentic pipeline for autonomous bug fixing in Azure DevOps. A CC-readiness checklist catches every gap before anything is written. Hard stop on any unresolved gap, same architecture as the inference gate. Original content preserved in a comment before the ticket body updates. The audience for every output line is not a human developer. It is an AI agent that will act on it autonomously.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Messy Input to Gherkin</span>
+              <span class="ai-init-pattern">Agentic Pipeline Feed</span>
+              <span class="ai-init-pattern">Hard Stop on Gaps</span>
+              <span class="ai-init-pattern">Preserve Before Update</span>
+            </div>
           </div>
+
+          <!-- Card 3: lff -->
+          <div class="ai-init-card ai-state-production">
+            <span class="ai-init-state ai-state-production">Production</span>
+            <div class="ai-init-card-meta">Skill &middot; lff v2.1 &middot; Learn From Failure</div>
+            <div class="ai-init-card-title">/lff</div>
+            <div class="ai-init-card-body">
+              Postmortem tool that turns a failed Claude session into one durable preventive rule in the right CLAUDE.md file. Scale telemetry with yellow and red hard gates. 25-word rule cap enforced. Backup before write, atomic write, never auto-apply. Self-improvement proposals staged, never committed. Closed category taxonomy with a custom:X escape hatch. Courtroom metaphor: Plaintiff, Defendant, Judge, Jury. 9 safety rails. Team conventions including merge conflict resolution strategy.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Scale Telemetry</span>
+              <span class="ai-init-pattern">25-Word Cap</span>
+              <span class="ai-init-pattern">Self-Improves</span>
+              <span class="ai-init-pattern">9 Safety Rails</span>
+            </div>
+          </div>
+
+          <!-- Card 4: lff-prune -->
+          <div class="ai-init-card ai-state-production">
+            <span class="ai-init-state ai-state-production">Production</span>
+            <div class="ai-init-card-meta">Skill &middot; lff-prune v2.1 &middot; Maintenance Companion</div>
+            <div class="ai-init-card-title">/lff-prune</div>
+            <div class="ai-init-card-body">
+              <strong>Jaccard threshold 0.3, already in production.</strong> Maintenance pass on Learned Rules sentinel sections. Surfaces cluster merges, age-decay, and skill-promotion candidates. Per-proposal approval, batch approve explicitly blocked. Archive never delete, with a Reason line on every archived rule. Migration signal tracking: if prune fails 3 or more consecutive runs, the tool self-documents the signal to migrate to a vector store. It knows its own scaling ceiling. Post-prune scale recheck confirms the tool actually helped. 10-backup retention with rotation. Mode flags: --clusters-only, --age-only, --skills-only.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Jaccard 0.3 in Prod</span>
+              <span class="ai-init-pattern">Archive Never Delete</span>
+              <span class="ai-init-pattern">Migration Signal</span>
+              <span class="ai-init-pattern">Self-Checks After Write</span>
+            </div>
+          </div>
+
         </div>
+      </div>
 
-        <!-- Card 2: sg-ticket-prep -->
-        <div class="ai-init-card ai-state-production">
-          <span class="ai-init-state ai-state-production">Production</span>
-          <div class="ai-init-card-meta">Skill &middot; sg-ticket-prep &middot; SpaceGenius Production</div>
-          <div class="ai-init-card-title">/sg-ticket-prep</div>
-          <div class="ai-init-card-body">
-            Takes messy, incomplete human-written bug tickets (vague repro steps, ad hoc acceptance criteria, missing test data) and transforms them into well-formatted Gherkin syntax ready to feed the sg-bug-fix agentic pipeline for autonomous bug fixing in Azure DevOps. A CC-readiness checklist catches every gap before anything is written. Hard stop on any unresolved gap, same architecture as the inference gate. Original content preserved in a comment before the ticket body updates. The audience for every output line is not a human developer. It is an AI agent that will act on it autonomously.
+      <div class="ai-init-subsection">
+        <div class="ai-init-subsection-label">Agentic &amp; Automated Workflows</div>
+        <div class="ai-init-grid">
+
+          <!-- A1: Headless Browser Automation -->
+          <div class="ai-init-card ai-state-design">
+            <span class="ai-init-state ai-state-design">Design</span>
+            <div class="ai-init-card-meta">Initiative &middot; Agentic Workflow &middot; Design</div>
+            <div class="ai-init-card-title">Headless Browser Automation</div>
+            <div class="ai-init-card-body">
+              AI-driven headless browser scrapes sites, captures screenshots, and replicates site schemas to feed Playwright automated test generation. Aims to collapse the gap between a live UI and a maintainable test suite by having the agent build the test scaffolding from the real DOM it just traversed, not from a human-written spec.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Playwright Test Gen</span>
+              <span class="ai-init-pattern">Site Schema Capture</span>
+              <span class="ai-init-pattern">Agent-Driven Testing</span>
+            </div>
           </div>
-          <div class="ai-init-patterns">
-            <span class="ai-init-pattern">Messy Input to Gherkin</span>
-            <span class="ai-init-pattern">Agentic Pipeline Feed</span>
-            <span class="ai-init-pattern">Hard Stop on Gaps</span>
-            <span class="ai-init-pattern">Preserve Before Update</span>
+
+          <!-- A2: Conversational Logic Engines -->
+          <div class="ai-init-card ai-state-design">
+            <span class="ai-init-state ai-state-design">Design</span>
+            <div class="ai-init-card-meta">Initiative &middot; Agentic Workflow &middot; Design</div>
+            <div class="ai-init-card-title">Conversational Logic Engines</div>
+            <div class="ai-init-card-body">
+              Natural language systems that know to ask the right questions to guide users through complex reservation, rate, or option flows autonomously. Replaces branching form trees with an agent that holds the flow state and asks only what it still needs to know. Pattern origin: the same reflect-before-execute discipline that governs the inference gate in this repo.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Ask the Right Questions</span>
+              <span class="ai-init-pattern">Flow State as Context</span>
+              <span class="ai-init-pattern">Reflect Before Execute</span>
+            </div>
           </div>
+
+          <!-- A3: Self-Auditing Navigation -->
+          <div class="ai-init-card ai-state-production">
+            <span class="ai-init-state ai-state-production">Production</span>
+            <div class="ai-init-card-meta">Initiative &middot; Agentic Workflow &middot; Production</div>
+            <div class="ai-init-card-title">Self-Auditing Navigation</div>
+            <div class="ai-init-card-body">
+              AI agents pointed at web artifacts (portfolios, docs, product flows) to autonomously identify dead links, navigation inconsistencies, and efficiency gaps. Runs as a scheduled pass rather than a one-shot audit. Output feeds directly into a fix queue instead of sitting in a report nobody reads.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Scheduled Audit</span>
+              <span class="ai-init-pattern">Dead Link Detection</span>
+              <span class="ai-init-pattern">Fix Queue Output</span>
+            </div>
+          </div>
+
+          <!-- A4: Meeting-to-Ticket Automation -->
+          <div class="ai-init-card ai-state-design">
+            <span class="ai-init-state ai-state-design">Design</span>
+            <div class="ai-init-card-meta">Initiative &middot; Agentic Workflow &middot; Design</div>
+            <div class="ai-init-card-title">Meeting-to-Ticket Automation</div>
+            <div class="ai-init-card-body">
+              Integrated pipeline that captures raw meeting audio, extracts action items, and automatically creates service tickets or documentation entries. Same messy-input-to-structured-output shape as sg-ticket-prep, but the input is live meeting audio instead of a half-written bug report. Human gate before any ticket is filed.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Audio to Action Items</span>
+              <span class="ai-init-pattern">Human Gate Before File</span>
+              <span class="ai-init-pattern">Same Pattern as sg-ticket-prep</span>
+            </div>
+          </div>
+
         </div>
+      </div>
 
-        <!-- Card 3: lff -->
-        <div class="ai-init-card ai-state-production">
-          <span class="ai-init-state ai-state-production">Production</span>
-          <div class="ai-init-card-meta">Skill &middot; lff v2.1 &middot; Learn From Failure</div>
-          <div class="ai-init-card-title">/lff</div>
-          <div class="ai-init-card-body">
-            Postmortem tool that turns a failed Claude session into one durable preventive rule in the right CLAUDE.md file. Scale telemetry with yellow and red hard gates. 25-word rule cap enforced. Backup before write, atomic write, never auto-apply. Self-improvement proposals staged, never committed. Closed category taxonomy with a custom:X escape hatch. Courtroom metaphor: Plaintiff, Defendant, Judge, Jury. 9 safety rails. Team conventions including merge conflict resolution strategy.
+      <div class="ai-init-subsection">
+        <div class="ai-init-subsection-label">RAG Implementations</div>
+        <div class="ai-init-grid">
+
+          <!-- R1: Documentation-Grounded Architecture -->
+          <div class="ai-init-card ai-state-production">
+            <span class="ai-init-state ai-state-production">Production</span>
+            <div class="ai-init-card-meta">Initiative &middot; RAG &middot; Production</div>
+            <div class="ai-init-card-title">Documentation-Grounded Architecture</div>
+            <div class="ai-init-card-body">
+              Retrieves raw AI meeting notes and processes them to fill information gaps in project assets and estimates. The generation is always anchored in retrieved source material, never free-generated, so estimates trace back to a specific conversation rather than to a hallucinated average.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Grounded Generation</span>
+              <span class="ai-init-pattern">Meeting Notes as Source</span>
+              <span class="ai-init-pattern">Traceable Estimates</span>
+            </div>
           </div>
-          <div class="ai-init-patterns">
-            <span class="ai-init-pattern">Scale Telemetry</span>
-            <span class="ai-init-pattern">25-Word Cap</span>
-            <span class="ai-init-pattern">Self-Improves</span>
-            <span class="ai-init-pattern">9 Safety Rails</span>
+
+          <!-- R2: Reference-Based UI Design -->
+          <div class="ai-init-card ai-state-design">
+            <span class="ai-init-state ai-state-design">Design</span>
+            <div class="ai-init-card-meta">Initiative &middot; RAG &middot; Design</div>
+            <div class="ai-init-card-title">Reference-Based UI Design</div>
+            <div class="ai-init-card-body">
+              Grounds AI UI design output by pointing it specifically at external standards like the Apple Accessibility Developers Guide so the generated code passes compliance review the first time. Treats the standards document as the authoritative spec the model must cite from, not as vague context.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Standards as Spec</span>
+              <span class="ai-init-pattern">Compliance First Draft</span>
+              <span class="ai-init-pattern">Apple Accessibility Guide</span>
+            </div>
           </div>
+
+          <!-- R3: Knowledge-Base QuickQuotes -->
+          <div class="ai-init-card ai-state-design">
+            <span class="ai-init-state ai-state-design">Design</span>
+            <div class="ai-init-card-meta">Initiative &middot; RAG &middot; Design</div>
+            <div class="ai-init-card-title">Knowledge-Base QuickQuotes</div>
+            <div class="ai-init-card-body">
+              Feeds an existing company and location knowledge base into a quote generation engine so quotes come out accurate to the customer's actual footprint, not a generic rate card. The knowledge base is the source of truth; the LLM is the formatter.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Knowledge Base as Source</span>
+              <span class="ai-init-pattern">LLM as Formatter</span>
+              <span class="ai-init-pattern">Accurate by Construction</span>
+            </div>
+          </div>
+
+          <!-- R4: Knowledge-Base "Living Wiki" -->
+          <div class="ai-init-card ai-state-build">
+            <span class="ai-init-state ai-state-build">Build</span>
+            <div class="ai-init-card-meta">Initiative &middot; RAG &middot; Build</div>
+            <div class="ai-init-card-title">Knowledge-Base "Living Wiki"</div>
+            <div class="ai-init-card-body">
+              Live Azure Wiki with walk-throughs, ESL translations, documentation templates, and API endpoint tours for new hires. Self-updating via scheduled pulls from source systems, so the wiki never drifts out of date the way static onboarding docs always do. Bilingual by default, not as an afterthought.
+            </div>
+            <div class="ai-init-patterns">
+              <span class="ai-init-pattern">Azure Wiki</span>
+              <span class="ai-init-pattern">ESL Translations</span>
+              <span class="ai-init-pattern">API Endpoint Tours</span>
+              <span class="ai-init-pattern">Self-Updating</span>
+            </div>
+          </div>
+
         </div>
-
-        <!-- Card 4: lff-prune -->
-        <div class="ai-init-card ai-state-production">
-          <span class="ai-init-state ai-state-production">Production</span>
-          <div class="ai-init-card-meta">Skill &middot; lff-prune v2.1 &middot; Maintenance Companion</div>
-          <div class="ai-init-card-title">/lff-prune</div>
-          <div class="ai-init-card-body">
-            <strong>Jaccard threshold 0.3, already in production.</strong> Maintenance pass on Learned Rules sentinel sections. Surfaces cluster merges, age-decay, and skill-promotion candidates. Per-proposal approval, batch approve explicitly blocked. Archive never delete, with a Reason line on every archived rule. Migration signal tracking: if prune fails 3 or more consecutive runs, the tool self-documents the signal to migrate to a vector store. It knows its own scaling ceiling. Post-prune scale recheck confirms the tool actually helped. 10-backup retention with rotation. Mode flags: --clusters-only, --age-only, --skills-only.
-          </div>
-          <div class="ai-init-patterns">
-            <span class="ai-init-pattern">Jaccard 0.3 in Prod</span>
-            <span class="ai-init-pattern">Archive Never Delete</span>
-            <span class="ai-init-pattern">Migration Signal</span>
-            <span class="ai-init-pattern">Self-Checks After Write</span>
-          </div>
-        </div>
-
       </div>
     </section>
   </main>
