@@ -104,7 +104,3 @@ A bad input never reaches the network. A network failure never corrupts the log.
 - 1 `validation_failure` record (empty raw note)
 
 The `/history` endpoint and the frontend history tab render something meaningful on first load, without an API key ever being set.
-
----
-
-**Author note.** I am a developer on the PRS team at Space Genius, working in C# .NET on a 15-year-old production codebase with Azure infrastructure (SQL Managed Instance, Service Bus, Azure Functions). The failure-first ordering in this API is not theoretical: it is the response to a recent incident where a bulk find-replace shipped to production twice before local verification, and the rule that came out of that incident -- test before push, contextual review before blanket substitution -- is the same rule that orders validation before network here.
