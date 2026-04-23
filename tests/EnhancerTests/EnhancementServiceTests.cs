@@ -77,6 +77,21 @@ public class EnhancementServiceTests : IDisposable
         Assert.Equal("LLM call timed out.", log.ErrorDetail);
     }
 
+    [Fact]
+    public async Task PiiRejection_PersistsRedactedRawNote_NotOriginal()
+    {
+        const string raw = "call customer at 555-123-4567 to reschedule";
+
+        var result = await _service.EnhanceAsync(raw, CancellationToken.None);
+
+        Assert.IsType<EnhancementResult.PiiError>(result);
+        var log = Assert.Single(_db.Interactions);
+        Assert.Equal(InteractionOutcome.PiiRejected, log.Outcome);
+        Assert.DoesNotContain("555-123-4567", log.RawNote);
+        Assert.Contains("[REDACTED-PHONE]", log.RawNote);
+        _llm.Verify(x => x.EnhanceAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+    }
+
     public void Dispose()
     {
         _db.Dispose();

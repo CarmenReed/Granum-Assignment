@@ -39,4 +39,32 @@ public class PiiGuardTests
         Assert.False(result.IsFlagged);
         Assert.Null(result.Reason);
     }
+
+    [Fact]
+    public void Redact_ReplacesEmail()
+    {
+        var redacted = _pii.Redact("Follow up with tech.lead@example.com next week.");
+        Assert.Equal("Follow up with [REDACTED-EMAIL] next week.", redacted);
+    }
+
+    [Fact]
+    public void Redact_ReplacesPhone()
+    {
+        var redacted = _pii.Redact("Call customer at 555-123-4567 tomorrow.");
+        Assert.Equal("Call customer at [REDACTED-PHONE] tomorrow.", redacted);
+    }
+
+    [Fact]
+    public void Redact_ReplacesMultipleAndMixed()
+    {
+        var redacted = _pii.Redact("Email ops@acme.com or call (555) 987-6543.");
+        Assert.Equal("Email [REDACTED-EMAIL] or call [REDACTED-PHONE].", redacted);
+    }
+
+    [Fact]
+    public void Redact_LeavesCleanInputUnchanged()
+    {
+        const string clean = "Replaced valve on zone 3, pressure reads 42 psi.";
+        Assert.Equal(clean, _pii.Redact(clean));
+    }
 }

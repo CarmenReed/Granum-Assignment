@@ -9,6 +9,7 @@ public class AnthropicLlmService : ILlmService
 {
     private const int MaxTokens = 1024;
     private const int TimeoutSeconds = 30;
+    private const int StreamStallTimeoutSeconds = 30;
     private const string AnthropicVersion = "2023-06-01";
 
     private readonly HttpClient _http;
@@ -62,7 +63,7 @@ public class AnthropicLlmService : ILlmService
 
         while (!reader.EndOfStream)
         {
-            var line = await reader.ReadLineAsync(ct);
+            var line = await ReadLineWithStallGuardAsync(reader, ct);
             if (line is null) break;
             if (!line.StartsWith("data: ", StringComparison.Ordinal)) continue;
 
@@ -71,6 +72,20 @@ public class AnthropicLlmService : ILlmService
 
             var chunk = TryExtractTextDelta(json);
             if (!string.IsNullOrEmpty(chunk)) yield return chunk;
+        }
+    }
+
+    private static async Task<string?> ReadLineWithStallGuardAsync(StreamReader reader, CancellationToken ct)
+    {
+        using var stallCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        stallCts.CancelAfter(TimeSpan.FromSeconds(StreamStallTimeoutSeconds));
+        try
+        {
+            return await reader.ReadLineAsync(stallCts.Token);
+        }
+        catch (OperationCanceledException) when (!ct.IsCancellationRequested)
+        {
+            throw new TimeoutException($"LLM stream stalled for {StreamStallTimeoutSeconds}s without a new chunk.");
         }
     }
 
