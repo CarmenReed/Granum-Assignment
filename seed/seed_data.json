@@ -79,7 +79,7 @@
   },
   {
     "id": "a1b2c3d4-e5f6-4789-90ab-cdef77777777",
-    "raw_note": "call customer at 555-123-4567 to schedule follow-up",
+    "raw_note": "call customer at [REDACTED-PHONE] to schedule follow-up",
     "enhanced_text": null,
     "model": null,
     "prompt_tokens": null,

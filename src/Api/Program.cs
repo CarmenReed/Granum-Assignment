@@ -9,6 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Cap request body at 16 KB. MaxNoteLength is 2000 chars (~8 KB worst-case UTF-8) plus JSON overhead;
+// anything larger is rejected by Kestrel before deserialization rather than after binding.
+builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 16 * 1024);
+
 var dbPath = Environment.GetEnvironmentVariable("DATABASE_PATH") ?? "interactions.db";
 builder.Services.AddDbContext<AppDbContext>(opts => opts.UseSqlite($"Data Source={dbPath}"));
 builder.Services.AddScoped<InteractionRepository>();
@@ -112,6 +116,16 @@ app.MapGet("/enhance/stream", async (HttpContext ctx, string? note, EnhancementS
     {
         sw.Stop();
         await service.LogStreamLlmFailureAsync(clean, ex.Message, sw.ElapsedMilliseconds, CancellationToken.None);
+        try
+        {
+            var errorFrame = JsonSerializer.Serialize(new { error = "Enhancement temporarily unavailable." });
+            await ctx.Response.WriteAsync($"data: {errorFrame}\n\n", ct);
+            await ctx.Response.Body.FlushAsync(ct);
+        }
+        catch
+        {
+            // Client already disconnected; nothing to surface.
+        }
         return;
     }
 

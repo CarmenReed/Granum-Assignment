@@ -21,4 +21,12 @@ public class PiiGuardService
         if (UsPhone.IsMatch(input)) return new PiiCheckResult(true, "phone detected");
         return new PiiCheckResult(false, null);
     }
+
+    public string Redact(string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input;
+        var redacted = Email.Replace(input, "[REDACTED-EMAIL]");
+        redacted = UsPhone.Replace(redacted, "[REDACTED-PHONE]");
+        return redacted;
+    }
 }

@@ -115,7 +115,8 @@ public class EnhancementService
         var pii = _pii.Check(safeInput);
         if (pii.IsFlagged)
         {
-            await LogAsync(safeInput, null, InteractionOutcome.PiiRejected, pii.Reason, 0, ct);
+            var redacted = _pii.Redact(safeInput);
+            await LogAsync(redacted, null, InteractionOutcome.PiiRejected, pii.Reason, 0, ct);
             return new EnhancementResult.PiiError(pii.Reason!);
         }
 
