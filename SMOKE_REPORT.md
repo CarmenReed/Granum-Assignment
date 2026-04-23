@@ -1,5 +1,12 @@
 # Smoke Test Report
 
+> **Update 2026-04-22:** `interactions.db` was reset to the canonical 8-record
+> seed state. The "totalCount == 8" invariant referenced throughout the runs
+> below (and flagged as "now broken" on line 56 of the historical body) is
+> RESTORED as of this update. The growth observations from the original smoke
+> runs are preserved as-is for provenance; they reflect transient post-test
+> state, not a permanent change to the seed.
+
 Target API: `https://granum-assignment-production.up.railway.app`
 Target Frontend: `https://CarmenReed.github.io/Granum-Assignment/` (NOT exercised; browser tests skipped per operator across both runs)
 Commits on main: `53d7917` (deploy URL wiring), `06463e9` (Dockerfile replacement of Nixpacks)

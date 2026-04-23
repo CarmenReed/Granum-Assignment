@@ -31,7 +31,8 @@ This is a UI-only change. The following are LOCKED and must not be touched:
 LOCKED JAVASCRIPT:
 - `const API_BASE_URL` -- do not modify the value or the variable name
 - Any `fetch(` call -- do not modify URL, method, headers, or body
-- Any `EventSource(` or SSE handler -- do not modify
+- The `fetch(${API_BASE_URL}/enhance/stream` SSE-over-fetch call and its reader loop -- locked in full, matches the actual streaming implementation in docs/index.html
+- Any `EventSource(` or SSE handler -- locked as a defensive guard; if re-introduced later, it is also off-limits for UI-only changes
 - Any function that processes API response data
 - Pagination logic (page, pageSize, totalPages calculations)
 - Character counter logic
@@ -144,6 +145,6 @@ Then wait for the operator to merge the PR in GitHub.
 ## STEP 8: CONFIRM AFTER MERGE
 
 After the operator confirms the PR is merged, verify the live site:
-https://CarmenReed.github.io/granum-assignment
+https://carmenreed.github.io/Granum-Assignment
 
 Report back with: live URL confirmed, or flag any issue seen.

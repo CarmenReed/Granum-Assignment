@@ -638,7 +638,7 @@
     }
 
     /* ========================================
-       AI INITIATIVES — Subsection styling
+       AI INITIATIVES -- Subsection styling
        Added in expansion from 4 to 12 cards
        ======================================== */
 
@@ -797,7 +797,7 @@
         <path d="M144.661 17.8822C144.661 20.7828 143.039 22.7682 140.176 22.7682C137.313 22.7682 135.66 20.7828 135.66 17.8822V3.07269H130.761V17.6C130.761 23.5252 134.451 27.1794 140.179 27.1794C145.908 27.1794 149.598 23.5252 149.598 17.6V3.07269H144.665V17.8822H144.661Z" fill="#181E2A"/>
         <path d="M171.995 3.07269L168.146 15.6456H167.128L163.279 3.07269H154.496V26.708H159.426V8.55742H160.701L164.679 21.8219H167.715H170.564L174.542 8.55742H175.844V26.708H180.778V3.07269H171.995Z" fill="#181E2A"/>
       </svg>
-      <p class="tagline">Field note enhancement powered by Claude</p>
+      <p class="tagline">Field note enhancement powered by a large language model</p>
     </div>
     <nav class="tabs">
       <button class="tab active" data-tab="enhance">Assignment</button>
@@ -811,7 +811,7 @@
     <section id="panel-enhance" class="panel active">
       <div class="page-intro">
         <strong>Raw crew note in. Professional record out.</strong>
-        Submit raw field notes below. Claude returns a polished, structured version ready for the job file. Streaming token-by-token render is available when running locally; see the README for details.
+        Submit raw field notes below. The service returns a polished, structured version ready for the job file. Streaming token-by-token render is available when running locally; see the README for details.
       </div>
 
       <div class="page-card">
@@ -873,133 +873,96 @@
     <section id="panel-built" class="panel">
       <details class="timeline-preamble">
         <summary>How this timeline was assembled</summary>
-        <p>By the morning after Jonathan's interview call, I already had the architecture sketched out: the stack, the commit order, how the failure paths should work. Before Claude Code wrote a single line, I pulled real context about my background at Space Genius from our Azure and ADO data. 136 commits, 170 PRs, 76 work items, all verified. I did not want a README that sounded like it came from a template. Every Space Genius reference in the final doc traces to a source I confirmed.</p>
-        <p>Three principles kept me honest while building. Failure-first: think about what breaks before what succeeds. Earn your complexity: use the simplest thing that handles the failure mode. Separate the responsibilities: API, service, and data stay in their own lanes. Every tech decision in the README traces back to one of these.</p>
-        <p>The Railway deploy gave me a day-of failure mode that ended up being a good story. NIXPACKS picked the wrong .NET version, then the container died before it could even print the error because the library needed to format the error was also missing. One line in the csproj fixed it. The deploy fight was failure-first in real time.</p>
-        <p>Once the site was live I locked it down. Any change from that point forward needed a branch, a local check, my approval, and a manual merge. The governance files themselves went through that same gate to get added to the repo. No direct pushes to main. This timeline went through the same process.</p>
+        <p>The Dockerfile incident is the day's strongest live failure-first artifact. The pre-submission cleanup commit message asserted Railway deploys via NIXPACKS based on a misread of the arch plan rule no Docker or CI/CD. The actual railway.json config said builder DOCKERFILE with dockerfilePath Dockerfile. Within minutes of the cleanup PR merging, the live deploy died. Recovery used git show 84d4861~1:Dockerfile to restore Dockerfile and .dockerignore on a fix/restore-dockerfile branch. The lesson is the commit message lying to the codebase, not the missing file.</p>
+        <p>The streaming decision is the day's strongest earn your complexity in reverse artifact. SSE works token by token on localhost. On Railway it coalesces because Fastly buffers chunked responses and ignores the nginx only X-Accel-Buffering header. Two paths existed: chase the CDN workaround or document the limitation honestly. The choice was to document, gate the UI to localhost via JavaScript hostname check, and add a README ADR explaining what works, what is degraded, why, and why no workaround was built. Failure first applied to the rejected alternative direction.</p>
+        <p>The AI Initiatives tab expansion from 4 to 12 cards was the first time the state color system was visually validated across multiple production, build, and design states simultaneously. The original 4 governance skills (brain-dump, sg-ticket-prep, lff, lff-prune) were preserved byte for byte and rewrapped in a Governance Skills subsection. Two new subsections (Agentic and Automated Workflows, RAG Implementations) added 8 more initiatives.</p>
+        <p>Operator declared LIVE herself with the exact quote: I'm calling it LIVE now (timestamp it). All further edits are now consider production edits and will need a PR in GitHub that I merge manually. That quote created the production workflow protocol that governed every change for the rest of the day, including the Dockerfile recovery, the AI Initiatives expansion, the tab styling alignment, the streaming gate, and the final DB refresh.</p>
+        <p>Em dash hard rule traces to a real prior incident at Space Genius: 269 em dashes across 18 files, two broken production pushes, gate in the wrong place. The rule in CLAUDE.md is scar tissue, not style preference. It survived intact across the entire Granum build including today's late session work.</p>
       </details>
 
       <ol class="timeline">
         <li class="timeline-item">
           <div class="timeline-head">
-            <span class="timeline-phase">M01 | PHASE_0 | Architecture before the code</span>
+            <span class="timeline-phase">M01 | PHASE_0 | Pre-build architecture and planning</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">Architecture plan written before spec arrived</h3>
-          <div class="timeline-date">April 20, 2026 -- evening after interview</div>
-          <p class="timeline-body">Jonathan described the assignment verbally at the end of the interview call. Before the PDF spec was emailed, a complete architecture plan existed: stack selection, 16-commit sequence, failure-first request flow, system prompt constraints, three named principles. The plan was the first artifact uploaded to this project session.</p>
-          <p class="timeline-evidence">Evidence: GranumAssignmentArchPlanv1.md uploaded as first message in this project session</p>
+          <h3 class="timeline-title">Architecture plan written before the spec PDF arrived</h3>
+          <div class="timeline-date">April 20, 2026</div>
+          <p class="timeline-body">Architecture plan was authored from Jonathan's verbal description at the end of the interview, before the assignment PDF was emailed. The plan locked the three principles (Failure-First, Earn Your Complexity, Separate the Responsibilities), the 16-commit sequence, the failure-first request flow, the system prompt as file decision, and the hard rules including zero em dashes. The pre-spec planning window is the evidence that the architecture preceded the requirements.</p>
+          <p class="timeline-evidence">Evidence: GranumAssignmentArchPlanv1.md present in project files. Plan content predates spec receipt per conversation record.</p>
           <div class="timeline-source-notes">
-            <p><strong>spec:</strong> The GranumAssignmentArchPlanv1.md file IS the artifact. It contains the full pre-build architecture including COMMIT STRATEGY, REQUEST FLOW, SYSTEM PROMPT section, and the three architectural principles.</p>
-            <p><strong>conversation:</strong> Operator stated in the first message that the plan was written before the spec arrived. No evidence contradicts this.</p>
-            <p><strong>git:</strong> needed from CC -- this is pre-build planning, no commit exists</p>
+            <p><strong>spec:</strong> Full 16-commit sequence, three principles, failure-first request flow, and hard rules all present in GranumAssignmentArchPlanv1.md.</p>
+            <p><strong>conversation:</strong> Plan written from Otter AI transcript of Jonathan's verbal description before the assignment PDF was emailed.</p>
+            <p><strong>git:</strong> needed from CC</p>
           </div>
           <div class="timeline-tags">
             <span class="timeline-tag">PRE-SPEC</span>
-            <span class="timeline-tag">FAILURE-FIRST</span>
-            <span class="timeline-tag">EARN-YOUR-COMPLEXITY</span>
-            <span class="timeline-tag">SEPARATE-RESPONSIBILITIES</span>
+            <span class="timeline-tag">ARCH-PLAN</span>
+            <span class="timeline-tag">THREE-PRINCIPLES</span>
+            <span class="timeline-tag">16-COMMITS</span>
           </div>
         </li>
 
         <li class="timeline-item">
           <div class="timeline-head">
-            <span class="timeline-phase">M02 | PHASE_0 | Architecture before the code</span>
-            <span class="badge badge-pii_rejected">Protocol finding</span>
-          </div>
-          <h3 class="timeline-title">Otter AI notes captured from Jonathan's verbal description</h3>
-          <div class="timeline-date">April 20, 2026 -- end of interview call</div>
-          <p class="timeline-body">Otter AI transcript captured Jonathan's verbal description of the assignment at the end of the interview call. These notes were the primary input for the architecture planning session that followed. The PDF spec had not yet been emailed at the time the architecture was being drafted.</p>
-          <p class="timeline-evidence">Evidence: Referenced in this project session. Transcript file not uploaded to this session.</p>
-          <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> Operator referenced Otter AI notes from the end of the interview call as input to the planning session. File itself not attached.</p>
-            <p><strong>git:</strong> needed from CC -- no commit artifact exists</p>
-          </div>
-          <div class="timeline-tags">
-            <span class="timeline-tag">OTTER-AI</span>
-            <span class="timeline-tag">VERBAL-SPEC</span>
-            <span class="timeline-tag">PRE-CODE</span>
-          </div>
-        </li>
-
-        <li class="timeline-item">
-          <div class="timeline-head">
-            <span class="timeline-phase">M03 | PHASE_1 | Handoff preparation</span>
+            <span class="timeline-phase">M02 | PHASE_1 | Handoff preparation and context lock</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">Hallucination guards locked before CC touched the repo</h3>
-          <div class="timeline-date">April 21, 2026 -- during Space Genius work day</div>
-          <p class="timeline-body">CLAUDE.md, PREFLIGHT.md, and SG_CONTEXT.md produced in this session before any code was written. Gate 0 context was pre-filled from a live Azure CLI and ADO API scan of the Space Genius environment. All hallucination guards, banned phrase lists, and em dash scans were written into PREFLIGHT.md before the scaffold commit. The planning session ran while Space Genius production bugs 15893, 15894, 15895, and 15899 were being worked in parallel.</p>
-          <p class="timeline-evidence">Evidence: CLAUDE.md, PREFLIGHT.md, SG_CONTEXT.md produced and downloadable from this session</p>
+          <h3 class="timeline-title">Hallucination guards, human gates, and AC verification all locked before CC touched the repo</h3>
+          <div class="timeline-date">April 21, 2026</div>
+          <p class="timeline-body">CLAUDE.md, PREFLIGHT.md, and SG_CONTEXT.md produced before CC wrote any code. Full audit of the assignment spec against the architecture plan confirmed every required item covered: enhance endpoint, history endpoint, interaction log, error handling, tests. All three bonus items confirmed in scope: SSE streaming, PII guard, frontend UI. Constants block added at the top of CLAUDE.md after a repo name drift (granum-text-enhancer to granum-assignment) and casing drift (CarmenReed lowercase variant) were spotted. Context lock complete before scaffold commit.</p>
+          <p class="timeline-evidence">Evidence: CLAUDE.md, PREFLIGHT.md, SG_CONTEXT.md produced and downloaded from this session. AC checklist completed in conversation.</p>
           <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> All three governance-adjacent files produced in this Claude.AI session. Operator confirmed Space Genius parallel work throughout.</p>
-            <p><strong>git:</strong> needed from CC -- these files predate the repo</p>
+            <p><strong>conversation:</strong> Three handoff files produced. AC and bonus item audit completed. Constants block added after repo name and casing drift were caught.</p>
+            <p><strong>git:</strong> no repo artifact -- handoff files are external to the repo by design</p>
           </div>
           <div class="timeline-tags">
             <span class="timeline-tag">HALLUCINATION-GUARD</span>
-            <span class="timeline-tag">GATE-0-CLOSED</span>
-            <span class="timeline-tag">SPACE-GENIUS-PARALLEL</span>
-          </div>
-        </li>
-
-        <li class="timeline-item">
-          <div class="timeline-head">
-            <span class="timeline-phase">M04 | PHASE_1 | Handoff preparation</span>
-            <span class="badge badge-success">Verified</span>
-          </div>
-          <h3 class="timeline-title">All AC and bonus items confirmed covered before first commit</h3>
-          <div class="timeline-date">April 21, 2026</div>
-          <p class="timeline-body">Full audit of the assignment spec against the architecture plan confirmed every required item covered: enhance endpoint, history endpoint, interaction log, error handling, tests. All three bonus items confirmed in scope: SSE streaming endpoint, PII validation guardrails, and a frontend UI. Nothing was discovered during the build that required a plan change.</p>
-          <p class="timeline-evidence">Evidence: Explicit AC checklist in this conversation session -- all items marked covered before CC started</p>
-          <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> Operator and Claude.AI walked through all AC from the PDF. Every item traced to the pre-written architecture. All three bonus items confirmed covered.</p>
-            <p><strong>git:</strong> needed from CC -- audit happened before scaffold</p>
-          </div>
-          <div class="timeline-tags">
+            <span class="timeline-tag">HUMAN-GATE</span>
             <span class="timeline-tag">AC-VERIFIED</span>
-            <span class="timeline-tag">BONUS-ITEMS</span>
-            <span class="timeline-tag">ZERO-SURPRISES</span>
+            <span class="timeline-tag">CONSTANTS-LOCK</span>
+            <span class="timeline-tag">GATE-0-CLOSED</span>
           </div>
         </li>
 
         <li class="timeline-item">
           <div class="timeline-head">
-            <span class="timeline-phase">M05 | PHASE_2 | Build</span>
+            <span class="timeline-phase">M03 | PHASE_2 | Build execution</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">16 commits landed, 17 tests green, em dash scan clean</h3>
+          <h3 class="timeline-title">16-commit build executed by CC, 17 of 17 tests green, em dash scan clean</h3>
           <div class="timeline-date">April 21, 2026</div>
-          <p class="timeline-body">Full build executed by CC across 16 intentional commits. Every commit is a standalone working state. 17 xUnit tests pass with zero real API calls via Moq. Em dash scan clean across all files. Seed database committed with 8 records covering all four outcome types. README uses ADR-style entries that tie each tech decision back to one of the three named principles with specific codebase evidence.</p>
-          <p class="timeline-evidence">Evidence: CC build completion report in this session. Commit hash range filled by CC git log.</p>
+          <p class="timeline-body">Full build executed by CC across 16 intentional commits. Every commit was a standalone working state. xUnit suite landed at 17 tests, all green. Em dash scan returned zero across every file. Python seed script populated 8 interactions per spec. Definition of Done items all satisfied. The build came in clean against the plan with no surprises.</p>
+          <p class="timeline-evidence">Evidence: 16-commit sequence in arch plan. Test count and DoD verification reported by CC in this session.</p>
           <div class="timeline-source-notes">
-            <p><strong>spec:</strong> GranumAssignmentArchPlanv1.md defines the 16-commit sequence under COMMIT STRATEGY. Build matched the planned sequence.</p>
-            <p><strong>conversation:</strong> CC reported 17/17 tests green, em dash scan clean, seed data (4 success, 2 llm_failure, 1 pii_rejected, 1 validation_failure) committed.</p>
-            <p><strong>git:</strong> needed from CC to fill date_iso for first and last commit in this 16-commit span</p>
+            <p><strong>spec:</strong> 16-commit sequence in COMMIT STRATEGY section of GranumAssignmentArchPlanv1.md.</p>
+            <p><strong>conversation:</strong> CC reported 16 commits landed, 17 tests green, em dash scan clean, DoD satisfied.</p>
+            <p><strong>git:</strong> first commit 3510ac6 (init scaffold) through last commit 9658ccd (ADR README), exactly 16 commits verified against git log.</p>
           </div>
           <div class="timeline-tags">
+            <span class="timeline-tag">16-COMMITS</span>
             <span class="timeline-tag">17-TESTS-GREEN</span>
-            <span class="timeline-tag">ZERO-EM-DASHES</span>
-            <span class="timeline-tag">SEED-DATA</span>
-            <span class="timeline-tag">ADR-README</span>
+            <span class="timeline-tag">EM-DASH-CLEAN</span>
+            <span class="timeline-tag">DOD-MET</span>
           </div>
         </li>
 
         <li class="timeline-item">
           <div class="timeline-head">
-            <span class="timeline-phase">M06 | PHASE_3 | Deployment</span>
+            <span class="timeline-phase">M04 | PHASE_3 | Deployment and verification</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">Railway failed three times, SDK mismatch then ICU crash, both diagnosed and fixed</h3>
-          <div class="timeline-date">April 21, 2026 -- evening</div>
-          <p class="timeline-body">NIXPACKS autodetected .NET 6 despite the project targeting .NET 8. After fixing the SDK, the container crashed before managed code could run because ICU globalization libraries were absent. The same missing libraries caused the crash and broke error formatting so the runtime could not print the exception. Fixed with one line in Api.csproj: InvariantGlobalization true. The deployment fight itself is a case study in failure-first architecture applied to the deployment layer.</p>
-          <p class="timeline-evidence">Evidence: Railway build logs pasted into this session. Commit fix: nixpacks.toml + InvariantGlobalization true.</p>
+          <h3 class="timeline-title">Railway fight resolved: NIXPACKS SDK mismatch, then ICU globalization crash, root cause diagnosed</h3>
+          <div class="timeline-date">April 21, 2026</div>
+          <p class="timeline-body">Railway build failed three times in sequence. First failure: NIXPACKS provisioned .NET SDK 6 instead of 8 because the project file was not detected. Fixed by adding nixpacks.toml to force the correct SDK. Second failure: container crashed before managed code could run because ICU globalization libraries were absent. Same missing libraries also broke error formatting so the runtime could not print the exception. Third diagnosis traced root cause and the one line fix landed in Api.csproj: InvariantGlobalization true. The deployment fight was failure-first architecture applied live to the deployment layer.</p>
+          <p class="timeline-evidence">Evidence: Railway build logs pasted into session showed three failures in sequence. Fix combined nixpacks.toml plus InvariantGlobalization true in Api.csproj.</p>
           <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> Railway build logs pasted showed three failures in sequence. Root cause diagnosed as missing ICU. One-line fix in csproj.</p>
-            <p><strong>git:</strong> needed from CC to match commit hash for the NIXPACKS fix</p>
+            <p><strong>conversation:</strong> Three sequential Railway failures diagnosed in session. Root cause was ICU globalization missing, also masked by error formatting depending on the same library.</p>
+            <p><strong>git:</strong> root-cause fix commit 7795c29 (InvariantGlobalization true). Full fight spans 175cf43, dd30bba, b88e91b, 9c28d9d, d39f7f0, 06463e9 before final green.</p>
           </div>
           <div class="timeline-tags">
             <span class="timeline-tag">FAILURE-FIRST</span>
-            <span class="timeline-tag">ROOT-CAUSE-DIAGNOSED</span>
+            <span class="timeline-tag">ROOT-CAUSE</span>
             <span class="timeline-tag">NIXPACKS</span>
             <span class="timeline-tag">ICU-CRASH</span>
             <span class="timeline-tag">ONE-LINE-FIX</span>
@@ -1008,15 +971,15 @@
 
         <li class="timeline-item">
           <div class="timeline-head">
-            <span class="timeline-phase">M07 | PHASE_3 | Deployment</span>
+            <span class="timeline-phase">M05 | PHASE_3 | Deployment and verification</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">29/29 smoke tests passed. Railway green. GitHub Pages live.</h3>
-          <div class="timeline-date">April 21, 2026 -- late evening</div>
-          <p class="timeline-body">All six smoke test categories passed: health endpoint, POST /enhance returning real enhanced text, GET /history showing seed data with pagination, PII rejection returning 422 with no stack trace, SSE streaming endpoint validated structurally (live-typing works on localhost; live deploy degraded by Fastly buffering, see README), and em dash scan clean on deployed files. Smoke test evidence committed to main.</p>
-          <p class="timeline-evidence">Evidence: 29/29 smoke test report in this session. Commit hash confirmed by CC as 02dc26d.</p>
+          <h3 class="timeline-title">29 of 29 smoke tests passed, Railway green, GitHub Pages live, evidence committed</h3>
+          <div class="timeline-date">April 21, 2026</div>
+          <p class="timeline-body">All six smoke test categories passed: health endpoint, POST /enhance returning real enhanced text, GET /history showing seed data with pagination, PII rejection returning 422 with no stack trace, SSE streaming validated structurally, em dash scan clean on deployed files. Smoke test evidence committed to main as 02dc26d.</p>
+          <p class="timeline-evidence">Evidence: 29/29 smoke test report in session. Commit 02dc26d confirmed by CC.</p>
           <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> CC reported 29/29 smoke tests passed after Railway fix and UI deployment. Evidence committed as 02dc26d.</p>
+            <p><strong>conversation:</strong> CC reported 29 of 29 smoke tests passed after Railway and Pages deploys. Evidence committed as 02dc26d.</p>
             <p><strong>git:</strong> 02dc26d smoke-test evidence commit confirmed in CC git log</p>
           </div>
           <div class="timeline-tags">
@@ -1029,64 +992,114 @@
 
         <li class="timeline-item">
           <div class="timeline-head">
-            <span class="timeline-phase">M08 | PHASE_4 | LIVE declared</span>
+            <span class="timeline-phase">M06 | PHASE_4 | LIVE and post-LIVE production work</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">LIVE declared at commit f8fa2ed after Granum branding landed</h3>
-          <div class="timeline-date">April 22, 2026 -- 00:00 UTC</div>
-          <p class="timeline-body">LIVE declared at commit f8fa2ed after Granum branding and UI polish shipped. Production workflow established: all further changes require feature branch, local QA against 16-item checklist, operator approval, and PR merged manually. APPROVAL_LOG.md seeded as audit trail. The baseline is the submission state. 19 commits total at LIVE. All AC met. All three bonus items shipped.</p>
-          <p class="timeline-evidence">Evidence: APPROVAL_LOG.md baseline entry. Commit f8fa2ed. PRODUCTION_WORKFLOW.md, UI_CHANGE_TEMPLATE.md committed as PR 1 at commit c1d3324.</p>
+          <h3 class="timeline-title">LIVE declared and governance baseline shipped as PR 1</h3>
+          <div class="timeline-date">April 22, 2026</div>
+          <p class="timeline-body">LIVE declared by operator at commit f8fa2ed with exact quote: I'm calling it LIVE now (timestamp it). All further edits are now consider production edits and will need a PR in GitHub that I merge manually. The baseline commit f8fa2ed was authored late on 2026-04-21 ET (early 2026-04-22 UTC); the LIVE declaration itself was made the following morning when the operator called the protocol into effect. Three governance files produced (PRODUCTION_WORKFLOW.md, UI_CHANGE_TEMPLATE.md, APPROVAL_LOG.md) and shipped as PR 1, merged at c1d3324. PR 2 (timeline-sync schema 1.1 upgrade) was dissolved per .claude/ never pushes policy; the upgrade lives only on local main as commit b7edde1. APPROVAL_LOG.md baseline entry seeded. Production workflow has governed every commit since.</p>
+          <p class="timeline-body"><strong>Footnote:</strong> f8fa2ed itself landed as a direct-to-main commit carrying the Granum branding and UI polish pass (inline SVG logo, Field Notes nav, DM Sans and JetBrains Mono fonts, restyled outcome badges). The PR gate was established in the same work session immediately after, making f8fa2ed the transition point where the production workflow began rather than a workflow violation.</p>
+          <p class="timeline-evidence">Evidence: APPROVAL_LOG.md baseline entry. f8fa2ed LIVE baseline commit (authored 2026-04-21 ET). c1d3324 PR 1 merge commit.</p>
           <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> Operator declared LIVE in this session. Governance files initially drafted in Claude.AI outputs only. Added to repo as PR 1 in follow-up session after CC flagged the M08 gap.</p>
-            <p><strong>git:</strong> c1d3324 PR 1 merge commit confirms governance files on main. f8fa2ed is the LIVE baseline commit.</p>
+            <p><strong>conversation:</strong> Operator declared LIVE in session with exact quote captured. Three governance files produced and shipped through their own gate sequence as PR 1. Commit f8fa2ed predates the LIVE call by approximately 15 hours; the LIVE declaration is the protocol activation event, not the commit timestamp.</p>
+            <p><strong>git:</strong> f8fa2ed LIVE baseline confirmed (authored 2026-04-21 21:30:26 ET). c1d3324 PR 1 merge commit confirmed by CC.</p>
           </div>
           <div class="timeline-tags">
             <span class="timeline-tag">LIVE</span>
             <span class="timeline-tag">PRODUCTION-WORKFLOW</span>
             <span class="timeline-tag">PR-GATE</span>
             <span class="timeline-tag">APPROVAL-LOG</span>
-            <span class="timeline-tag">19-COMMITS</span>
+            <span class="timeline-tag">PR-1-MERGED</span>
           </div>
         </li>
 
         <li class="timeline-item">
           <div class="timeline-head">
-            <span class="timeline-phase">M09 | PHASE_4 | LIVE declared</span>
-            <span class="badge badge-pii_rejected">Protocol finding</span>
-          </div>
-          <h3 class="timeline-title">UI polish pass shipped Granum branding and Field Notes nav</h3>
-          <div class="timeline-date">April 22, 2026 01:30 UTC</div>
-          <div class="timeline-date-sub">declared LIVE 90 minutes earlier at 00:00 UTC</div>
-          <p class="timeline-body">UI polish pass added the Granum inline SVG logo, Field Notes nav brand, DM Sans and JetBrains Mono fonts with system fallback, and restyled outcome badges on the History tab. CC flagged two ambiguities before touching the file: whether the nav tabs should live inside the new header block, and whether outcomeCell should be rewritten to use the new badge class names. Both were clarified before any code changed. No API call, API_BASE_URL, or SSE handler was modified. Git log confirms f8fa2ed is a direct-to-main commit, not a merge. The PR gate was established in the same work session immediately after this commit.</p>
-          <p class="timeline-evidence">Evidence: Commit f8fa2ed. CC QA checklist completed before commit.</p>
-          <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> UI_POLISH.md written and handed off. CC asked two clarifying questions before editing. Uncertain whether the change shipped through the post-LIVE PR gate or as a direct commit.</p>
-            <p><strong>git:</strong> needed from CC to confirm whether a PR branch was used or commit went direct to main</p>
-          </div>
-          <div class="timeline-tags">
-            <span class="timeline-tag">UI-POLISH</span>
-            <span class="timeline-tag">BRANDING</span>
-            <span class="timeline-tag">FIELD-NOTES</span>
-          </div>
-        </li>
-
-        <li class="timeline-item">
-          <div class="timeline-head">
-            <span class="timeline-phase">M10 | PHASE_4 | LIVE declared</span>
+            <span class="timeline-phase">M07 | PHASE_4 | LIVE and post-LIVE production work</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">Timeline extraction system built as reusable skill pair</h3>
+          <h3 class="timeline-title">AI Initiatives tab built (4 cards), then expanded to 12, design language propagated to other tabs</h3>
           <div class="timeline-date">April 22, 2026</div>
-          <p class="timeline-body">Two skills built to capture project history in durable form. Claude.AI extract-timeline scans the spec file, conversation context, and deferred git log to produce a unified milestone JSON. CC timeline-sync validates the JSON against a contract, fills git gaps, diffs against current rendered timeline, and creates a PR only when content changed. Contract went through two iterations after a real sample revealed schema drift from the initial design.</p>
-          <p class="timeline-evidence">Evidence: extract-timeline skill installed in Claude.AI. timeline-sync skill at .claude/skills/timeline-sync/SKILL.md on CC local main, not pushed per .claude/ policy.</p>
+          <p class="timeline-body">AI Initiatives tab launched with 4 governance skill cards (brain-dump, sg-ticket-prep, lff, lff-prune) using state pills, pattern tags, and cream card aesthetic ported from the portfolio template. Later expanded to 12 cards across two new subsections: Agentic and Automated Workflows (4 cards) and RAG Implementations (4 cards). Original 4 cards preserved byte for byte and rewrapped in a Governance Skills subsection. State color system (production, build, design) visually validated for the first time across multiple states simultaneously. Assignment and History tabs then aligned to the same design language: cream card wrappers, mono uppercase coral labels, hero callouts with coral left borders, History status pills restyled to match. Brand red preserved on Submit and active tab underline as intentional separation: brand red equals action, coral equals structural accent. CSS scoped with .page-* prefix.</p>
+          <p class="timeline-evidence">Evidence: AI Initiatives tab live on docs/index.html. 12 cards visible in 3 subsections. Tab styling alignment visible across Assignment and History tabs.</p>
           <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> Skill pair designed in this session. Initial schema 1.0 drafted, then 1.1 contract after real sample output revealed structural differences. Cap raised from 8 to 12 after all 10 milestones proved load-bearing.</p>
-            <p><strong>git:</strong> skill lives on local main only, not pushed to origin</p>
+            <p><strong>conversation:</strong> AI Initiatives tab built then expanded same day. Design language propagated to Assignment and History tabs in a follow-up styling pass.</p>
+            <p><strong>git:</strong> initial tab c0cae36 (PR #3), 12-card expansion c725c1e (PR #5), tab styling alignment 213b27c (PR #6 -- shipped as its own PR, not bundled).</p>
           </div>
           <div class="timeline-tags">
-            <span class="timeline-tag">SKILL-PAIR</span>
-            <span class="timeline-tag">SCHEMA-ITERATION</span>
-            <span class="timeline-tag">LFF-LESSON</span>
+            <span class="timeline-tag">AI-INITIATIVES</span>
+            <span class="timeline-tag">12-CARDS</span>
+            <span class="timeline-tag">DESIGN-LANGUAGE</span>
+            <span class="timeline-tag">STATE-COLORS-VALIDATED</span>
+            <span class="timeline-tag">GOVERNANCE-SKILLS-PRESERVED</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M08 | PHASE_4 | LIVE and post-LIVE production work</span>
+            <span class="badge badge-pii_rejected">Evidence partial</span>
+          </div>
+          <h3 class="timeline-title">Cleanup misfire and Dockerfile recovery: live deploy down, restored from git history</h3>
+          <div class="timeline-date">April 22, 2026</div>
+          <p class="timeline-body">Pre-submission cleanup ran with two intentions: remove unused Docker files (per arch plan rule no Docker or CI/CD) and add a reference/ directory with assignment-spec.md and arch plan markdown. Two things went wrong. First, a missed branch checkout landed the Docker-removal commit on the AI Initiatives feature branch instead of a dedicated cleanup branch. Reference files were never created. Second, the cleanup commit message asserted Railway deploys via NIXPACKS based on a misread of the arch plan rule, not the actual config. The actual railway.json said builder DOCKERFILE with dockerfilePath Dockerfile. Within minutes of the cleanup PR merging, the live Railway deploy died. Recovery: worktree-based cherry-pick of the Docker removal onto a proper cleanup branch, created reference/ directory, populated with assignment-spec.md and arch plan markdown -- two clean commits, single PR, merged. Then fix/restore-dockerfile branch restored Dockerfile and .dockerignore from git history (git show 84d4861~1:Dockerfile). Live deploy back to green. The lesson is the commit message lying to the codebase, not the missing file.</p>
+          <p class="timeline-evidence">Evidence: Live Railway deploy failure observed within minutes of cleanup PR merge. Recovery commits on fix/restore-dockerfile branch. Reference 84d4861 cited as parent commit for Dockerfile restoration.</p>
+          <div class="timeline-source-notes">
+            <p><strong>spec:</strong> Arch plan rule cited in cleanup commit message: no Docker or CI/CD. Misread relative to actual railway.json config.</p>
+            <p><strong>conversation:</strong> Full incident narrated in session: misdirected cleanup, live deploy down, worktree-based recovery, Dockerfile restored from git show 84d4861~1.</p>
+            <p><strong>git:</strong> Docker removal commit 84d4861 (note: commit itself is the removal; 84d4861~1 is the parent used by git show for restore). Dockerfile restore commit e61f685. PR #4 merge b15af4d.</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">FAILURE-FIRST-LIVE</span>
+            <span class="timeline-tag">DOCKERFILE-INCIDENT</span>
+            <span class="timeline-tag">GIT-SHOW-RECOVERY</span>
+            <span class="timeline-tag">COMMIT-MESSAGE-LIED</span>
+            <span class="timeline-tag">WORKTREE-RECOVERY</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M09 | PHASE_4 | LIVE and post-LIVE production work</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">Streaming endpoint honesty: documented edge buffering, gated UI to localhost, did not chase the workaround</h3>
+          <div class="timeline-date">April 22, 2026</div>
+          <p class="timeline-body">Stream button confirmed broken on live deploy. Read-only diagnosis revealed the SSE endpoint was structurally correct, framing correct, flushing correct, frontend handler correct. Token-by-token streaming worked on localhost. Root cause traced to Railway routing through Fastly, which buffers chunked responses. The X-Accel-Buffering: no header set by the API is nginx specific and Fastly ignores it. Coalescing scaled with response length, the fingerprint of edge buffering rather than an application issue. Active decision NOT to chase the CDN workaround. Shipped with documented edge behavior instead. Stream button gated to localhost via JavaScript hostname check (visible at localhost / 127.0.0.1, hidden everywhere else). New README ADR section Streaming Endpoint: Documented Edge Behavior added covering what works, what is degraded, root cause, why documented not fixed, failure-first reasoning. Earn-your-complexity in the rejected-alternative direction.</p>
+          <p class="timeline-body"><strong>See:</strong> README ADR "Streaming Endpoint: Documented Edge Behavior" in the repo root for the full decision record.</p>
+          <p class="timeline-evidence">Evidence: Stream button gating in docs/index.html. README ADR section. Localhost vs live behavior reproducible.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> Read-only diagnosis ruled out application layer. Root cause Fastly buffering. Active choice to document not work around. UI gated to localhost. README ADR added.</p>
+            <p><strong>git:</strong> streaming gate and README ADR shipped together as f916c88 (PR #7 merge 19c7bc9).</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">STREAMING-HONEST</span>
+            <span class="timeline-tag">FASTLY-BUFFERING</span>
+            <span class="timeline-tag">EARN-YOUR-COMPLEXITY-REVERSE</span>
+            <span class="timeline-tag">DOCUMENTED-NOT-FIXED</span>
+            <span class="timeline-tag">LOCALHOST-GATED</span>
+          </div>
+        </li>
+
+        <li class="timeline-item">
+          <div class="timeline-head">
+            <span class="timeline-phase">M10 | PHASE_4 | LIVE and post-LIVE production work</span>
+            <span class="badge badge-success">Verified</span>
+          </div>
+          <h3 class="timeline-title">Final submission readiness: local DB reset, repo housekeeping, full verification pass</h3>
+          <div class="timeline-date">April 22, 2026</div>
+          <p class="timeline-body">Pre-submission database refresh: ran seed/seed.py locally to reset interactions.db to the clean 8-record seed state, replacing accumulated dev test history (50+ duplicate mowed the lawn entries from streaming-fix testing). The reset is a local operation: interactions.db is gitignored by design, so no commit was produced and the live Railway DB is unaffected by this run. The seed script itself is the durable artifact, already committed as part of the original 16-commit build (M03). Repo housekeeping: 5 merged feature branches deleted locally and on origin (feature/ai-initiatives-tab, chore/pre-submission-cleanup, fix/restore-dockerfile, feature/ai-initiatives-expand, docs/timeline-update-2026-04-22), 2 orphan CC worktrees removed, git worktree prune cleared metadata. End state: only main, only main worktree, fully synced to origin. Final verification pass hit every spec section live with curl: /health, POST /enhance happy path, validation failures (empty + over-2000), PII rejections (email + phone), GET /history with pagination, GET /enhance/stream as informational verification. Frontend visual checklist completed in browser across all 4 tabs. dotnet test confirmed 17/17 green. Submission report generated to .reports/SUBMISSION_REPORT.md with every claim traced to a verification step. Streaming explicitly listed under Documented Constraints rather than Nice-to-Haves Implemented.</p>
+          <p class="timeline-evidence">Evidence: Local seed/seed.py run completed against interactions.db (gitignored, no commit). Branch deletions confirmed on origin. .reports/SUBMISSION_REPORT.md generated with traced verifications.</p>
+          <div class="timeline-source-notes">
+            <p><strong>conversation:</strong> DB refresh was a local seed operation (interactions.db is gitignored, no commit produced). Repo housekeeping (5 branches + 2 worktrees), full verification pass with curl across every spec section, dotnet test 17/17, submission report generated with every claim traced.</p>
+            <p><strong>git:</strong> no DB commit exists -- interactions.db gitignored by design. Final main commit count: 45 per CC git log. Branch deletion verified on origin.</p>
+          </div>
+          <div class="timeline-tags">
+            <span class="timeline-tag">DB-RESET-LOCAL</span>
+            <span class="timeline-tag">REPO-CLEAN</span>
+            <span class="timeline-tag">VERIFICATION-TRACED</span>
+            <span class="timeline-tag">SUBMISSION-REPORT</span>
+            <span class="timeline-tag">17-17-TESTS</span>
           </div>
         </li>
       </ol>
