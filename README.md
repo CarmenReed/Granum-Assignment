@@ -26,7 +26,7 @@ python seed/seed.py
 dotnet test
 ```
 
-17 tests across three fixtures (`EnhancementServiceTests`, `PiiGuardTests`, `HistoryEndpointTests`). Every LLM call is mocked; no network traffic during the test run.
+22 tests across three fixtures (`EnhancementServiceTests`, `PiiGuardTests`, `HistoryEndpointTests`). Every LLM call is mocked; no network traffic during the test run.
 
 ## Architecture
 
@@ -113,7 +113,7 @@ A bad input never reaches the network. A network failure never corrupts the log.
 
 **Python for the seed script over a C# seed project.** The rejected alternative is another C# executable in the solution. Python standard library `sqlite3` plus JSON is the smaller tool and it does not force the test runner, the API runtime, and the seed runtime to share a build graph. `INSERT OR IGNORE` on a UUID primary key makes the script idempotent.
 
-**ILlmService interface over a direct `AnthropicLlmService` dependency.** The rejected alternative is injecting the concrete class into `EnhancementService`. The interface exists for two reasons: mocking in tests (all 17 tests run with zero network), and swap-readiness if the provider changes. The abstraction earns its rent in both dimensions.
+**ILlmService interface over a direct `AnthropicLlmService` dependency.** The rejected alternative is injecting the concrete class into `EnhancementService`. The interface exists for two reasons: mocking in tests (all 22 tests run with zero network), and swap-readiness if the provider changes. The abstraction earns its rent in both dimensions.
 
 **CORS configured explicitly over `AllowAnyOrigin`.** The rejected alternative is a wildcard that would make the API usable from any page. `ALLOWED_ORIGINS` is an env var with a localhost default for dev; the GitHub Pages origin is added in Railway. CORS is a failure mode that has to be designed for when UI and API live on different hosts, not discovered the first time a browser refuses the request.
 
