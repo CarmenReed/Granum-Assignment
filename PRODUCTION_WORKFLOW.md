@@ -11,7 +11,7 @@
 ```
 LIVE timestamp  : April 22, 2026 00:00 UTC
 Repo            : https://github.com/CarmenReed/granum-assignment
-Live URL        : https://CarmenReed.github.io/granum-assignment
+Live URL        : https://carmenreed.github.io/Granum-Assignment
 Railway URL     : (confirmed working at LIVE declaration)
 Baseline commit : f8fa2ed (feat: Granum branding and UI polish)
 ```
@@ -70,7 +70,7 @@ Every item must be checked. No item may be skipped.
 ### Functional smoke checks (must pass -- any failure blocks the PR)
 
 - [ ] F1: Page loads without console errors
-- [ ] F2: Enhance tab visible and active on load
+- [ ] F2: Assignment tab visible and active on load
 - [ ] F3: Textarea accepts input and character counter updates
 - [ ] F4: Submit button is present and clickable
 - [ ] F5: Stream button is present and clickable

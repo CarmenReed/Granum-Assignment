@@ -32,20 +32,26 @@ dotnet test
 
 ### Layer Separation
 
-```
-  HTTP layer (Program.cs)
-        |
-        v
-  EnhancementService          validate, guard, call, log, translate errors
-    |        |        |
-    v        v        v
-ILlmService  PiiGuardService  InteractionRepository
-    |                              |
-    v                              v
-AnthropicLlmService            AppDbContext (EF Core)
-(HttpClient)                        |
-                                    v
-                                 SQLite
+```mermaid
+flowchart TD
+    HTTP["HTTP layer<br/>(Program.cs)"]
+    ES["EnhancementService<br/>validate, guard, call, log, translate errors"]
+    ILlm["ILlmService"]
+    PII["PiiGuardService"]
+    Repo["InteractionRepository"]
+    Ant["AnthropicLlmService<br/>(HttpClient)"]
+    Db["AppDbContext<br/>(EF Core)"]
+    Anthropic["Anthropic Messages API"]
+    SQLite[("SQLite<br/>interactions.db")]
+
+    HTTP --> ES
+    ES --> ILlm
+    ES --> PII
+    ES --> Repo
+    ILlm --> Ant
+    Ant --> Anthropic
+    Repo --> Db
+    Db --> SQLite
 ```
 
 The HTTP layer holds no business logic. It deserializes, dispatches to `EnhancementService`, and translates the returned `EnhancementResult` case into the correct status code. Everything that matters lives below the dispatch.
@@ -57,6 +63,29 @@ The HTTP layer holds no business logic. It deserializes, dispatches to `Enhancem
 3. Call the LLM through `ILlmService` with a 30-second timeout. Fail with 500 on exception or timeout.
 4. Persist an `InteractionLog` row for every outcome, success or failure, with latency and tokens.
 5. Return the enhanced text with its provenance.
+
+```mermaid
+flowchart TD
+    Start([POST /enhance or GET /enhance/stream])
+    V1{"Validate<br/>null / empty /<br/>length > 2000"}
+    V2{"PII guard<br/>email or US phone"}
+    V3[/"LLM call via ILlmService<br/>30s timeout"/]
+    Log[("Log InteractionLog row<br/>(every outcome)")]
+    Return([Return response])
+
+    E400["400<br/>ValidationError"]
+    E422["422<br/>PiiError"]
+    E500["500<br/>LlmError"]
+
+    Start --> V1
+    V1 -- fail --> E400 --> Log
+    V1 -- pass --> V2
+    V2 -- fail --> E422 --> Log
+    V2 -- pass --> V3
+    V3 -- exception or timeout --> E500 --> Log
+    V3 -- success --> Log
+    Log --> Return
+```
 
 A bad input never reaches the network. A network failure never corrupts the log.
 
@@ -107,7 +136,7 @@ A bad input never reaches the network. A network failure never corrupts the log.
 ## Demo
 
 - API: https://granum-assignment-production.up.railway.app
-- Frontend: https://CarmenReed.github.io/Granum-Assignment
+- Frontend: https://carmenreed.github.io/Granum-Assignment
 - Repo: https://github.com/CarmenReed/Granum-Assignment
 
 ## Pre-populated Database

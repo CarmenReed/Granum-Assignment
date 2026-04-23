@@ -1,5 +1,11 @@
 # HANDOFF: Granum Assignment Smoke Test & Report
 
+> **Historical handoff.** Written 2026-04-21 for the Nixpacks-to-Dockerfile
+> deployment pivot. Preserved verbatim for provenance. The test matrix and
+> "current state" preamble describe the state of main at the time of that
+> handoff; commits have landed since. Current reality is in the live site,
+> SMOKE_REPORT.md, and the timeline section of docs/index.html.
+
 ## Mission
 
 **You are a REPORT-ONLY session.** Write a full smoke-test matrix against the live deployed system, execute every test, and produce a structured report. **Do NOT fix anything.** Do NOT commit. Do NOT push. Do NOT edit source files. The operator will take your report back to a separate "fix" session.
@@ -19,7 +25,7 @@ Railway build is green. GitHub Pages URL has been pointed at the live Railway AP
 - **Branch:** `main` (clean, do not touch history)
 - **Repo (canonical casing):** `https://github.com/CarmenReed/Granum-Assignment` (remote URL is lowercase, GitHub redirects)
 - **Live API:** `https://granum-assignment-production.up.railway.app`
-- **Live Frontend:** `https://CarmenReed.github.io/Granum-Assignment/`
+- **Live Frontend:** `https://carmenreed.github.io/Granum-Assignment/`
 - **Expected seed data in `interactions.db`:** 8 records -- 4 `success`, 2 `llm_failure`, 1 `pii_rejected`, 1 `validation_failure`
 - **Em-dash rule:** Zero U+2014 in any file or report you produce. Use `--`. This applies to your output in chat, the report file, and any scratch files.
 - **Model:** `claude-haiku-4-5-20251001` via `ANTHROPIC_MODEL` env
@@ -86,7 +92,7 @@ Group H -- 404 / unknown routes
 
 Group I -- Frontend end-to-end (browser)
 - **T24** Hard-reload `https://CarmenReed.github.io/Granum-Assignment/` (Ctrl+Shift+R). Open DevTools -> Network. Click Submit with a benign note. Assert: request goes to `https://granum-assignment-production.up.railway.app/enhance`, returns 200, page shows enhanced text.
-- **T25** Click Stream with a benign note. Assert: EventSource opens to `/enhance/stream`, chunks stream in, completes.
+- **T25** Click Stream with a benign note. Assert: an SSE connection is opened via `fetch()` to `/enhance/stream`, `text/event-stream` chunks arrive and are rendered, stream terminates on a `data: {"done":true,...}` event. (Implementation uses `fetch()` plus a ReadableStream reader; `EventSource` is not used.)
 - **T26** Click History tab. Assert: list renders 8 rows (page 1 of 2 if pageSize=5 default) or 8 rows on a single page if pageSize=10.
 - **T27** DevTools -> Console: no red errors.
 
