@@ -929,18 +929,18 @@
             <span class="timeline-phase">M03 | PHASE_2 | Build execution</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">16-commit build executed by CC, 17 of 17 tests green, em dash scan clean</h3>
+          <h3 class="timeline-title">16-commit build executed by CC, 22 of 22 tests green, em dash scan clean</h3>
           <div class="timeline-date">April 21, 2026</div>
-          <p class="timeline-body">Full build executed by CC across 16 intentional commits. Every commit was a standalone working state. xUnit suite landed at 17 tests, all green. Em dash scan returned zero across every file. Python seed script populated 8 interactions per spec. Definition of Done items all satisfied. The build came in clean against the plan with no surprises.</p>
+          <p class="timeline-body">Full build executed by CC across 16 intentional commits. Every commit was a standalone working state. xUnit suite landed at 17 tests at the end of the original 16-commit build (M03 baseline); later hardening work (PR #9) grew the suite to 22 tests, all green. Em dash scan returned zero across every file. Python seed script populated 8 interactions per spec. Definition of Done items all satisfied. The build came in clean against the plan with no surprises.</p>
           <p class="timeline-evidence">Evidence: 16-commit sequence in arch plan. Test count and DoD verification reported by CC in this session.</p>
           <div class="timeline-source-notes">
             <p><strong>spec:</strong> 16-commit sequence in COMMIT STRATEGY section of GranumAssignmentArchPlanv1.md.</p>
-            <p><strong>conversation:</strong> CC reported 16 commits landed, 17 tests green, em dash scan clean, DoD satisfied.</p>
+            <p><strong>conversation:</strong> CC reported 16 commits landed, 17 tests green at M03 baseline (grew to 22 after PR #9 hardening), em dash scan clean, DoD satisfied.</p>
             <p><strong>git:</strong> first commit 3510ac6 (init scaffold) through last commit 9658ccd (ADR README), exactly 16 commits verified against git log.</p>
           </div>
           <div class="timeline-tags">
             <span class="timeline-tag">16-COMMITS</span>
-            <span class="timeline-tag">17-TESTS-GREEN</span>
+            <span class="timeline-tag">22-TESTS-GREEN</span>
             <span class="timeline-tag">EM-DASH-CLEAN</span>
             <span class="timeline-tag">DOD-MET</span>
           </div>
@@ -951,20 +951,20 @@
             <span class="timeline-phase">M04 | PHASE_3 | Deployment and verification</span>
             <span class="badge badge-success">Verified</span>
           </div>
-          <h3 class="timeline-title">Railway fight resolved: NIXPACKS SDK mismatch, then ICU globalization crash, root cause diagnosed</h3>
+          <h3 class="timeline-title">Railway fight resolved: NIXPACKS SDK mismatch, then ICU globalization diagnosed, fixed by Dockerfile switch</h3>
           <div class="timeline-date">April 21, 2026</div>
-          <p class="timeline-body">Railway build failed three times in sequence. First failure: NIXPACKS provisioned .NET SDK 6 instead of 8 because the project file was not detected. Fixed by adding nixpacks.toml to force the correct SDK. Second failure: container crashed before managed code could run because ICU globalization libraries were absent. Same missing libraries also broke error formatting so the runtime could not print the exception. Third diagnosis traced root cause and the one line fix landed in Api.csproj: InvariantGlobalization true. The deployment fight was failure-first architecture applied live to the deployment layer.</p>
-          <p class="timeline-evidence">Evidence: Railway build logs pasted into session showed three failures in sequence. Fix combined nixpacks.toml plus InvariantGlobalization true in Api.csproj.</p>
+          <p class="timeline-body">Railway build failed repeatedly. First failure: NIXPACKS provisioned .NET SDK 6 instead of 8 because the project file was not detected. Fixed by adding nixpacks.toml to force the correct SDK. Second failure: container crashed before managed code could run because ICU globalization libraries were absent. Same missing libraries also broke error formatting so the runtime could not print the exception. ICU/globalization was diagnosed as the proximate cause; tried InvariantGlobalization true in Api.csproj at 7795c29 as a one-line workaround, then reverted it 9 minutes later at 9c28d9d when it did not resolve the deploy. The fix that stuck was replacing Nixpacks with a Dockerfile at 06463e9, which guaranteed a full ICU-enabled runtime image. The deployment fight was failure-first architecture applied live to the deployment layer.</p>
+          <p class="timeline-evidence">Evidence: Railway build logs pasted into session. InvariantGlobalization added then removed within the same fight; Dockerfile switch is the durable fix on origin/main.</p>
           <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> Three sequential Railway failures diagnosed in session. Root cause was ICU globalization missing, also masked by error formatting depending on the same library.</p>
-            <p><strong>git:</strong> root-cause fix commit 7795c29 (InvariantGlobalization true). Full fight spans 175cf43, dd30bba, b88e91b, 9c28d9d, d39f7f0, 06463e9 before final green.</p>
+            <p><strong>conversation:</strong> Sequential Railway failures diagnosed in session. Root cause was ICU globalization missing, also masked by error formatting depending on the same library.</p>
+            <p><strong>git:</strong> Full fight chronology: 175cf43 (force .NET 8 SDK), dd30bba (remove .nixpacks cache), b88e91b (correct start command), 7795c29 (add InvariantGlobalization -- failed experiment), 9c28d9d (remove InvariantGlobalization 9 min later), d39f7f0 (disable Nix dotnet auto-detect), 06463e9 (Dockerfile replaces Nixpacks -- fix that stuck). InvariantGlobalization is not present in the current Api.csproj on main.</p>
           </div>
           <div class="timeline-tags">
             <span class="timeline-tag">FAILURE-FIRST</span>
             <span class="timeline-tag">ROOT-CAUSE</span>
             <span class="timeline-tag">NIXPACKS</span>
             <span class="timeline-tag">ICU-CRASH</span>
-            <span class="timeline-tag">ONE-LINE-FIX</span>
+            <span class="timeline-tag">DOCKERFILE-FIX</span>
           </div>
         </li>
 
@@ -996,7 +996,7 @@
           </div>
           <h3 class="timeline-title">LIVE declared and governance baseline shipped as PR 1</h3>
           <div class="timeline-date">April 22, 2026</div>
-          <p class="timeline-body">LIVE declared by operator at commit f8fa2ed with exact quote: I'm calling it LIVE now (timestamp it). All further edits are now consider production edits and will need a PR in GitHub that I merge manually. The baseline commit f8fa2ed was authored late on 2026-04-21 ET (early 2026-04-22 UTC); the LIVE declaration itself was made the following morning when the operator called the protocol into effect. Three governance files produced (PRODUCTION_WORKFLOW.md, UI_CHANGE_TEMPLATE.md, APPROVAL_LOG.md) and shipped as PR 1, merged at c1d3324. PR 2 (timeline-sync schema 1.1 upgrade) was dissolved per .claude/ never pushes policy; the upgrade lives only on local main as commit b7edde1. APPROVAL_LOG.md baseline entry seeded. Production workflow has governed every commit since.</p>
+          <p class="timeline-body">LIVE declared by operator at commit f8fa2ed with exact quote: I'm calling it LIVE now (timestamp it). All further edits are now consider production edits and will need a PR in GitHub that I merge manually. The baseline commit f8fa2ed was authored late on 2026-04-21 ET (early 2026-04-22 UTC); the LIVE declaration itself was made the following morning when the operator called the protocol into effect. Three governance files produced (PRODUCTION_WORKFLOW.md, UI_CHANGE_TEMPLATE.md, APPROVAL_LOG.md) and shipped as PR 1, merged at c1d3324 (files currently live under logs/ after the M08 cleanup moved them). Note: two different changes carried the number 2 in different contexts. The timeline-sync schema 1.1 skill upgrade was held back per the .claude/ never pushes policy and lives only on local main as commit b7edde1; separately, GitHub PR #2 (the timeline-rendering PR) was merged publicly at 8950dd7. APPROVAL_LOG.md baseline entry seeded. Production workflow has governed every commit since.</p>
           <p class="timeline-body"><strong>Footnote:</strong> f8fa2ed itself landed as a direct-to-main commit carrying the Granum branding and UI polish pass (inline SVG logo, Field Notes nav, DM Sans and JetBrains Mono fonts, restyled outcome badges). The PR gate was established in the same work session immediately after, making f8fa2ed the transition point where the production workflow began rather than a workflow violation.</p>
           <p class="timeline-evidence">Evidence: APPROVAL_LOG.md baseline entry. f8fa2ed LIVE baseline commit (authored 2026-04-21 ET). c1d3324 PR 1 merge commit.</p>
           <div class="timeline-source-notes">
@@ -1041,7 +1041,7 @@
           </div>
           <h3 class="timeline-title">Cleanup misfire and Dockerfile recovery: live deploy down, restored from git history</h3>
           <div class="timeline-date">April 22, 2026</div>
-          <p class="timeline-body">Pre-submission cleanup ran with two intentions: remove unused Docker files (per arch plan rule no Docker or CI/CD) and add a reference/ directory with assignment-spec.md and arch plan markdown. Two things went wrong. First, a missed branch checkout landed the Docker-removal commit on the AI Initiatives feature branch instead of a dedicated cleanup branch. Reference files were never created. Second, the cleanup commit message asserted Railway deploys via NIXPACKS based on a misread of the arch plan rule, not the actual config. The actual railway.json said builder DOCKERFILE with dockerfilePath Dockerfile. Within minutes of the cleanup PR merging, the live Railway deploy died. Recovery: worktree-based cherry-pick of the Docker removal onto a proper cleanup branch, created reference/ directory, populated with assignment-spec.md and arch plan markdown -- two clean commits, single PR, merged. Then fix/restore-dockerfile branch restored Dockerfile and .dockerignore from git history (git show 84d4861~1:Dockerfile). Live deploy back to green. The lesson is the commit message lying to the codebase, not the missing file.</p>
+          <p class="timeline-body">Pre-submission cleanup ran with two intentions: remove unused Docker files (per arch plan rule no Docker or CI/CD) and add a reference directory for assignment artifacts. Two things went wrong. First, a missed branch checkout landed the Docker-removal commit on the AI Initiatives feature branch instead of a dedicated cleanup branch. The reference directory was not shipped in the final state -- the arch plan lives at docs/GranumAssignmentArchPlanv1.md and no reference/ directory exists on origin/main. Second, the cleanup commit message asserted Railway deploys via NIXPACKS based on a misread of the arch plan rule, not the actual config. The actual railway.json said builder DOCKERFILE with dockerfilePath Dockerfile. Within minutes of the cleanup PR merging, the live Railway deploy died. Recovery: worktree-based cherry-pick of the Docker removal onto a proper cleanup branch, then fix/restore-dockerfile branch restored Dockerfile and .dockerignore from git history (git show 84d4861~1:Dockerfile). Live deploy back to green. Governance files later moved to logs/ (logs/PRODUCTION_WORKFLOW.md, logs/UI_CHANGE_TEMPLATE.md, logs/APPROVAL_LOG.md) during subsequent housekeeping. The lesson is the commit message lying to the codebase, not the missing file.</p>
           <p class="timeline-evidence">Evidence: Live Railway deploy failure observed within minutes of cleanup PR merge. Recovery commits on fix/restore-dockerfile branch. Reference 84d4861 cited as parent commit for Dockerfile restoration.</p>
           <div class="timeline-source-notes">
             <p><strong>spec:</strong> Arch plan rule cited in cleanup commit message: no Docker or CI/CD. Misread relative to actual railway.json config.</p>
@@ -1087,18 +1087,18 @@
           </div>
           <h3 class="timeline-title">Final submission readiness: local DB reset, repo housekeeping, full verification pass</h3>
           <div class="timeline-date">April 22, 2026</div>
-          <p class="timeline-body">Pre-submission database refresh: ran seed/seed.py locally to reset interactions.db to the clean 8-record seed state, replacing accumulated dev test history (50+ duplicate mowed the lawn entries from streaming-fix testing). The reset is a local operation: interactions.db is gitignored by design, so no commit was produced and the live Railway DB is unaffected by this run. The seed script itself is the durable artifact, already committed as part of the original 16-commit build (M03). Repo housekeeping: 5 merged feature branches deleted locally and on origin (feature/ai-initiatives-tab, chore/pre-submission-cleanup, fix/restore-dockerfile, feature/ai-initiatives-expand, docs/timeline-update-2026-04-22), 2 orphan CC worktrees removed, git worktree prune cleared metadata. End state: only main, only main worktree, fully synced to origin. Final verification pass hit every spec section live with curl: /health, POST /enhance happy path, validation failures (empty + over-2000), PII rejections (email + phone), GET /history with pagination, GET /enhance/stream as informational verification. Frontend visual checklist completed in browser across all 4 tabs. dotnet test confirmed 17/17 green. Submission report generated to .reports/SUBMISSION_REPORT.md with every claim traced to a verification step. Streaming explicitly listed under Documented Constraints rather than Nice-to-Haves Implemented.</p>
+          <p class="timeline-body">Pre-submission database refresh: ran seed/seed.py locally to reset interactions.db to the clean 8-record seed state, replacing accumulated dev test history (50+ duplicate mowed the lawn entries from streaming-fix testing). The reset is a local operation: interactions.db is gitignored by design, so no commit was produced and the live Railway DB is unaffected by this run. The seed script itself is the durable artifact, already committed as part of the original 16-commit build (M03). Repo housekeeping: 5 merged feature branches deleted locally and on origin (feature/ai-initiatives-tab, chore/pre-submission-cleanup, fix/restore-dockerfile, feature/ai-initiatives-expand, docs/timeline-update-2026-04-22), 2 orphan CC worktrees removed, git worktree prune cleared metadata. End state: only main, only main worktree, fully synced to origin. Final verification pass hit every spec section live with curl: /health, POST /enhance happy path, validation failures (empty + over-2000), PII rejections (email + phone), GET /history with pagination, GET /enhance/stream as informational verification. Frontend visual checklist completed in browser across all 4 tabs. At M10 submission-readiness, dotnet test confirmed 17/17 green; subsequent PR #9 security hardening added tests and the current suite on origin/main is 22/22 green. Submission report generated to .reports/SUBMISSION_REPORT.md with every claim traced to a verification step. Streaming explicitly listed under Documented Constraints rather than Nice-to-Haves Implemented.</p>
           <p class="timeline-evidence">Evidence: Local seed/seed.py run completed against interactions.db (gitignored, no commit). Branch deletions confirmed on origin. .reports/SUBMISSION_REPORT.md generated with traced verifications.</p>
           <div class="timeline-source-notes">
-            <p><strong>conversation:</strong> DB refresh was a local seed operation (interactions.db is gitignored, no commit produced). Repo housekeeping (5 branches + 2 worktrees), full verification pass with curl across every spec section, dotnet test 17/17, submission report generated with every claim traced.</p>
-            <p><strong>git:</strong> no DB commit exists -- interactions.db gitignored by design. Final main commit count: 45 per CC git log. Branch deletion verified on origin.</p>
+            <p><strong>conversation:</strong> DB refresh was a local seed operation (interactions.db is gitignored, no commit produced). Repo housekeeping (5 branches + 2 worktrees), full verification pass with curl across every spec section, dotnet test 17/17 at M10, submission report generated with every claim traced.</p>
+            <p><strong>git:</strong> no DB commit exists -- interactions.db gitignored by design. Main commit count at M10 submission: 45. Current main commit count after PR #8, #9, and #10 post-submission work: 69 (51 first-parent merges). Branch deletion verified on origin.</p>
           </div>
           <div class="timeline-tags">
             <span class="timeline-tag">DB-RESET-LOCAL</span>
             <span class="timeline-tag">REPO-CLEAN</span>
             <span class="timeline-tag">VERIFICATION-TRACED</span>
             <span class="timeline-tag">SUBMISSION-REPORT</span>
-            <span class="timeline-tag">17-17-TESTS</span>
+            <span class="timeline-tag">22-22-TESTS-CURRENT</span>
           </div>
         </li>
       </ol>
@@ -1107,7 +1107,7 @@
     <section id="panel-ai-initiatives" class="panel">
       <div class="ai-init-intro">
         <strong>AI Initiatives I am running right now.</strong>
-        Every governance pattern in this take-home (human gate, inference flagging, Jaccard scoring, archive not delete) was validated in one of the skills below before it showed up in this repo. State tags show where each one currently lives: <strong>design</strong>, <strong>build</strong>, or <strong>production</strong>.
+        The governance patterns that apply to this take-home (human gate, inference flagging, archive not delete) were validated in the skills below before they were codified here. Some skills below also ship adjacent mechanics that are not in this repo -- for example Jaccard similarity scoring in lff-prune -- and are flagged as such on each card. State tags show where each skill currently lives: <strong>design</strong>, <strong>build</strong>, or <strong>production</strong>.
       </div>
 
       <div class="ai-init-subsection">
