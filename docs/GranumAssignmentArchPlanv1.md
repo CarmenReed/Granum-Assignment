@@ -8,6 +8,40 @@
 
 ---
 
+## AMENDMENTS (post-plan, committed to main)
+
+This document is the pre-build architectural plan. It is preserved as a
+historical artifact. The statements below diverge from the shipped repo on
+origin/main; the authoritative record for each pivot is noted inline.
+
+1. **Docker was adopted during deployment.** The HARD RULE further down that
+   says "Do not add Docker or CI/CD configuration. Not evaluated." was
+   superseded. A `Dockerfile` and `.dockerignore` are committed, and
+   `railway.json` sets `"builder": "DOCKERFILE"`. The pivot is documented in
+   README ADR "Streaming Endpoint: Documented Edge Behavior" context and in
+   the M04 and M08 entries in docs/index.html.
+
+2. **`railway.json` builder is DOCKERFILE, not NIXPACKS.** The example config
+   further down showing `"builder": "NIXPACKS"` is the original plan. The
+   actual committed config uses DOCKERFILE with
+   `"dockerfilePath": "Dockerfile"`. See M04 for the Nixpacks-to-Dockerfile
+   fight chronology.
+
+3. **Repo name is `granum-assignment`, not `granum-text-enhancer`.** Every
+   reference below to `granum-text-enhancer` or
+   `carmenreed.github.io/granum-text-enhancer` is the original placeholder
+   name. The live repo is `CarmenReed/granum-assignment` and the Pages URL
+   is `carmenreed.github.io/Granum-Assignment`.
+
+4. **Commit count exceeded the planned 16.** The DoD target "16 commits
+   present in correct order" was met for the core build (commits 3510ac6
+   through 9658ccd) but subsequent Railway fight, LIVE declaration, AI
+   Initiatives tab, cleanup, streaming ADR, security hardening, and docs
+   work produced additional commits. Current total on main: 69 (51
+   first-parent merges).
+
+---
+
 ## HARD RULES -- READ FIRST
 
 - Zero em dashes anywhere. Not in code comments, not in the README, not in strings.
