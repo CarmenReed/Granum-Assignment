@@ -1,10 +1,6 @@
 // ENHANCEMENT-5: Prompt A/B testing harness (CONDITIONAL)
 // Spec: granum-v2/specs/05-prompt-ab-testing-harness.md
 // Status: STUB ONLY. Not wired to runtime. Not part of build.
-// Demo: this file exists so Monday's deep-dive can show the
-//       architectural shape. Conditional on Granum shipping
-//       LLM-driven features in production (Phase 1 found zero
-//       AI/ML claims across 34 pages).
 
 namespace Api.Models;
 

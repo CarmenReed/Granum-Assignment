@@ -7,7 +7,7 @@ Every enhancement here is anchored to a verified Granum product or feature docum
 What's here:
 - [specs/](specs/) -- one Markdown spec per enhancement, with footnoted regulatory and Granum-product claims and explicit epistemic-status tags
 - [proposed-code/](proposed-code/) -- static `.cs` files showing the contract shapes (interfaces, records, enums, stub classes), plus a `.patch` file for the one existing-file modification (Enhancement-3's Zapier wiring marker)
-- This README -- the walk-through map for the Monday pair-code session
+- This README -- the walk-through map for this folder
 
 What's deliberately NOT here:
 - Compiled stubs in `src/`. Anything in `proposed-code/` is a preview; the build path stays clean. See [proposed-code/README.md](proposed-code/README.md).
@@ -15,7 +15,7 @@ What's deliberately NOT here:
 
 Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
-## How to demo each enhancement
+## Each enhancement
 
 ### ENHANCEMENT-1: English / Spanish Two-Sided Language Model
 
@@ -28,7 +28,7 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
   - [proposed-code/Services/StubLanguageOrchestrator.cs](proposed-code/Services/StubLanguageOrchestrator.cs) -- stubbed methods
 - **Greppable:** `grep -rn "ENHANCEMENT-1" granum-v2/`
 - **Stub vs real:** Contract is shaped (enum, record, interface, stub class). Wiring is deferred (no DI registration, no change to `EnhancementService`, no persistence layer for operator preference, no prompt template changes).
-- **Pivot question:** "If we built this for real, would operator language live on a tenant record, a user record, or an API key? Each Granum product still has its own login portal post-merger, so this question has more layers than it might at first."
+- **Open question:** "If we built this for real, would operator language live on a tenant record, a user record, or an API key? Each Granum product still has its own login portal post-merger, so this question has more layers than it might at first."
 
 ### ENHANCEMENT-2: PHC Application Record Mode for SingleOps Tree Inventory
 
@@ -40,7 +40,7 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
   - [proposed-code/Services/StubComplianceFlaggingService.cs](proposed-code/Services/StubComplianceFlaggingService.cs) -- detection returns None, enforcement throws
 - **Greppable:** `grep -rn "ENHANCEMENT-2" granum-v2/`
 - **Stub vs real:** Contract is shaped. Detection logic, domain-specific prompt templates, jurisdiction handling, and DI wiring into SingleOps Tree Inventory's PHC entry path are all deferred. Stub detection deliberately returns `None` so the stub is safe to register without changing runtime behavior.
-- **Pivot question:** "Is detection an LLM classifier (high accuracy, latency cost) or a regex bootstrap (low cost, false negatives)? My instinct is regex first as a fast pre-filter, then LLM. What's your call?"
+- **Open question:** "Is detection an LLM classifier (high accuracy, latency cost) or a regex bootstrap (low cost, false negatives)? My instinct is regex first as a fast pre-filter, then LLM. What's your call?"
 
 ### ENHANCEMENT-3: Zapier Trigger on Guardrail Hit
 
@@ -53,7 +53,7 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
   - [proposed-code/patches/03-EnhancementService.patch](proposed-code/patches/03-EnhancementService.patch) -- single 3-line wiring-point marker at the PII rejection branch (no code change in `src/`)
 - **Greppable:** `grep -rn "ENHANCEMENT-3" granum-v2/`
 - **Stub vs real:** Contract is shaped. The wiring point is captured as a unified diff against the live `src/Api/Services/EnhancementService.cs`. The patch was build-validated (`dotnet build` clean, 22/22 tests green) before being extracted; `src/` is unchanged.
-- **Pivot question:** "Authentication: API-key (simpler, fits the existing LMN posture) or OAuth (richer permissions, more setup)? And do we tier-gate this to LMN Professional+ to match the existing Zapier tier policy, or expose it on every tier as a guardrail-specific feature?"
+- **Open question:** "Authentication: API-key (simpler, fits the existing LMN posture) or OAuth (richer permissions, more setup)? And do we tier-gate this to LMN Professional+ to match the existing Zapier tier policy, or expose it on every tier as a guardrail-specific feature?"
 
 ### ENHANCEMENT-4: Greenius Training Trigger on Guardrail Hit
 
@@ -65,7 +65,7 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
   - [proposed-code/Services/StubGreeniusTrainingAssigner.cs](proposed-code/Services/StubGreeniusTrainingAssigner.cs) -- stubbed `AssignAsync`
 - **Greppable:** `grep -rn "ENHANCEMENT-4" granum-v2/`
 - **Stub vs real:** Contract is shaped. The assignment surface itself is an open question: the public marketing surface does not document a Greenius course-assignment API. If Granum has one in the help center, wiring is straightforward. If not, the fallback is a "suggested course" notification inside the LMN Crew app inbox.
-- **Pivot question:** "Does Greenius expose a course-assignment API today? If yes, this is a one-week wire-up. If no, the fallback is an in-app notification, which is a different conversation."
+- **Open question:** "Does Greenius expose a course-assignment API today? If yes, this is a one-week wire-up. If no, the fallback is an in-app notification, which is a different conversation."
 
 ### ENHANCEMENT-5: Prompt A/B Testing Harness (Conditional)
 
@@ -79,19 +79,19 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
   - [proposed-code/Services/StubPromptTestHarness.cs](proposed-code/Services/StubPromptTestHarness.cs)
 - **Greppable:** `grep -rn "ENHANCEMENT-5" granum-v2/`
 - **Stub vs real:** Contract is shaped. The fixture file is a real artifact you can open. The diff algorithm choice (line-diff, token-diff, semantic-diff) is deliberately deferred because it is a real choice and a fixture file is a better demo than a half-baked diff.
-- **Pivot question:** "Is Granum shipping LLM-driven features today, or planning to in the near term? The harness is conditional on the answer. If yes, the conversation is 'how do you review prompt changes today, and where would this slot in.' If no or not yet, the conversation is 'should this be the next thing on the AI roadmap.'"
+- **Open question:** "Is Granum shipping LLM-driven features today, or planning to in the near term? The harness is conditional on the answer. If yes, the conversation is 'how do you review prompt changes today, and where would this slot in.' If no or not yet, the conversation is 'should this be the next thing on the AI roadmap.'"
 
-## What this demo proves
+## What this folder demonstrates
 
 - I think about products from multiple architectural axes simultaneously: language, regulation, integration, training, and governance are five different cuts through the same pipeline, all anchored to verified Granum products from the Phase 1 portfolio research.
 - I do read-only research before writing specs. An earlier draft of these enhancements made assumptions (French/Quebec for Enhancement-1, fictional "LMN dispatch" / "Greenius scheduling" consumers for the old Enhancement-5) that the research surfaced as wrong. The current build is the rewrite on top of verified Granum product facts.
 - Stubs are deliberate. Earn-your-complexity at the meta level: don't implement before validating which axis matters first. Each spec carries open questions that are the conversation, not the conclusion.
 - The deliverable stays pristine. The assignment under [../src/](../src/) is exactly what was submitted; this folder is a separate "what next" pitch, not a modification of the deliverable.
-- I can hand off any one of these to a junior engineer tomorrow because the spec is written, the contract is shaped, the wiring point is identified, and the open questions are listed.
+- Each one is hand-off-ready: the spec is written, the contract is shaped, the wiring point is identified, and the open questions are listed.
 
-## What NOT to oversell
+## Honest constraints
 
 - These are static contracts and patches, not live wired-up code. Every stub method throws `NotImplementedException` (except the compliance detection stub, which returns `None` deliberately). The Zapier wiring lives as a `.patch` file, not as a live source-tree change. None of these enhancements ship runtime behavior on this branch.
 - I did NOT evaluate alternatives for any of them. The architectures sketched in the specs are one reasonable shape each, not a comparative analysis.
-- Customer-pain framing is grounded in Granum's public marketing surface (per [GRANUM_PORTFOLIO_FACTS.md](GRANUM_PORTFOLIO_FACTS.md)), not in validated customer interviews. Help-center pages (support.golmn.com, docs.singleops.com, support.gogreenius.com) were not crawled. Anything that depends on "the website does not say X" should be verified against the help center before being a load-bearing argument.
-- Enhancement-5 (prompt A/B harness) is conditional on whether Granum ships LLM features today. The Phase 1 research did not establish that, and the marketing posture is conservative ("automated," "algorithmic," "data-driven," never "AI"). Treat it as a question for Jonathan, not a recommendation.
+- Customer-pain framing is grounded in Granum's public marketing surface (per [GRANUM_PORTFOLIO_FACTS.md](GRANUM_PORTFOLIO_FACTS.md)), not validated against Granum's internal customer data. Help-center pages (support.golmn.com, docs.singleops.com, support.gogreenius.com) were not crawled. Anything that depends on "the website does not say X" should be verified against the help center before being a load-bearing argument.
+- Enhancement-5 (prompt A/B harness) is conditional on whether Granum ships LLM features today. The portfolio research did not establish that, and the marketing posture is conservative ("automated," "algorithmic," "data-driven," never "AI"). Treat it as an open architectural question, not a recommendation.
