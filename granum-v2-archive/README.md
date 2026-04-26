@@ -1,3 +1,17 @@
+# ARCHIVED: Superseded by granum-v2/
+
+This folder is the original Phase B enhancement build from before the Phase 1 portfolio research surfaced gaps in the customer-pain framing. Specifically:
+
+- Enhancement-1's French/Quebec/Bill 101 framing was not supported by any Granum public surface. Bilingual = English/Spanish across 6 corroborating Granum pages.
+- Enhancement-5 named webhook consumers ("LMN dispatch," "Greenius scheduling") that are not real Granum products.
+- Enhancement-3 was unknowable from the marketing surface and is reframed in the new build with a conditional governance framing.
+
+The new granum-v2/ folder rebuilds these enhancements on top of verified Granum product facts captured in GRANUM_PORTFOLIO_FACTS.md.
+
+This archive folder is preserved for audit-trail integrity. Carmen may delete it manually after reviewing the new build.
+
+---
+
 # Granum v2: Five Proposed Enhancements (Showcase, Not Compiled)
 
 This folder is a **separate showcase** of five product upgrades I would build next on top of the take-home assignment. The assignment itself (under [../src/](../src/)) is intentionally untouched -- pristine deliverable, no scope creep.
