@@ -2,7 +2,7 @@
 
 This folder is a **separate showcase** of five product upgrades I would build next on top of the take-home assignment. The assignment itself (under [../src/](../src/)) is intentionally untouched -- pristine deliverable, no scope creep.
 
-Every enhancement here is anchored to a verified Granum product or feature documented in [../GRANUM_PORTFOLIO_FACTS.md](../GRANUM_PORTFOLIO_FACTS.md) (the Phase 1 portfolio research that crawled 34 Granum pages). The earlier draft of this folder, before that research, is preserved at [../granum-v2-archive/](../granum-v2-archive/) for audit-trail integrity.
+Every enhancement here is anchored to a verified Granum product or feature documented in [GRANUM_PORTFOLIO_FACTS.md](GRANUM_PORTFOLIO_FACTS.md) (the Phase 1 portfolio research that crawled 34 Granum pages).
 
 What's here:
 - [specs/](specs/) -- one Markdown spec per enhancement, with footnoted regulatory and Granum-product claims and explicit epistemic-status tags
@@ -84,7 +84,7 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 ## What this demo proves
 
 - I think about products from multiple architectural axes simultaneously: language, regulation, integration, training, and governance are five different cuts through the same pipeline, all anchored to verified Granum products from the Phase 1 portfolio research.
-- I do read-only research before writing specs. The earlier draft of these enhancements made assumptions (French/Quebec for Enhancement-1, fictional "LMN dispatch" / "Greenius scheduling" consumers for the old Enhancement-5) that the research surfaced as wrong. The archived earlier draft is preserved at [../granum-v2-archive/](../granum-v2-archive/) for audit-trail.
+- I do read-only research before writing specs. An earlier draft of these enhancements made assumptions (French/Quebec for Enhancement-1, fictional "LMN dispatch" / "Greenius scheduling" consumers for the old Enhancement-5) that the research surfaced as wrong. The current build is the rewrite on top of verified Granum product facts.
 - Stubs are deliberate. Earn-your-complexity at the meta level: don't implement before validating which axis matters first. Each spec carries open questions that are the conversation, not the conclusion.
 - The deliverable stays pristine. The assignment under [../src/](../src/) is exactly what was submitted; this folder is a separate "what next" pitch, not a modification of the deliverable.
 - I can hand off any one of these to a junior engineer tomorrow because the spec is written, the contract is shaped, the wiring point is identified, and the open questions are listed.
@@ -93,5 +93,5 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
 - These are static contracts and patches, not live wired-up code. Every stub method throws `NotImplementedException` (except the compliance detection stub, which returns `None` deliberately). The Zapier wiring lives as a `.patch` file, not as a live source-tree change. None of these enhancements ship runtime behavior on this branch.
 - I did NOT evaluate alternatives for any of them. The architectures sketched in the specs are one reasonable shape each, not a comparative analysis.
-- Customer-pain framing is grounded in Granum's public marketing surface (per [../GRANUM_PORTFOLIO_FACTS.md](../GRANUM_PORTFOLIO_FACTS.md)), not in validated customer interviews. Help-center pages (support.golmn.com, docs.singleops.com, support.gogreenius.com) were not crawled. Anything that depends on "the website does not say X" should be verified against the help center before being a load-bearing argument.
+- Customer-pain framing is grounded in Granum's public marketing surface (per [GRANUM_PORTFOLIO_FACTS.md](GRANUM_PORTFOLIO_FACTS.md)), not in validated customer interviews. Help-center pages (support.golmn.com, docs.singleops.com, support.gogreenius.com) were not crawled. Anything that depends on "the website does not say X" should be verified against the help center before being a load-bearing argument.
 - Enhancement-5 (prompt A/B harness) is conditional on whether Granum ships LLM features today. The Phase 1 research did not establish that, and the marketing posture is conservative ("automated," "algorithmic," "data-driven," never "AI"). Treat it as a question for Jonathan, not a recommendation.

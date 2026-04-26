@@ -2,9 +2,9 @@
 
 ## Branch
 
-`claude/granum-assignment-v2`
+`granum-assignment-v2`
 
-The new `granum-v2/` folder is the portfolio-anchored rebuild after the Phase 1 research surfaced gaps in the original draft. The original draft is preserved at `granum-v2-archive/` for audit-trail integrity. Phase 1 research output lives at `GRANUM_PORTFOLIO_FACTS.md` at repo root.
+This folder is the portfolio-anchored rebuild after a Phase 1 research pass that crawled 34 Granum pages. The Phase 1 research output is alongside this file at [GRANUM_PORTFOLIO_FACTS.md](GRANUM_PORTFOLIO_FACTS.md).
 
 Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
@@ -14,11 +14,11 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
 - **Intro line:** "LMN Crew app is already marketed as bilingual English / Spanish across six Granum pages. The current pipeline has one language axis. This stub splits crew-input language detection from operator-output language preference using the language pair Granum already markets."
 - **Files to open (in order):**
-  - [granum-v2/specs/01-en-es-two-sided-language.md](granum-v2/specs/01-en-es-two-sided-language.md) -- spec, customer problem, footnotes
-  - [granum-v2/proposed-code/Models/OperatorLanguagePreference.cs](granum-v2/proposed-code/Models/OperatorLanguagePreference.cs) -- enum (English, Spanish)
-  - [granum-v2/proposed-code/Models/CrewLanguageDetection.cs](granum-v2/proposed-code/Models/CrewLanguageDetection.cs) -- BCP 47 record
-  - [granum-v2/proposed-code/Services/ILanguageOrchestrator.cs](granum-v2/proposed-code/Services/ILanguageOrchestrator.cs) -- contract
-  - [granum-v2/proposed-code/Services/StubLanguageOrchestrator.cs](granum-v2/proposed-code/Services/StubLanguageOrchestrator.cs) -- stubbed methods
+  - [specs/01-en-es-two-sided-language.md](specs/01-en-es-two-sided-language.md) -- spec, customer problem, footnotes
+  - [proposed-code/Models/OperatorLanguagePreference.cs](proposed-code/Models/OperatorLanguagePreference.cs) -- enum (English, Spanish)
+  - [proposed-code/Models/CrewLanguageDetection.cs](proposed-code/Models/CrewLanguageDetection.cs) -- BCP 47 record
+  - [proposed-code/Services/ILanguageOrchestrator.cs](proposed-code/Services/ILanguageOrchestrator.cs) -- contract
+  - [proposed-code/Services/StubLanguageOrchestrator.cs](proposed-code/Services/StubLanguageOrchestrator.cs) -- stubbed methods
 - **Greppable:** `grep -rn "ENHANCEMENT-1" granum-v2/`
 - **Stub vs real:** Contract is shaped. Wiring is deferred (DI, persistence, prompt templates).
 - **Pivot question:** "If we built this for real, would operator language live on a tenant record, a user record, or an API key? Each Granum product still has its own login portal post-merger, so this question has more layers than it might at first."
@@ -27,10 +27,10 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
 - **Intro line:** "SingleOps Tree Inventory already captures PHC treatments. PHC work is pesticide application, which carries record-keeping obligations under EPA Worker Protection Standard and Health Canada PCPA. The marketing surface captures the field shape but not the compliance-defensible record. This stub adds the detection contract for a regulated cleanup mode."
 - **Files to open (in order):**
-  - [granum-v2/specs/02-phc-tree-inventory-compliance.md](granum-v2/specs/02-phc-tree-inventory-compliance.md) -- spec with Tree Inventory citations and EPA WPS / Health Canada PCPA footnotes
-  - [granum-v2/proposed-code/Models/RegulatedDomain.cs](granum-v2/proposed-code/Models/RegulatedDomain.cs) -- the enum
-  - [granum-v2/proposed-code/Services/IComplianceFlaggingService.cs](granum-v2/proposed-code/Services/IComplianceFlaggingService.cs) -- contract
-  - [granum-v2/proposed-code/Services/StubComplianceFlaggingService.cs](granum-v2/proposed-code/Services/StubComplianceFlaggingService.cs) -- detection returns None, enforcement throws
+  - [specs/02-phc-tree-inventory-compliance.md](specs/02-phc-tree-inventory-compliance.md) -- spec with Tree Inventory citations and EPA WPS / Health Canada PCPA footnotes
+  - [proposed-code/Models/RegulatedDomain.cs](proposed-code/Models/RegulatedDomain.cs) -- the enum
+  - [proposed-code/Services/IComplianceFlaggingService.cs](proposed-code/Services/IComplianceFlaggingService.cs) -- contract
+  - [proposed-code/Services/StubComplianceFlaggingService.cs](proposed-code/Services/StubComplianceFlaggingService.cs) -- detection returns None, enforcement throws
 - **Greppable:** `grep -rn "ENHANCEMENT-2" granum-v2/`
 - **Stub vs real:** Contract is shaped. Detection logic, domain-specific prompt templates, jurisdiction handling, and DI wiring into Tree Inventory are deferred.
 - **Pivot question:** "Is detection an LLM classifier or a regex bootstrap first? My instinct is regex first as a fast pre-filter, then LLM."
@@ -39,11 +39,11 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
 - **Intro line:** "LMN Professional and Enterprise tiers list Zapier with 'Over 6,000 apps.' Phase 1 found no native webhook documentation anywhere. This stub exposes guardrail events as a Zapier instant trigger, reusing the integration posture Granum already endorses."
 - **Files to open (in order):**
-  - [granum-v2/specs/03-zapier-trigger-on-guardrail-hit.md](granum-v2/specs/03-zapier-trigger-on-guardrail-hit.md) -- spec with Zapier-on-LMN footnote
-  - [granum-v2/proposed-code/Models/GuardrailEvent.cs](granum-v2/proposed-code/Models/GuardrailEvent.cs) -- the event payload
-  - [granum-v2/proposed-code/Services/IZapierTriggerEmitter.cs](granum-v2/proposed-code/Services/IZapierTriggerEmitter.cs) -- contract
-  - [granum-v2/proposed-code/Services/StubZapierTriggerEmitter.cs](granum-v2/proposed-code/Services/StubZapierTriggerEmitter.cs) -- stubbed `EmitAsync`
-  - [granum-v2/proposed-code/patches/03-EnhancementService.patch](granum-v2/proposed-code/patches/03-EnhancementService.patch) -- 3-line wiring-point marker, captured as unified diff. NO code change in `src/`.
+  - [specs/03-zapier-trigger-on-guardrail-hit.md](specs/03-zapier-trigger-on-guardrail-hit.md) -- spec with Zapier-on-LMN footnote
+  - [proposed-code/Models/GuardrailEvent.cs](proposed-code/Models/GuardrailEvent.cs) -- the event payload
+  - [proposed-code/Services/IZapierTriggerEmitter.cs](proposed-code/Services/IZapierTriggerEmitter.cs) -- contract
+  - [proposed-code/Services/StubZapierTriggerEmitter.cs](proposed-code/Services/StubZapierTriggerEmitter.cs) -- stubbed `EmitAsync`
+  - [proposed-code/patches/03-EnhancementService.patch](proposed-code/patches/03-EnhancementService.patch) -- 3-line wiring-point marker, captured as unified diff. NO code change in `src/`.
 - **Greppable:** `grep -rn "ENHANCEMENT-3" granum-v2/`
 - **Stub vs real:** Contract is shaped. The patch was build-validated against live assignment files (22/22 tests green at extraction).
 - **Pivot question:** "Authentication: API-key (simpler, fits the existing LMN posture) or OAuth (richer permissions, more setup)?"
@@ -52,10 +52,10 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
 - **Intro line:** "Greenius training is the only documented inter-product integration in the Granum portfolio: it is surfaced inside the LMN Crew app. When the gate flags a category, the existing Greenius integration is the natural teaching moment. This stub auto-assigns the matching course to the crew member, closing the learning loop inside the surface they already use."
 - **Files to open (in order):**
-  - [granum-v2/specs/04-greenius-training-trigger.md](granum-v2/specs/04-greenius-training-trigger.md) -- spec citing Greenius's 150+ courses and the LMN-Crew-app integration
-  - [granum-v2/proposed-code/Models/GuardrailCategory.cs](granum-v2/proposed-code/Models/GuardrailCategory.cs) -- the category enum
-  - [granum-v2/proposed-code/Services/IGreeniusTrainingAssigner.cs](granum-v2/proposed-code/Services/IGreeniusTrainingAssigner.cs) -- contract
-  - [granum-v2/proposed-code/Services/StubGreeniusTrainingAssigner.cs](granum-v2/proposed-code/Services/StubGreeniusTrainingAssigner.cs) -- stubbed `AssignAsync`
+  - [specs/04-greenius-training-trigger.md](specs/04-greenius-training-trigger.md) -- spec citing Greenius's 150+ courses and the LMN-Crew-app integration
+  - [proposed-code/Models/GuardrailCategory.cs](proposed-code/Models/GuardrailCategory.cs) -- the category enum
+  - [proposed-code/Services/IGreeniusTrainingAssigner.cs](proposed-code/Services/IGreeniusTrainingAssigner.cs) -- contract
+  - [proposed-code/Services/StubGreeniusTrainingAssigner.cs](proposed-code/Services/StubGreeniusTrainingAssigner.cs) -- stubbed `AssignAsync`
 - **Greppable:** `grep -rn "ENHANCEMENT-4" granum-v2/`
 - **Stub vs real:** Contract is shaped. The Greenius course-assignment surface itself is an open question (no public API documented).
 - **Pivot question:** "Does Greenius expose a course-assignment API today? If yes, this is a one-week wire-up. If not, the fallback is an in-app notification."
@@ -64,12 +64,12 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 
 - **Intro line:** "Conditional. Phase 1 found zero AI / ML claims across 34 Granum pages. Marketing posture is consistent: 'automated,' 'algorithmic,' 'data-driven,' never 'AI.' If Granum is shipping LLM features today, this harness is high-leverage governance. If not yet, it is solving a problem that doesn't exist yet. The first open question on the spec is exactly that."
 - **Files to open (in order):**
-  - [granum-v2/specs/05-prompt-ab-testing-harness.md](granum-v2/specs/05-prompt-ab-testing-harness.md) -- spec with the conditional framing
-  - [granum-v2/specs/05-fixtures/sample-historical-inputs.json](granum-v2/specs/05-fixtures/sample-historical-inputs.json) -- 3 hand-written sample inputs, no PII
-  - [granum-v2/proposed-code/Models/PromptVariant.cs](granum-v2/proposed-code/Models/PromptVariant.cs)
-  - [granum-v2/proposed-code/Models/PromptComparisonResult.cs](granum-v2/proposed-code/Models/PromptComparisonResult.cs)
-  - [granum-v2/proposed-code/Services/IPromptTestHarness.cs](granum-v2/proposed-code/Services/IPromptTestHarness.cs)
-  - [granum-v2/proposed-code/Services/StubPromptTestHarness.cs](granum-v2/proposed-code/Services/StubPromptTestHarness.cs)
+  - [specs/05-prompt-ab-testing-harness.md](specs/05-prompt-ab-testing-harness.md) -- spec with the conditional framing
+  - [specs/05-fixtures/sample-historical-inputs.json](specs/05-fixtures/sample-historical-inputs.json) -- 3 hand-written sample inputs, no PII
+  - [proposed-code/Models/PromptVariant.cs](proposed-code/Models/PromptVariant.cs)
+  - [proposed-code/Models/PromptComparisonResult.cs](proposed-code/Models/PromptComparisonResult.cs)
+  - [proposed-code/Services/IPromptTestHarness.cs](proposed-code/Services/IPromptTestHarness.cs)
+  - [proposed-code/Services/StubPromptTestHarness.cs](proposed-code/Services/StubPromptTestHarness.cs)
 - **Greppable:** `grep -rn "ENHANCEMENT-5" granum-v2/`
 - **Stub vs real:** Contract is shaped. Fixture is real. Diff algorithm choice is deferred on purpose.
 - **Pivot question:** "Is Granum shipping LLM-driven features today, or planning to in the near term? The harness is conditional on the answer."
@@ -77,7 +77,7 @@ Greppable everywhere: `grep -rn "ENHANCEMENT-[1-5]" granum-v2/`
 ## What this demo proves
 
 - I think about products from multiple architectural axes simultaneously: language, regulation, integration, training, and governance.
-- I do read-only research before writing specs. The earlier draft made assumptions (French/Quebec for Enhancement-1, fictional "LMN dispatch" / "Greenius scheduling" consumers) that the Phase 1 research surfaced as wrong. The archived earlier draft sits next to the new build for audit-trail integrity.
+- I do read-only research before writing specs. An earlier draft made assumptions (French/Quebec for Enhancement-1, fictional "LMN dispatch" / "Greenius scheduling" consumers) that the Phase 1 research surfaced as wrong. The current build is the rewrite on top of verified Granum product facts.
 - Stubs are deliberate. Earn-your-complexity at the meta level: don't implement before validating which axis matters first.
 - The deliverable stays pristine. `src/` is byte-for-byte the original take-home assignment.
 
