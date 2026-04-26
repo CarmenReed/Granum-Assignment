@@ -1,6 +1,6 @@
 # Granum Portfolio Facts (extracted 2026-04-26)
 
-Status: untracked working file. Phase 1 of 2. READ-ONLY pass against the public Granum marketing surface. Do not commit.
+Status: READ-ONLY research pass against the public Granum marketing surface. Source-of-truth research artifact for the v2 enhancement specs in this folder.
 
 Interpretive guardrail used throughout: a website is marketing surface, not engineering inventory. "The page does not say X" is not "the product does not do X." Where the page is silent, this file says "no claim found," not "feature absent."
 
@@ -52,7 +52,7 @@ Searches run (2):
 Total pages parsed: 34 product / company pages, 2 search queries.
 
 Caveats on fetch fidelity:
-- WebFetch summarizes pages through a small model. Quoted phrases below are quoted as the summarizer returned them. Where a quoted string is load-bearing for a verdict, treat it as "the summarizer reported this exact phrase from the page" and verify by direct page visit before quoting it to Jonathan.
+- WebFetch summarizes pages through a small model. Quoted phrases below are quoted as the summarizer returned them. Where a quoted string is load-bearing for a verdict, treat it as "the summarizer reported this exact phrase from the page" and verify by direct page visit before relying on it for a load-bearing argument.
 - WebFetch cannot read screenshots, video transcripts, or interactive demo widgets. Anything that lives only inside an embedded video or a "see it in action" interactive is not in this dataset.
 - The customer-stories landing page is a navigation hub; individual case studies were not crawled in this pass.
 - Help-center URLs (support.golmn.com, docs.singleops.com, support.gogreenius.com) were not crawled. Authenticated/help-center content is out of scope for a marketing-surface pass.
@@ -236,7 +236,7 @@ Patterns require at least 2 product pages to count.
   - The spec assumes Granum has a prompt to govern. No public signal confirms or denies this. If Granum is not running an LLM in production today, ENH-3 is solving a problem they may not have.
 - **What I assumed in the spec that turned out to be right:**
   - The governance discipline argument (prompt = configuration that ships without code review's scaffolding) is correct as a general engineering claim independent of Granum.
-  - Pivot question for the interview is well-shaped: ask Jonathan whether they ship LLM prompts to production today, and if so, how prompt changes are reviewed.
+  - Open architectural question: whether Granum ships LLM prompts to production today, and if so, how prompt changes are reviewed.
 
 ### Enhancement-4: PII Expansion
 
@@ -277,7 +277,7 @@ Patterns require at least 2 product pages to count.
   - Granum is genuinely a multi-product portfolio post-merger; the strategic motivation for cross-product reactions exists.
   - Outbound webhook with HMAC + retry is the right architectural shape for an integration surface.
   - The "polling vs push" framing in the why-this-earns-its-complexity section holds: today, cross-product reaction is via Zapier polling or shared logins. A direct webhook would be cleaner.
-  - The async-emit / fire-and-forget question is well-shaped for the interview.
+  - The async-emit / fire-and-forget question is well-shaped for an open architectural discussion.
 
 ## New idea seeds (RAW, no scoring yet)
 
@@ -341,7 +341,7 @@ Patterns require at least 2 product pages to count.
 
 **Where am I most likely to be wrong about a Granum product feature based on this pass?**
 
-- Most likely to be wrong: anything inside the help-center pages I did not crawl. Help-center articles often document features the marketing pages skip. Any v2 confrontation that depended on "the website doesn't say X" should be re-tested against the help center before being a load-bearing argument with Jonathan.
+- Most likely to be wrong: anything inside the help-center pages I did not crawl. Help-center articles often document features the marketing pages skip. Any v2 confrontation that depended on "the website doesn't say X" should be re-tested against the help center before being treated as a load-bearing argument.
 - Likely to be wrong: SingleOps offline mode. Marketing implies mobile use but not offline; the help center likely contradicts or confirms.
 - Likely to be wrong: French support in any form. Marketing says Spanish only. There may be a Quebec-specific tenant configuration not on the marketing surface, but I have zero evidence of it.
 - Possibly wrong: Granum's AI posture. The marketing surface is conservative ("automated," "algorithmic," "data-driven," never "AI"). This may be deliberate marketing restraint while engineering ships LLM features. Or it may be that they genuinely don't ship LLM features yet. Cannot tell from the marketing surface.

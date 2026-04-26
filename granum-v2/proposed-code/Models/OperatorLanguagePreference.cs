@@ -1,9 +1,6 @@
 // ENHANCEMENT-1: English / Spanish two-sided language model
 // Spec: granum-v2/specs/01-en-es-two-sided-language.md
 // Status: STUB ONLY. Not wired to runtime. Not part of build.
-// Demo: this file exists so Monday's deep-dive can show the
-//       architectural shape without committing implementation
-//       time before validation.
 
 namespace Api.Models;
 
