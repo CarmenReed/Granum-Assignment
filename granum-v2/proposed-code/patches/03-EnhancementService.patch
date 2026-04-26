@@ -1,0 +1,14 @@
+diff --git a/src/Api/Services/EnhancementService.cs b/src/Api/Services/EnhancementService.cs
+index 8f359d5..abacd14 100644
+--- a/src/Api/Services/EnhancementService.cs
++++ b/src/Api/Services/EnhancementService.cs
+@@ -115,6 +115,9 @@ public class EnhancementService
+         var pii = _pii.Check(safeInput);
+         if (pii.IsFlagged)
+         {
++            // ENHANCEMENT-3: Zapier trigger emission point. When wired,
++            // an IZapierTriggerEmitter would fire here with a
++            // GuardrailEvent record. See granum-v2/specs/03-zapier-trigger-on-guardrail-hit.md.
+             var redacted = _pii.Redact(safeInput);
+             await LogAsync(redacted, null, InteractionOutcome.PiiRejected, pii.Reason, 0, ct);
+             return new EnhancementResult.PiiError(pii.Reason!);
