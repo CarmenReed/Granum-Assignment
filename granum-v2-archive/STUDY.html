@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Granum V2 Study · Cheat Sheet First</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+:root {
+  --bg: #f8f5f0; --surface: #fdfbf6; --surface-alt: #f3ede0;
+  --border: #e6ddc8; --border-dk: #cdbfa0;
+  --text: #2a2520; --text-soft: #4a3f2f; --muted: #6b5d48;
+  --accent: #8b4513; --coral: #c84f2e; --coral-bg: #fdf0eb;
+  --gold: #b8860b; --gold-bg: #fcf5dc;
+  --green: #4a7c3e; --green-bg: #eef5e8;
+  --navy: #2a4a6e; --navy-bg: #e8eef5;
+  --plum: #6b3e7c; --plum-bg: #f0e8f4;
+  --serif: 'Lora', 'Georgia', serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--serif); font-size: 17px; line-height: 1.7; padding: 24px 18px 100px; max-width: 740px; margin: 0 auto; }
+header { border-bottom: 2px solid var(--border-dk); padding-bottom: 24px; margin-bottom: 24px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--coral); font-weight: 600; margin-bottom: 8px; }
+h1 { font-family: var(--serif); font-size: 30px; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 8px; }
+.subtitle { font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+.tagline { font-size: 14px; background: var(--gold-bg); border: 1px solid var(--gold); border-left: 4px solid var(--gold); border-radius: 6px; padding: 12px 16px; margin-top: 14px; color: #5a4500; }
+.tagline strong { color: #5a4500; }
+.progress-bar { background: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; position: sticky; top: 8px; z-index: 100; box-shadow: 0 2px 6px rgba(90, 70, 40, 0.08); }
+.progress-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+.progress-track { flex: 1; min-width: 120px; height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--coral) 0%, var(--gold) 50%, var(--green) 100%); width: 0%; transition: width 0.3s ease; border-radius: 5px; }
+.progress-count { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text); flex-shrink: 0; }
+.reset-btn { background: transparent; color: var(--muted); border: 1px solid var(--border-dk); border-radius: 4px; padding: 4px 10px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; flex-shrink: 0; }
+.reset-btn:hover { background: var(--coral-bg); color: var(--coral); border-color: var(--coral); }
+.toc { background: var(--surface-alt); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; margin-bottom: 32px; }
+.toc-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+.toc ol { list-style: none; padding-left: 0; counter-reset: toc-counter; }
+.toc ol li { counter-increment: toc-counter; padding: 4px 0 4px 28px; position: relative; font-size: 14.5px; }
+.toc ol li::before { content: counter(toc-counter); position: absolute; left: 0; top: 4px; font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--coral); background: var(--coral-bg); border: 1px solid var(--coral); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+.toc a { color: var(--text); text-decoration: none; font-weight: 500; }
+.toc a:hover { color: var(--coral); }
+.day-block { margin-bottom: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 20px 16px; border-left: 5px solid var(--green); background: #f1f7ec; }
+.day-tag { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; padding: 3px 10px; border-radius: 4px; margin-bottom: 8px; color: white; background: var(--green); }
+.day-title { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.day-time { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 14px; font-weight: 600; }
+.step { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--border); }
+.step:last-child { border-bottom: none; padding-bottom: 0; }
+.step-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 6px; background: white; border: 2px solid var(--coral); color: var(--coral); font-family: var(--mono); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 2px; cursor: pointer; transition: all 0.15s ease; user-select: none; position: relative; }
+.step-num:hover { background: var(--coral-bg); transform: scale(1.05); }
+.step-num.checked { background: var(--green); border-color: var(--green); color: white; }
+.step-num.checked .step-num-number { display: none; }
+.step-num.checked::after { content: "\2713"; font-size: 18px; font-weight: 700; color: white; }
+.step.completed .step-title { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(0,0,0,0.25); }
+.step.completed .step-detail { opacity: 0.5; }
+.step-body { flex: 1; }
+.step-title { font-weight: 700; color: var(--text); margin-bottom: 4px; font-size: 15px; }
+.step-meta { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 600; display: inline-block; background: rgba(0,0,0,0.05); padding: 1px 7px; border-radius: 3px; margin-left: 6px; }
+.step-detail { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
+.step-detail ul { list-style: none; padding-left: 0; margin-top: 6px; }
+.step-detail ul li { padding: 3px 0 3px 16px; position: relative; font-size: 13.5px; }
+.step-detail ul li::before { content: "\25C6"; position: absolute; left: 0; top: 4px; color: var(--coral); font-size: 8px; }
+section { margin-bottom: 36px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px 22px 20px; }
+.section-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+h2 { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+.section-tagline { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 14px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px dashed var(--border-dk); }
+h3 { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--text); margin-top: 22px; margin-bottom: 8px; }
+p { margin-bottom: 12px; color: var(--text-soft); }
+strong { color: var(--text); font-weight: 700; }
+ul, ol { margin-bottom: 14px; padding-left: 0; list-style: none; }
+li { padding: 6px 0 6px 22px; position: relative; color: var(--text-soft); line-height: 1.6; }
+ul li::before { content: "\25C6"; position: absolute; left: 0; top: 8px; color: var(--coral); font-size: 9px; }
+code { font-family: var(--mono); font-size: 13px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 3px; padding: 1px 5px; color: var(--accent); }
+.cheat-sheet { background: var(--coral-bg); border: 2px solid var(--coral); border-radius: 10px; padding: 20px 22px; margin-bottom: 32px; }
+.cheat-sheet h3 { margin-top: 0; color: var(--coral); font-size: 18px; }
+.cheat-list { margin-top: 12px; }
+.cheat-item { display: flex; align-items: baseline; gap: 12px; padding: 8px 0; border-bottom: 1px dashed rgba(200, 79, 46, 0.25); font-size: 15px; flex-wrap: wrap; }
+.cheat-item:last-child { border-bottom: none; }
+.cheat-q { flex: 1; color: var(--text-soft); font-style: italic; min-width: 180px; }
+.cheat-h { font-weight: 700; color: #8a2f1a; font-size: 13.5px; white-space: nowrap; font-family: var(--mono); }
+.opener-card { background: white; border: 2px solid var(--gold); border-radius: 10px; padding: 20px 22px; margin-bottom: 18px; }
+.opener-step { display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px dashed var(--border); }
+.opener-step:last-child { border-bottom: none; padding-bottom: 0; }
+.opener-num { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--gold); color: white; font-family: var(--mono); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.opener-text { font-size: 14.5px; line-height: 1.6; color: var(--text-soft); }
+.opener-text strong { color: var(--text); }
+.principle-row { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 14px 0; }
+.principle-pill { background: var(--surface-alt); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 10px 14px; }
+.principle-name { font-weight: 700; color: var(--accent); font-size: 13px; font-family: var(--mono); letter-spacing: 0.05em; margin-bottom: 3px; }
+.principle-meaning { font-size: 14px; color: var(--text-soft); }
+.hook-card { background: white; border: 1px solid var(--border); border-left: 5px solid var(--coral); border-radius: 8px; padding: 18px 20px; margin-bottom: 18px; box-shadow: 0 1px 3px rgba(90, 70, 40, 0.05); }
+.hook-card.likelihood-hot { border-left-color: var(--coral); }
+.hook-card.likelihood-med { border-left-color: var(--gold); }
+.hook-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.hook-tag { display: inline-block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; padding: 2px 8px; border-radius: 3px; }
+.tag-hot { background: var(--coral-bg); color: var(--coral); border: 1px solid var(--coral); }
+.tag-med { background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold); }
+.tag-anchor { background: var(--navy-bg); color: var(--navy); border: 1px solid var(--navy); }
+.tag-built { background: var(--plum-bg); color: var(--plum); border: 1px solid var(--plum); }
+.hook-question { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 12px; font-style: italic; }
+.hook-handle { background: var(--gold-bg); border: 1.5px dashed var(--gold); border-radius: 6px; padding: 10px 14px; margin-bottom: 14px; text-align: center; }
+.hook-handle-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); font-weight: 700; display: block; margin-bottom: 4px; }
+.hook-handle-text { font-family: var(--serif); font-size: 17px; font-weight: 700; color: #5a4500; letter-spacing: 0.02em; }
+.hook-say { background: #fef9ec; border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; padding: 10px 14px; margin-bottom: 12px; font-size: 14px; line-height: 1.65; color: #5a4500; }
+.hook-say-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); font-weight: 700; display: block; margin-bottom: 4px; }
+.hook-real { background: var(--plum-bg); border-left: 3px solid var(--plum); border-radius: 0 4px 4px 0; padding: 10px 14px; margin-bottom: 12px; font-size: 13.5px; line-height: 1.6; color: #3d2548; }
+.hook-real-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--plum); font-weight: 700; display: block; margin-bottom: 4px; }
+.hook-real strong { color: var(--plum); }
+.hook-nav { background: var(--navy-bg); border-left: 3px solid var(--navy); border-radius: 0 4px 4px 0; padding: 10px 14px; font-size: 13px; line-height: 1.6; color: #1a3a5e; margin-bottom: 12px; }
+.hook-nav-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--navy); font-weight: 700; display: block; margin-bottom: 4px; }
+.hook-nav code { background: white; border-color: #b8c5d4; font-size: 11.5px; }
+.hook-pivot { font-style: italic; font-size: 13.5px; color: var(--text-soft); padding: 6px 4px 0 4px; }
+.hook-pivot strong { color: var(--coral); font-style: normal; }
+.anchors-box { background: var(--navy-bg); border: 1.5px solid var(--navy); border-radius: 8px; padding: 16px 18px; margin: 16px 0; }
+.anchors-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--navy); font-weight: 700; display: block; margin-bottom: 10px; }
+.anchors-box ul li { font-size: 13.5px; padding: 4px 0 4px 18px; color: #1a3a5e; }
+.anchors-box ul li::before { color: var(--navy); }
+.anchors-box code { background: white; border-color: #b8c5d4; color: var(--navy); }
+.dont-card { background: #fbeae8; border-left: 4px solid #a83232; border-radius: 0 6px 6px 0; padding: 12px 16px; margin-bottom: 10px; }
+.dont-card .head { font-weight: 700; color: #5a1a1a; font-size: 14px; margin-bottom: 4px; }
+.dont-card .body { color: #5a1a1a; font-size: 13.5px; line-height: 1.6; }
+footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted); }
+@media (max-width: 600px) {
+  body { padding: 16px 12px 80px; font-size: 16px; }
+  h1 { font-size: 26px; } h2 { font-size: 21px; }
+  section { padding: 18px 16px 14px; }
+  .day-block { padding: 16px 14px 12px; }
+  .hook-card { padding: 14px 16px; }
+  .cheat-h { font-size: 12px; }
+  .progress-bar { position: relative; top: 0; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">ENHANCEMENT STUDY · GRANUM V2 · CHEAT SHEET FIRST</div>
+  <h1>5 Enhancements · Study Doc</h1>
+  <div class="subtitle">Companion to the main Monday prep doc. Same shape, different scope: this is the "what next" branch.</div>
+  <div class="tagline">
+    <strong>How to use this doc:</strong> read the cheat sheet 5+ times. Each enhancement card has a 3-word handle, a what-to-say script, and a where-to-point navigation block. Same pattern as the main strategy doc.
+  </div>
+</header>
+
+<div class="progress-bar">
+  <span class="progress-label">Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  <span class="progress-count" id="progress-count">0 / 5</span>
+  <button class="reset-btn" onclick="resetProgress()">Reset</button>
+</div>
+
+<div class="day-block">
+  <span class="day-tag">SUNDAY EVENING STUDY</span>
+  <div class="day-title">5 steps to v2 fluency</div>
+  <div class="day-time">CHECK OFF AS YOU GO · SAVES TO YOUR BROWSER</div>
+  <div class="step" data-step-id="1">
+    <div class="step-num" data-step="1" onclick="toggleStep(this)"><span class="step-num-number">1</span></div>
+    <div class="step-body">
+      <div class="step-title">Read v2 README cover-to-cover</div>
+      <div class="step-detail">Open <code>granum-v2/README.md</code>. The intro lines, the 5 hook sections, and the "What NOT to oversell" block are the load-bearing prose. This study doc is a cheat-sheet view of that file; the file itself is the source of truth.</div>
+    </div>
+  </div>
+  <div class="step" data-step-id="2">
+    <div class="step-num" data-step="2" onclick="toggleStep(this)"><span class="step-num-number">2</span></div>
+    <div class="step-body">
+      <div class="step-title">Read all 5 specs</div>
+      <div class="step-detail">In order: 01-two-sided-language, 02-compliance-flagging, 03-prompt-ab-testing, 04-pii-expansion, 05-webhook-out. Each is short. The "Open questions" section in each spec is the one to memorize: those are the conversation pivots.</div>
+    </div>
+  </div>
+  <div class="step" data-step-id="3">
+    <div class="step-num" data-step="3" onclick="toggleStep(this)"><span class="step-num-number">3</span></div>
+    <div class="step-body">
+      <div class="step-title">Memorize 5 cheat-sheet handles</div>
+      <div class="step-detail">TWO LANGUAGE AXES, REGULATED PATH EXPLICIT, GOVERNANCE FOR PROMPTS, PATTERNS READY TO WIRE, INTEGRATION SURFACE NAMED. If you blank, the handle is the doorway back to the answer.</div>
+    </div>
+  </div>
+  <div class="step" data-step-id="4">
+    <div class="step-num" data-step="4" onclick="toggleStep(this)"><span class="step-num-number">4</span></div>
+    <div class="step-body">
+      <div class="step-title">Practice each "intro line" out loud</div>
+      <div class="step-detail">The hook-say block in each card is the verbatim intro from the README. Say each one out loud once. Three times if it doesn't feel natural the first time. The cadence matters more than the words.</div>
+    </div>
+  </div>
+  <div class="step" data-step-id="5">
+    <div class="step-num" data-step="5" onclick="toggleStep(this)"><span class="step-num-number">5</span></div>
+    <div class="step-body">
+      <div class="step-title">Pick the lead enhancement for the demo</div>
+      <div class="step-detail">Default: PII expansion (Enhancement-4). Patch is build-validated, applies cleanly, SSN wires in three lines plus a collision test. If Jonathan opens a different door, follow him there. Lead with #4 only if you choose the door.</div>
+    </div>
+  </div>
+</div>
+
+<div class="toc">
+  <div class="toc-label">JUMP TO</div>
+  <ol>
+    <li><a href="#cheat">A. Cheat sheet (read 5+ times)</a></li>
+    <li><a href="#opener">B. The 30-second branch intro</a></li>
+    <li><a href="#hooks">C. 5 enhancements, 5 cards</a></li>
+    <li><a href="#patches">D. The patches (live demo material)</a></li>
+    <li><a href="#probes">E. Common pushback questions</a></li>
+    <li><a href="#avoid">F. Things NOT to oversell</a></li>
+  </ol>
+</div>
+
+<section id="cheat" class="cheat-sheet">
+  <h3>A. Cheat Sheet · Read 5+ Times</h3>
+  <p style="font-size: 14px; color: var(--text-soft);">Five enhancements, one short customer-pain line each, one 3-word handle each. The handle is the doorway. If you blank on a card, grab the handle, the rest comes back.</p>
+  <div class="cheat-list">
+    <div class="cheat-item"><span class="cheat-q">#1 Two-Sided Language: crews write in Spanish, operators report in English or French. One language axis collapses both.</span><span class="cheat-h">&rarr; TWO LANGUAGE AXES</span></div>
+    <div class="cheat-item"><span class="cheat-q">#2 Compliance Flagging: pesticide and fertilizer notes hit EPA WPS and Health Canada PCPA record requirements. One generic prompt is the wrong tool.</span><span class="cheat-h">&rarr; REGULATED PATH EXPLICIT</span></div>
+    <div class="cheat-item"><span class="cheat-q">#3 A/B Prompt Testing: code changes go through PR, tests, CI. Prompt changes today ship without that scaffolding.</span><span class="cheat-h">&rarr; GOVERNANCE FOR PROMPTS</span></div>
+    <div class="cheat-item"><span class="cheat-q">#4 PII Expansion: PII guard catches email and phone today. SSN, address, credit card, DOB walk straight through.</span><span class="cheat-h">&rarr; PATTERNS READY TO WIRE</span></div>
+    <div class="cheat-item"><span class="cheat-q">#5 Webhook Out: when the inference gate fires, no other Granum product knows. The information has zero distribution.</span><span class="cheat-h">&rarr; INTEGRATION SURFACE NAMED</span></div>
+  </div>
+</section>
+
+<section id="opener">
+  <div class="section-label">SECTION B</div>
+  <h2>The 30-Second Branch Intro</h2>
+  <div class="section-tagline">When Jonathan asks "what would you build next" and you pivot to the v2 branch. Three short beats. Memorize the shape, not word-for-word.</div>
+  <div class="opener-card">
+    <div class="opener-step">
+      <div class="opener-num">1</div>
+      <div class="opener-text"><strong>The frame.</strong> "I have five enhancements staged on a separate branch as specs and proposed code. Each one a different architectural axis through the same pipeline. They are not compiled into the build deliberately, the take-home stays pristine. The v2 folder is a 'what next' pitch, not a modification of the deliverable."</div>
+    </div>
+    <div class="opener-step">
+      <div class="opener-num">2</div>
+      <div class="opener-text"><strong>The menu.</strong> "The five are: two-sided language, compliance flagging, A/B prompt testing, PII expansion, webhook out on guardrail hit."</div>
+    </div>
+    <div class="opener-step">
+      <div class="opener-num">3</div>
+      <div class="opener-text"><strong>The invite.</strong> "If you want to walk through one, the strongest live demo material is PII expansion. The patch is build-validated and applies cleanly. We can wire SSN live in three lines."</div>
+    </div>
+  </div>
+  <h3>Three principles to lean on</h3>
+  <p style="font-size: 14px;">When he probes any of the five, map your answer back to one of these. Repetition is the message.</p>
+  <div class="principle-row">
+    <div class="principle-pill"><div class="principle-name">PRISTINE DELIVERABLE</div><div class="principle-meaning">src/ stays exactly as submitted. The v2 folder is separate, marked as preview, never compiled.</div></div>
+    <div class="principle-pill"><div class="principle-name">EARN AT THE META LEVEL</div><div class="principle-meaning">Don't implement before validating which axis matters first. The specs carry open questions on purpose.</div></div>
+    <div class="principle-pill"><div class="principle-name">HONEST PROVENANCE</div><div class="principle-meaning">Every customer claim is footnoted with epistemic status: regulatory fact, public statistical pattern, industry pattern recognition, or unvalidated assumption.</div></div>
+  </div>
+</section>
+
+<section id="hooks">
+  <div class="section-label">SECTION C</div>
+  <h2>5 Enhancements, 5 Cards</h2>
+  <div class="section-tagline">Each card has the question framing, the 3-word handle, what to say (gold), real provenance with footnotes (purple), where to point in the code (navy), and a pivot question to invite Jonathan in.</div>
+
+  <div class="hook-card likelihood-hot">
+    <div class="hook-meta"><span class="hook-tag tag-med">STRONG SUPPORT</span><span class="hook-tag tag-anchor">SPEC + STUB</span><span class="hook-tag tag-built">FOOTNOTED CLAIMS</span></div>
+    <div class="hook-question">"What would the language model split look like?"</div>
+    <div class="hook-handle"><span class="hook-handle-label">Memory hook</span><span class="hook-handle-text">TWO LANGUAGE AXES</span></div>
+    <div class="hook-say"><span class="hook-say-label">What to say</span>"LMN serves Canadian operators where French is non-negotiable under Bill 101 and Bill 96. U.S. landscape crews are heavily Hispanic per BLS. The current pipeline has one language axis. <strong>This stub splits crew-input language detection from operator-output language preference.</strong>" Two new types: an <code>OperatorLanguagePreference</code> enum (English, French at launch) and a <code>CrewLanguageDetection</code> record (BCP 47 tag plus confidence). Behind an <code>ILanguageOrchestrator</code> interface with two methods: detect crew language, translate to operator language. <strong>Both methods throw NotImplementedException; the contract is the demo, not the implementation.</strong></div>
+    <div class="hook-real"><span class="hook-real-label">Real provenance</span>Bill 101/96 = <strong>regulatory fact</strong>. BLS SOC 37-3011 = <strong>public statistical pattern</strong>. LMN Canadian framing = <strong>industry pattern recognition, not validated</strong>. Footnotes are in the spec doc. <strong>If Jonathan asks where a claim comes from, point at the footnote, do not improvise.</strong></div>
+    <div class="hook-nav"><span class="hook-nav-label">Where to point (files in order)</span>
+      <ul>
+        <li><code>specs/01-two-sided-language.md</code> -- spec, customer problem, footnotes</li>
+        <li><code>proposed-code/Models/OperatorLanguagePreference.cs</code> -- the enum</li>
+        <li><code>proposed-code/Models/CrewLanguageDetection.cs</code> -- the detection record</li>
+        <li><code>proposed-code/Services/ILanguageOrchestrator.cs</code> -- contract</li>
+        <li><code>proposed-code/Services/StubLanguageOrchestrator.cs:23</code> -- stubbed methods</li>
+      </ul>
+      <div style="margin-top: 8px;">Greppable: <code>grep -rn "ENHANCEMENT-1" granum-v2/</code></div>
+    </div>
+    <div class="hook-pivot"><strong>Invite him in:</strong> "If we built this for real, would operator language live on a tenant record, a user record, or an API key? That's the first decision and it shapes everything downstream."</div>
+  </div>
+
+  <div class="hook-card likelihood-hot">
+    <div class="hook-meta"><span class="hook-tag tag-med">STRONG SUPPORT</span><span class="hook-tag tag-anchor">SPEC + STUB</span><span class="hook-tag tag-built">FOOTNOTED CLAIMS</span></div>
+    <div class="hook-question">"How would compliance flagging actually work?"</div>
+    <div class="hook-handle"><span class="hook-handle-label">Memory hook</span><span class="hook-handle-text">REGULATED PATH EXPLICIT</span></div>
+    <div class="hook-say"><span class="hook-say-label">What to say</span>"Pesticide and fertilizer applications hit EPA Worker Protection Standard and Health Canada PCPA record requirements. The current pipeline runs one prompt for everything; the moment a sentence enters a regulated reporting path, that single prompt is the wrong tool. <strong>This stub adds the detection contract.</strong>" One enum (<code>RegulatedDomain</code>: None, PesticideApplication, FertilizerApplication, ChemicalStorage) behind an <code>IComplianceFlaggingService</code> interface. <strong>Stub detection deliberately returns None so the service is safe to register without changing runtime behavior.</strong> Enforcement throws.</div>
+    <div class="hook-real"><span class="hook-real-label">Real provenance</span>40 CFR Part 170 (EPA WPS) = <strong>regulatory fact</strong>. PCPA Health Canada = <strong>regulatory fact</strong>. State-level applicator records = <strong>regulatory fact, specific applicability per customer not validated</strong>. Footnotes are in the spec doc. <strong>If Jonathan asks where a claim comes from, point at the footnote, do not improvise.</strong></div>
+    <div class="hook-nav"><span class="hook-nav-label">Where to point (files in order)</span>
+      <ul>
+        <li><code>specs/02-compliance-flagging.md</code> -- spec with EPA WPS / Health Canada PCPA footnotes</li>
+        <li><code>proposed-code/Models/RegulatedDomain.cs</code> -- the enum</li>
+        <li><code>proposed-code/Services/IComplianceFlaggingService.cs</code> -- contract</li>
+        <li><code>proposed-code/Services/StubComplianceFlaggingService.cs:25</code> -- detection returns None, enforcement throws</li>
+      </ul>
+      <div style="margin-top: 8px;">Greppable: <code>grep -rn "ENHANCEMENT-2" granum-v2/</code></div>
+    </div>
+    <div class="hook-pivot"><strong>Invite him in:</strong> "Is detection an LLM classifier (high accuracy, latency cost) or a regex bootstrap (low cost, false negatives)? My instinct is regex first as a fast pre-filter, then LLM. What's your call?"</div>
+  </div>
+
+  <div class="hook-card likelihood-hot">
+    <div class="hook-meta"><span class="hook-tag tag-med">STRONG SUPPORT</span><span class="hook-tag tag-anchor">SPEC + STUB</span><span class="hook-tag tag-built">GOVERNANCE STORY</span></div>
+    <div class="hook-question">"What does prompt governance look like?"</div>
+    <div class="hook-handle"><span class="hook-handle-label">Memory hook</span><span class="hook-handle-text">GOVERNANCE FOR PROMPTS</span></div>
+    <div class="hook-say"><span class="hook-say-label">What to say</span>"Code changes go through PR, tests, and CI. Prompt changes today go through 'I edited the file and it looked fine.' That gap is silent regression risk. <strong>This stub is the same governance discipline applied to the prompt itself.</strong>" Two records (<code>PromptVariant</code>, <code>PromptComparisonResult</code>) behind an <code>IPromptTestHarness</code> interface. <strong>The fixture file is a real artifact, three hand-written sample inputs, no PII.</strong> The harness implementation throws; the diff algorithm choice is deferred on purpose.</div>
+    <div class="hook-real"><span class="hook-real-label">Real provenance</span>No regulatory claims. <strong>Governance-discipline framing only.</strong> Footnotes are in the spec doc. <strong>If Jonathan asks where a claim comes from, point at the footnote, do not improvise.</strong></div>
+    <div class="hook-nav"><span class="hook-nav-label">Where to point (files in order)</span>
+      <ul>
+        <li><code>specs/03-prompt-ab-testing.md</code> -- spec</li>
+        <li><code>specs/03-fixtures/sample-historical-inputs.json</code> -- a real artifact, three hand-written inputs, no PII</li>
+        <li><code>proposed-code/Models/PromptVariant.cs</code> -- the variant record</li>
+        <li><code>proposed-code/Models/PromptComparisonResult.cs</code> -- per-input control vs candidate</li>
+        <li><code>proposed-code/Services/IPromptTestHarness.cs</code> -- contract</li>
+        <li><code>proposed-code/Services/StubPromptTestHarness.cs:27</code> -- stubbed RunComparisonAsync</li>
+      </ul>
+      <div style="margin-top: 8px;">Greppable: <code>grep -rn "ENHANCEMENT-3" granum-v2/</code></div>
+    </div>
+    <div class="hook-pivot"><strong>Invite him in:</strong> "Would you wire this as a CLI tool the prompt author runs locally, or as a CI gate that blocks deploy? Different tradeoffs, both valid."</div>
+  </div>
+
+  <div class="hook-card likelihood-hot">
+    <div class="hook-meta"><span class="hook-tag tag-hot">LEAD DEMO</span><span class="hook-tag tag-anchor">SPEC + PATCH</span><span class="hook-tag tag-built">FOOTNOTED CLAIMS</span></div>
+    <div class="hook-question">"Show me a live wiring of the PII guard."</div>
+    <div class="hook-handle"><span class="hook-handle-label">Memory hook</span><span class="hook-handle-text">PATTERNS READY TO WIRE</span></div>
+    <div class="hook-say"><span class="hook-say-label">What to say</span>"The existing PII guard catches email and U.S. phone. Those are the high-volume categories. The categories that are individually rarer and individually more damaging when they leak are SSN, address, credit card, DOB. <strong>The patch adds the patterns; wiring Check()/Redact() is a 3-line change per pattern that I deliberately staged as a separate step because each pattern has a collision risk that needs its own test.</strong>" The patch adds four <code>private static readonly Regex</code> fields to <code>PiiGuardService.cs</code>: SSN, AddressUsCa, CreditCard, Dob. Each has its own XML doc comment naming the load-bearing collision risk. <strong>Check() and Redact() bodies are unchanged; the runtime is identical.</strong></div>
+    <div class="hook-real"><span class="hook-real-label">Real provenance</span>SSA SSN format = <strong>regulatory fact</strong>. PII category prevalence = <strong>industry pattern recognition, not validated</strong>. Footnotes are in the spec doc. <strong>If Jonathan asks where a claim comes from, point at the footnote, do not improvise.</strong></div>
+    <div class="hook-nav"><span class="hook-nav-label">Where to point (files in order)</span>
+      <ul>
+        <li><code>specs/04-pii-expansion.md</code> -- spec</li>
+        <li><code>proposed-code/patches/04-PiiGuardService.patch</code> -- header block + 4 new compiled regex fields, captured as a unified diff</li>
+        <li><code>specs/04-test-cases.md</code> -- test cases that must land alongside wiring, including the load-bearing Ssn_DoesNotCollideWithPhone collision test</li>
+      </ul>
+      <div style="margin-top: 8px;">Greppable: <code>grep -rn "ENHANCEMENT-4" granum-v2/</code></div>
+    </div>
+    <div class="hook-pivot"><strong>Invite him in:</strong> "Want me to apply this patch and wire one of them live right now? SSN is the safest, the hyphenated form has no collision with phone. Credit card needs a Luhn check, that's the more interesting one to walk through together."</div>
+  </div>
+
+  <div class="hook-card likelihood-hot">
+    <div class="hook-meta"><span class="hook-tag tag-med">STRONG SUPPORT</span><span class="hook-tag tag-anchor">SPEC + STUB + PATCH</span><span class="hook-tag tag-built">INTEGRATION SURFACE</span></div>
+    <div class="hook-question">"How does this plug into the rest of Granum?"</div>
+    <div class="hook-handle"><span class="hook-handle-label">Memory hook</span><span class="hook-handle-text">INTEGRATION SURFACE NAMED</span></div>
+    <div class="hook-say"><span class="hook-say-label">What to say</span>"Granum's value compounds when products in the portfolio can react to each other. Today, when the gate flags PII or low confidence, the rejection lives inside one service. LMN dispatch, SingleOps jobs, Greenius scheduling all stay blind. <strong>This stub is the integration surface.</strong>" One record (<code>GuardrailEvent</code>: type, timestamp, hashed input, reason, optional crew id) behind an <code>IWebhookEmitter</code> interface. <strong>Plus a 3-line marker in EnhancementService.cs at the PII rejection branch identifying the wiring point. NO code change.</strong></div>
+    <div class="hook-real"><span class="hook-real-label">Real provenance</span>LMN dispatch / SingleOps job integration targets = <strong>inferred from Granum's stated multi-product strategy, not validated</strong>. Footnotes are in the spec doc. <strong>If Jonathan asks where a claim comes from, point at the footnote, do not improvise.</strong></div>
+    <div class="hook-nav"><span class="hook-nav-label">Where to point (files in order)</span>
+      <ul>
+        <li><code>specs/05-webhook-out.md</code> -- spec</li>
+        <li><code>proposed-code/Models/GuardrailEvent.cs</code> -- the event payload</li>
+        <li><code>proposed-code/Services/IWebhookEmitter.cs</code> -- contract</li>
+        <li><code>proposed-code/Services/StubWebhookEmitter.cs:22</code> -- stubbed EmitAsync</li>
+        <li><code>proposed-code/patches/05-EnhancementService.patch</code> -- single 3-line wiring-point marker at the PII rejection branch (no code change)</li>
+      </ul>
+      <div style="margin-top: 8px;">Greppable: <code>grep -rn "ENHANCEMENT-5" granum-v2/</code></div>
+    </div>
+    <div class="hook-pivot"><strong>Invite him in:</strong> "If we wired this, would you put the emit on a background channel right away, or would you take the latency hit on the request path until usage proves it's a problem?"</div>
+  </div>
+</section>
+
+<section id="patches">
+  <div class="section-label">SECTION D</div>
+  <h2>The Patches · Live Demo Material</h2>
+  <div class="section-tagline">The two existing-file modifications captured as unified diffs. These are the artifacts you can apply on stage.</div>
+
+  <div class="anchors-box">
+    <span class="anchors-label">Patch 04: PII Expansion (Enhancement-4)</span>
+    <ul>
+      <li>Path: <code>granum-v2/proposed-code/patches/04-PiiGuardService.patch</code></li>
+      <li>What it does: adds 4 new compiled regex fields (SSN, address, credit card, DOB) plus a header comment block. <strong>Check() and Redact() bodies UNCHANGED.</strong></li>
+      <li>Live demo line: "Want me to apply this patch and wire SSN live? Three lines, plus a collision test."</li>
+      <li>Build status: validated against live files, 22/22 tests still green at extraction.</li>
+    </ul>
+  </div>
+
+  <div class="anchors-box">
+    <span class="anchors-label">Patch 05: Webhook wiring point (Enhancement-5)</span>
+    <ul>
+      <li>Path: <code>granum-v2/proposed-code/patches/05-EnhancementService.patch</code></li>
+      <li>What it does: adds a single 3-line comment marker at the PII rejection branch identifying the wiring point. <strong>NO code change.</strong></li>
+      <li>Live demo line: "This patch is just the marker. Wiring the actual emit is HMAC signing, retry/backoff, per-tenant URL config. We can talk through it but I deliberately did not write that code."</li>
+    </ul>
+  </div>
+</section>
+
+<section id="probes">
+  <div class="section-label">SECTION E</div>
+  <h2>Common Pushback Questions</h2>
+  <div class="section-tagline">Six probes Jonathan is likely to land on the v2 branch. Each one has a head (the probe) and a body (the answer).</div>
+
+  <div class="dont-card">
+    <div class="head">"Why did you stage stubs at all?"</div>
+    <div class="body">Earn-your-complexity at the meta level. Don't implement before validating which axis matters first. The specs carry open questions on purpose, those are the conversation.</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">"Industry pattern recognition is just plausible-sounding reasoning."</div>
+    <div class="body">Yes, and it's marked as such in every footnote where it applies. The regulatory citations (Bill 101, 40 CFR Part 170, PCPA, SSA SSN format) are facts. The customer-segment claims are pattern recognition, called out explicitly. Honest framing beats fake citations.</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">"Did you actually evaluate alternatives?"</div>
+    <div class="body">No. Each spec is one reasonable shape, not a comparative analysis. If you want a comparative evaluation, that is a different deliverable. This branch shows architectural thinking across five axes, not a procurement decision on each.</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">"If you could only ship ONE in the next quarter, which one?"</div>
+    <div class="body">PII expansion. The patterns are written, the patch is build-validated, the test-case file lists the wiring work, and the architecture is unchanged. Highest value per hour of engineering. The reason it is not implemented already is the collision-test risk on each pattern (SSN vs phone fragments, DOB vs locale ambiguity). Those are careful steps, not blocked ones.</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">"Webhook out has too many open decisions to be useful."</div>
+    <div class="body">Agree. That is why it is the integration surface, not the integration. HMAC signing, retry/backoff, per-tenant URL config, async delivery channel are real decisions that come before code. The contract is shaped, the wiring point is identified, the call is yours to make.</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">"Why isn't the language one English/Spanish? That is the bigger workforce reality."</div>
+    <div class="body">It will be. Operator output language at launch is English or French because LMN's Canadian operator base has a regulatory floor (Bill 101) that cannot be deferred. Spanish is on the crew-input side from day one (any supported language detected). Adding Spanish to the operator-output side is the next jurisdiction expansion, not a launch blocker.</div>
+  </div>
+</section>
+
+<section id="avoid">
+  <div class="section-label">SECTION F</div>
+  <h2>Things NOT to Oversell</h2>
+  <div class="section-tagline">Four ways the v2 pitch goes sideways. Pulled from the README's "What NOT to oversell" plus one new one.</div>
+
+  <div class="dont-card">
+    <div class="head">These are static contracts and patches, not live wired-up code.</div>
+    <div class="body">Every stub method throws NotImplementedException (except the compliance detection stub, which returns None deliberately). The PII expansion lives as a .patch file, not as a live source-tree change. None of these enhancements ship runtime behavior on this branch.</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">I did NOT evaluate alternatives for any of them.</div>
+    <div class="body">The architectures sketched in the specs are one reasonable shape each, not a comparative analysis. If Jonathan asks for a comparative evaluation, that is a different deliverable.</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">Customer-pain framing is informed reasoning, not validated customer interviews.</div>
+    <div class="body">Grounded in public data and industry patterns: Bill 101/96, EPA WPS, Health Canada PCPA, BLS occupational data, SSA SSN format, Granum's stated multi-product strategy. Every spec carries footnotes that mark each claim's epistemic status (regulatory fact / public statistical pattern / industry pattern recognition / unvalidated assumption).</div>
+  </div>
+
+  <div class="dont-card">
+    <div class="head">Don't import ghost features.</div>
+    <div class="body">If something isn't in <code>granum-v2/proposed-code/</code> or in a .patch file on this branch, it isn't on the branch. Talk about what is staged, not what could be.</div>
+  </div>
+</section>
+
+<footer>CARMEN REED · GRANUM V2 STUDY DOC · MONDAY PREP COMPANION</footer>
+
+<script>
+const STORAGE_KEY = 'granum-v2-study-progress';
+const TOTAL_STEPS = 5;
+function loadProgress() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const completed = JSON.parse(saved);
+    completed.forEach(num => {
+      const stepNum = document.querySelector('.step-num[data-step="' + num + '"]');
+      const stepRow = document.querySelector('.step[data-step-id="' + num + '"]');
+      if (stepNum && stepRow) { stepNum.classList.add('checked'); stepRow.classList.add('completed'); }
+    });
+    updateProgress();
+  } catch (e) {}
+}
+function saveProgress() {
+  try {
+    const completed = [];
+    document.querySelectorAll('.step-num.checked').forEach(el => completed.push(el.dataset.step));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+  } catch (e) {}
+}
+function toggleStep(el) {
+  const num = el.dataset.step;
+  const stepRow = document.querySelector('.step[data-step-id="' + num + '"]');
+  el.classList.toggle('checked');
+  if (stepRow) stepRow.classList.toggle('completed');
+  saveProgress();
+  updateProgress();
+}
+function updateProgress() {
+  const checked = document.querySelectorAll('.step-num.checked').length;
+  const pct = (checked / TOTAL_STEPS) * 100;
+  const fill = document.getElementById('progress-fill');
+  const count = document.getElementById('progress-count');
+  if (fill) fill.style.width = pct + '%';
+  if (count) count.textContent = checked + ' / ' + TOTAL_STEPS;
+}
+function resetProgress() {
+  if (!confirm('Reset all checkboxes? This cannot be undone.')) return;
+  document.querySelectorAll('.step-num.checked').forEach(el => el.classList.remove('checked'));
+  document.querySelectorAll('.step.completed').forEach(el => el.classList.remove('completed'));
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  updateProgress();
+}
+document.addEventListener('DOMContentLoaded', loadProgress);
+</script>
+
+</body>
+</html>
