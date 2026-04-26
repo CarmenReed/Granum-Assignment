@@ -22,7 +22,7 @@ The current architecture treats the prompt as configuration and trusts the engin
 - New record: `PromptComparisonResult` -- contains the input, control output, candidate output, and a diff summary
 - New interface: `IPromptTestHarness` with `RunComparisonAsync(PromptVariant control, PromptVariant candidate, string fixturePath, CancellationToken ct)`
 - New stub class: `StubPromptTestHarness` -- `RunComparisonAsync` throws `NotImplementedException`
-- Fixture file: `enhancements/03-fixtures/sample-historical-inputs.json` (3 example inputs, no PII, hand-written for the demo)
+- Fixture file: `granum-v2/specs/03-fixtures/sample-historical-inputs.json` (3 example inputs, no PII, hand-written for the demo)
 
 ## Stub scope (what's in this branch)
 
@@ -48,13 +48,13 @@ Not committed (deliberately):
 
 ## Greppable markers
 
-- `src/Api/Models/PromptVariant.cs` -- `// ENHANCEMENT-3` header
-- `src/Api/Models/PromptComparisonResult.cs` -- `// ENHANCEMENT-3` header
-- `src/Api/Services/IPromptTestHarness.cs` -- `// ENHANCEMENT-3` header
-- `src/Api/Services/StubPromptTestHarness.cs` -- `// ENHANCEMENT-3` header and method-level marker
-- `enhancements/03-fixtures/sample-historical-inputs.json` -- fixture for live demo
+- `granum-v2/proposed-code/Models/PromptVariant.cs` -- `// ENHANCEMENT-3` header
+- `granum-v2/proposed-code/Models/PromptComparisonResult.cs` -- `// ENHANCEMENT-3` header
+- `granum-v2/proposed-code/Services/IPromptTestHarness.cs` -- `// ENHANCEMENT-3` header
+- `granum-v2/proposed-code/Services/StubPromptTestHarness.cs` -- `// ENHANCEMENT-3` header and method-level marker
+- `granum-v2/specs/03-fixtures/sample-historical-inputs.json` -- fixture for live demo
 
-Find them: `grep -rn "ENHANCEMENT-3" src/ enhancements/`
+Find them: `grep -rn "ENHANCEMENT-3" granum-v2/`
 
 ## Footnotes
 

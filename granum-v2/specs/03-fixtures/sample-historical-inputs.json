@@ -1,5 +1,5 @@
 {
-  "_comment": "ENHANCEMENT-3 sample fixture for the A/B prompt testing harness. Three hand-written inputs, no PII. Real fixture sets would draw sampled inputs from the interactions log, scrubbed of identifiers. See enhancements/03-prompt-ab-testing.md.",
+  "_comment": "ENHANCEMENT-3 sample fixture for the A/B prompt testing harness. Three hand-written inputs, no PII. Real fixture sets would draw sampled inputs from the interactions log, scrubbed of identifiers. See granum-v2/specs/03-prompt-ab-testing.md.",
   "inputs": [
     {
       "id": "fixture-001",

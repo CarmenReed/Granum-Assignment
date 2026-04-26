@@ -1,5 +1,5 @@
 // ENHANCEMENT-1: Two-sided language model
-// Spec: enhancements/01-two-sided-language.md
+// Spec: granum-v2/specs/01-two-sided-language.md
 // Status: STUB ONLY. Not wired to runtime.
 // Demo: this file exists so Monday's deep-dive can show the
 //       architectural shape without committing implementation

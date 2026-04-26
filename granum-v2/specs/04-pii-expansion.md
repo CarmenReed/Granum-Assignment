@@ -16,7 +16,7 @@ This one earns its place by *not* changing the architecture at all. The pluggabl
 
 ## Architecture sketch
 
-- Modify: `src/Api/Services/PiiGuardService.cs`
+- Modify (captured as patch on this branch): `src/Api/Services/PiiGuardService.cs`. The unified diff lives at `granum-v2/proposed-code/patches/04-PiiGuardService.patch` and was build-validated against the live file before extraction.
 - Add four `private static readonly Regex` fields: SSN, AddressUsCa, CreditCard, Dob
 - Each field has an XML doc comment describing the pattern and an `// ENHANCEMENT-4` marker
 - Existing `Check` and `Redact` methods stay unchanged in this branch
@@ -27,7 +27,7 @@ This one earns its place by *not* changing the architecture at all. The pluggabl
 Committed:
 - Four new compiled regex fields with XML doc comments
 - A header comment block explaining the wiring is deferred and why
-- An `enhancements/04-test-cases.md` file documenting the test cases that would be added when the patterns wire in
+- A `granum-v2/specs/04-test-cases.md` file documenting the test cases that would be added when the patterns wire in
 
 Not committed (deliberately):
 - Any changes to `Check()` or `Redact()` method bodies
@@ -43,10 +43,10 @@ Not committed (deliberately):
 
 ## Greppable markers
 
-- `src/Api/Services/PiiGuardService.cs` -- `// ENHANCEMENT-4` header block and four field-level markers
-- `enhancements/04-test-cases.md` -- documented test cases for wiring
+- `granum-v2/proposed-code/patches/04-PiiGuardService.patch` -- `// ENHANCEMENT-4` header block and four field-level markers, captured as a unified diff against the live `src/Api/Services/PiiGuardService.cs`
+- `granum-v2/specs/04-test-cases.md` -- documented test cases for wiring
 
-Find them: `grep -rn "ENHANCEMENT-4" src/ enhancements/`
+Find them: `grep -rn "ENHANCEMENT-4" granum-v2/`
 
 ## Footnotes
 

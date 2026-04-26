@@ -115,9 +115,6 @@ public class EnhancementService
         var pii = _pii.Check(safeInput);
         if (pii.IsFlagged)
         {
-            // ENHANCEMENT-5: webhook emission point. When wired, an
-            // IWebhookEmitter would fire here with a GuardrailEvent record.
-            // See enhancements/05-webhook-out.md.
             var redacted = _pii.Redact(safeInput);
             await LogAsync(redacted, null, InteractionOutcome.PiiRejected, pii.Reason, 0, ct);
             return new EnhancementResult.PiiError(pii.Reason!);

@@ -46,12 +46,12 @@ Not committed (deliberately):
 
 ## Greppable markers
 
-- `src/Api/Models/GuardrailEvent.cs` -- `// ENHANCEMENT-5` header
-- `src/Api/Services/IWebhookEmitter.cs` -- `// ENHANCEMENT-5` header
-- `src/Api/Services/StubWebhookEmitter.cs` -- `// ENHANCEMENT-5` header and method-level marker
-- `src/Api/Services/EnhancementService.cs` -- single-line `// ENHANCEMENT-5` wiring-point marker at the PII rejection branch
+- `granum-v2/proposed-code/Models/GuardrailEvent.cs` -- `// ENHANCEMENT-5` header
+- `granum-v2/proposed-code/Services/IWebhookEmitter.cs` -- `// ENHANCEMENT-5` header
+- `granum-v2/proposed-code/Services/StubWebhookEmitter.cs` -- `// ENHANCEMENT-5` header and method-level marker
+- `granum-v2/proposed-code/patches/05-EnhancementService.patch` -- single 3-line `// ENHANCEMENT-5` wiring-point marker at the PII rejection branch, captured as a unified diff against the live `src/Api/Services/EnhancementService.cs` (no code change)
 
-Find them: `grep -rn "ENHANCEMENT-5" src/ enhancements/`
+Find them: `grep -rn "ENHANCEMENT-5" granum-v2/`
 
 ## Footnotes
 

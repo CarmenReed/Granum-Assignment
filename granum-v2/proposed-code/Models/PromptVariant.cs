@@ -1,5 +1,5 @@
 // ENHANCEMENT-3: A/B prompt testing harness
-// Spec: enhancements/03-prompt-ab-testing.md
+// Spec: granum-v2/specs/03-prompt-ab-testing.md
 // Status: STUB ONLY. Not wired to runtime.
 // Demo: this file exists so Monday's deep-dive can show the
 //       architectural shape without committing implementation

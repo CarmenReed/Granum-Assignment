@@ -50,12 +50,12 @@ The stub's purpose is to make the contract visible. Wiring it is a separate deci
 
 ## Greppable markers
 
-- `src/Api/Models/OperatorLanguagePreference.cs` -- `// ENHANCEMENT-1` header
-- `src/Api/Models/CrewLanguageDetection.cs` -- `// ENHANCEMENT-1` header
-- `src/Api/Services/ILanguageOrchestrator.cs` -- `// ENHANCEMENT-1` header
-- `src/Api/Services/StubLanguageOrchestrator.cs` -- `// ENHANCEMENT-1` header and method-level markers
+- `granum-v2/proposed-code/Models/OperatorLanguagePreference.cs` -- `// ENHANCEMENT-1` header
+- `granum-v2/proposed-code/Models/CrewLanguageDetection.cs` -- `// ENHANCEMENT-1` header
+- `granum-v2/proposed-code/Services/ILanguageOrchestrator.cs` -- `// ENHANCEMENT-1` header
+- `granum-v2/proposed-code/Services/StubLanguageOrchestrator.cs` -- `// ENHANCEMENT-1` header and method-level markers
 
-Find them: `grep -rn "ENHANCEMENT-1" src/ enhancements/`
+Find them: `grep -rn "ENHANCEMENT-1" granum-v2/`
 
 ## Footnotes
 

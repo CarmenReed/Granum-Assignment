@@ -1,5 +1,5 @@
 // ENHANCEMENT-5: Webhook out on guardrail hit
-// Spec: enhancements/05-webhook-out.md
+// Spec: granum-v2/specs/05-webhook-out.md
 // Status: STUB ONLY. Not wired to runtime.
 // Demo: this file exists so Monday's deep-dive can show the
 //       architectural shape without committing implementation

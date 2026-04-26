@@ -45,11 +45,11 @@ Not committed (deliberately):
 
 ## Greppable markers
 
-- `src/Api/Models/RegulatedDomain.cs` -- `// ENHANCEMENT-2` header
-- `src/Api/Services/IComplianceFlaggingService.cs` -- `// ENHANCEMENT-2` header
-- `src/Api/Services/StubComplianceFlaggingService.cs` -- `// ENHANCEMENT-2` header and method-level markers
+- `granum-v2/proposed-code/Models/RegulatedDomain.cs` -- `// ENHANCEMENT-2` header
+- `granum-v2/proposed-code/Services/IComplianceFlaggingService.cs` -- `// ENHANCEMENT-2` header
+- `granum-v2/proposed-code/Services/StubComplianceFlaggingService.cs` -- `// ENHANCEMENT-2` header and method-level markers
 
-Find them: `grep -rn "ENHANCEMENT-2" src/ enhancements/`
+Find them: `grep -rn "ENHANCEMENT-2" granum-v2/`
 
 ## Footnotes
 

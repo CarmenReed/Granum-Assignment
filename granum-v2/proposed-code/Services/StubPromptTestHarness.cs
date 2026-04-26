@@ -1,5 +1,5 @@
 // ENHANCEMENT-3: A/B prompt testing harness
-// Spec: enhancements/03-prompt-ab-testing.md
+// Spec: granum-v2/specs/03-prompt-ab-testing.md
 // Status: STUB ONLY. Not wired to runtime.
 // Demo: this file exists so Monday's deep-dive can show the
 //       architectural shape without committing implementation
@@ -13,7 +13,7 @@ namespace Api.Services;
 /// Stub implementation of <see cref="IPromptTestHarness"/>. Throws
 /// so callers cannot silently consume the contract without a real
 /// implementation; the fixture file at
-/// <c>enhancements/03-fixtures/sample-historical-inputs.json</c>
+/// <c>granum-v2/specs/03-fixtures/sample-historical-inputs.json</c>
 /// is a real artifact and exists independently of this stub.
 /// </summary>
 public class StubPromptTestHarness : IPromptTestHarness
