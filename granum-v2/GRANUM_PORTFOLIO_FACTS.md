@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # Granum Portfolio Facts (extracted 2026-04-26)
 
 Status: READ-ONLY research pass against the public Granum marketing surface. Source-of-truth research artifact for the v2 enhancement specs in this folder.

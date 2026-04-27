@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # ENHANCEMENT-5: Prompt A/B Testing Harness (Conditional)
 
 ## The customer problem

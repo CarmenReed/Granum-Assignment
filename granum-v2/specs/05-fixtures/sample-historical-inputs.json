@@ -1,4 +1,5 @@
 {
+  "version": "v2.0",
   "_comment": "ENHANCEMENT-5 sample fixture for the prompt A/B testing harness. Three hand-written inputs, no PII. Real fixture sets would draw sampled inputs from the interactions log, scrubbed of identifiers, and would include parallel English / Spanish samples to match LMN Crew app's bilingual marketing surface. See granum-v2/specs/05-prompt-ab-testing-harness.md.",
   "inputs": [
     {

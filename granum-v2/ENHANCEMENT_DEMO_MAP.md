@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # Enhancement Branch Walk-through
 
 ## Branch

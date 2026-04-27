@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # ENHANCEMENT-2: PHC Application Record Mode for SingleOps Tree Inventory
 
 ## The customer problem

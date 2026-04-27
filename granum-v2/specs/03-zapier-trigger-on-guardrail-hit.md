@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # ENHANCEMENT-3: Zapier Trigger on Guardrail Hit
 
 ## The customer problem
