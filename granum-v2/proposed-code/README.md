@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # Proposed Code (Preview Only, Not Compiled)
 
 This folder is a **static preview** of code that would land in the `Api` project if any of the five enhancements in [../specs/](../specs/) get implemented. None of the files here participate in the build. The assignment's `src/` tree is intentionally untouched.

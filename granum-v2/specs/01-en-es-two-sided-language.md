@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # ENHANCEMENT-1: English / Spanish Two-Sided Language Model
 
 ## The customer problem

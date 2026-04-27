@@ -1,6 +1,7 @@
 // ENHANCEMENT-4: Greenius training trigger on guardrail hit
 // Spec: granum-v2/specs/04-greenius-training-trigger.md
 // Status: STUB ONLY. Not wired to runtime. Not part of build.
+// v2.0 release · 2026-04-26
 
 namespace Api.Models;
 

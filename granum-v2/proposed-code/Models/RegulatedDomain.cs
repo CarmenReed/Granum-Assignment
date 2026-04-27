@@ -1,6 +1,7 @@
 // ENHANCEMENT-2: PHC application record mode for SingleOps Tree Inventory
 // Spec: granum-v2/specs/02-phc-tree-inventory-compliance.md
 // Status: STUB ONLY. Not wired to runtime. Not part of build.
+// v2.0 release · 2026-04-26
 
 namespace Api.Models;
 

@@ -1,6 +1,7 @@
 // ENHANCEMENT-3: Zapier trigger on guardrail hit
 // Spec: granum-v2/specs/03-zapier-trigger-on-guardrail-hit.md
 // Status: STUB ONLY. Not wired to runtime. Not part of build.
+// v2.0 release · 2026-04-26
 
 using Api.Models;
 

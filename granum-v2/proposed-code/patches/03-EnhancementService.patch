@@ -1,3 +1,5 @@
+v2.0 release: Zapier trigger wiring point against src/Api/Services/EnhancementService.cs.
+
 diff --git a/src/Api/Services/EnhancementService.cs b/src/Api/Services/EnhancementService.cs
 index 8f359d5..abacd14 100644
 --- a/src/Api/Services/EnhancementService.cs

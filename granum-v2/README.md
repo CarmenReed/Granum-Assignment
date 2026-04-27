@@ -1,3 +1,4 @@
+<!-- v2.0 release · 2026-04-26 -->
 # Granum v2: Five Portfolio-Anchored Enhancements (Showcase, Not Compiled)
 
 This folder is a **separate showcase** of five product upgrades I would build next on top of the take-home assignment. The assignment itself (under [../src/](../src/)) is intentionally untouched -- pristine deliverable, no scope creep.

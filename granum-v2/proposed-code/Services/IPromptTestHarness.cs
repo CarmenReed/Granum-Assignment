@@ -1,6 +1,7 @@
 // ENHANCEMENT-5: Prompt A/B testing harness (CONDITIONAL)
 // Spec: granum-v2/specs/05-prompt-ab-testing-harness.md
 // Status: STUB ONLY. Not wired to runtime. Not part of build.
+// v2.0 release · 2026-04-26
 
 using Api.Models;
 
